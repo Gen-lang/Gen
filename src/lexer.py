@@ -1,19 +1,21 @@
 from token import TokenType, Token
 from error import TypeCharError
+from position import Position
 
 # for checking if a character is a digit or not
 DIGITS = "0123456789"
 
 class Lexer:
-	def __init__(self, text):
+	def __init__(self, filename, text):
+		self.filename = filename
 		self.text = text
-		self.position = -1
+		self.position = Position(-1, 0, -1, self.filename, self.text)
 		self.current_char = None
 		self.advance()
 	
 	def advance(self):
-		self.position += 1
-		self.current_char = self.text[self.position] if self.position < len(self.text) else None
+		self.position.advance(self.current_char)
+		self.current_char = self.text[self.position.index] if self.position.index < len(self.text) else None
 	
 	def make_tokens(self):
 		tokens = []
@@ -39,10 +41,11 @@ class Lexer:
 				tokens.append(TokenType.R_PAREN)
 				self.advance()
 			else:
-				# return an error
+				# return TypeCharError
+				pos_start = self.position.copy()
 				char = self.current_char
 				self.advance()
-				return [], TypeCharError(f"'{char}'")
+				return [], TypeCharError(pos_start, self.position, f"'{char}'")
 		return tokens, None
 	
 	def make_number(self):
