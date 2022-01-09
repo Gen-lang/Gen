@@ -1,10 +1,17 @@
 from lexer import Lexer
+from parser import Parser
 
 def run(filename, text):
+	# generate tokens
 	lexer = Lexer(filename, text)
 	tokens, err = lexer.make_tokens()
+	if err is not None: return None, err
 
-	return tokens, err
+	# generate AST
+	parser = Parser(tokens)
+	ast = parser.parse()
+
+	return ast, None
 
 def main():
 	while True:
