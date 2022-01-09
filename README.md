@@ -5,4 +5,4 @@
 
 WARNING!! THIS LANGUAGE IS IN DEVELOPMENT.
 
-The gabelle was a tax on salt...
+[The gabelle was a tax on salt...](https://en.wikipedia.org/wiki/Gabelle)
