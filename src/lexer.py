@@ -1,4 +1,5 @@
 from token import TokenType, Token
+from error import TypeCharError
 
 # for checking if a character is a digit or not
 DIGITS = "0123456789"
@@ -38,9 +39,11 @@ class Lexer:
 				tokens.append(TokenType.R_PAREN)
 				self.advance()
 			else:
-				# return some error
-				pass
-		return tokens
+				# return an error
+				char = self.current_char
+				self.advance()
+				return [], TypeCharError(f"'{char}'")
+		return tokens, None
 	
 	def make_number(self):
 		number_str = ""
@@ -52,5 +55,6 @@ class Lexer:
 				number_str += self.current_char
 			else:
 				number_str += self.current_char
+			self.advance()
 		
 		return Token(TokenType.INT, int(number_str)) if dot is False else Token(TokenType.FLOAT, float(number_str))
