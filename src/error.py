@@ -7,7 +7,9 @@ class Error:
 	
 	@property
 	def as_string(self):
-		return f"Gen::{self.error_name}: {self.details}"
+		string = f"File {self.pos_start.filename}, line {self.pos_start.lnum+1}\n"
+		string += f"Gen::{self.error_name}: {self.details}"
+		return string
 
 class TypeCharError(Error):
 	def __init__(self, pos_start, pos_end, details):
