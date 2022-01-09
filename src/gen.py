@@ -1,4 +1,4 @@
 
 while True:
-	t = input("gbl>> ")
+	t = input("gen>> ")
 	print(t)
