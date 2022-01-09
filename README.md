@@ -3,5 +3,8 @@
     <h1>The Gen Programming Language</h1>
 </div>
 
-WARNING!! THIS LANGUAGE IS IN DEVELOPMENT.
+**WARNING!! THIS LANGUAGE IS IN DEVELOPMENT.**
 
+
+## Credits
+I learned a lot from this [series](https://ruslanspivak.com/lsbasi-part1/)
