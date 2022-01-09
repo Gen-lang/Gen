@@ -22,6 +22,7 @@ class Parser:
 	def __init__(self, tokens):
 		self.tokens = tokens
 		self.token_index = -1
+		self.current_token = None
 		self.advance()
 	
 	def advance(self):
@@ -32,19 +33,19 @@ class Parser:
 	
 	def factor(self):
 		token = self.current_token
-		if token.type in (TokenType.INT, TokenType.FLOAT):
+		if token.type in [TokenType.INT, TokenType.FLOAT]:
 			self.advance()
 			return NumberNode(token)
 
 	def term(self):
-		return self.bin_op(self.factor, (TokenType.MULT, TokenType.DIV))
+		return self.bin_op(self.factor, [TokenType.MULT, TokenType.DIV])
 	
 	def expr(self):
-		return self.bin_op(self.term, (TokenType.PLUS, TokenType.MINUS))
+		return self.bin_op(self.term, [TokenType.PLUS, TokenType.MINUS])
 	
 	def bin_op(self, func, ops):
 		left = func()
-		while  self.current_token.type in ops:
+		while self.current_token in ops:
 			op_token = self.current_token
 			self.advance()
 			right = func()
