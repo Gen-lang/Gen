@@ -37,17 +37,17 @@ class Parser:
 			return NumberNode(token)
 
 	def term(self):
-		return self.bin_op_node(self.factor, (TokenType.MULT, TokenType.DIV))
+		return self.bin_op(self.factor, (TokenType.MULT, TokenType.DIV))
 	
 	def expr(self):
-		return self.bin_op_node(self.term, (TokenType.PLUS, TokenType.MINUS))
+		return self.bin_op(self.term, (TokenType.PLUS, TokenType.MINUS))
 	
-	def bin_op_node(self, func, ops):
+	def bin_op(self, func, ops):
 		left = func()
-		while  self.current_token in ops:
+		while  self.current_token.type in ops:
 			op_token = self.current_token
+			self.advance()
 			right = func()
-			# self.advance()
 			left = BinOpNode(left, op_token, right)
 		return left
 	
