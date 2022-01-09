@@ -1,8 +1,10 @@
 class Position:
-	def __init__(self, index, lnum, col):
+	def __init__(self, index, lnum, col, filename, filetext):
 		self.index = index
 		self.lnum = lnum
 		self.col = col
+		self.filename = filename
+		self.filetext = filetext
 	
 	def advance(self, current_char):
 		self.index += 1
@@ -13,4 +15,4 @@ class Position:
 			self.col = 0
 	
 	def copy(self):
-		return Position(self.index, self.lnum, self.col)
+		return Position(self.index, self.lnum, self.col, self.filename, self.filetext)
