@@ -6,7 +6,7 @@
 **WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING MAY CHANGE AT ANY MOMENT.**
 
 ### TODO
- - [x] Allow basic arithmetic
+ - [x] Basic arithmetic
  - [ ] Variables
  - [ ] If statement
  - [ ] For and while statements
