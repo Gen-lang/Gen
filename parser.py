@@ -1,4 +1,4 @@
-import token as tk
+import gen_token as tk
 from error import InvalidSyntaxError
 
 class NumberNode:
