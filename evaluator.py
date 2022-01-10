@@ -8,11 +8,16 @@ class Number:
 		self.pos_end = pos_end
 		return self
 	
-	def add_to(self, other):
+	def added_to(self, other):
 		# This language will have strings and arrays, so check
 		# if the other is Number or not is necessary later
 		if isinstance(other, Number):
 			return Number(self.value + other.value)
+	
+	def subtracted_by(self, other):
+		if isinstance(other, Number):
+			return Number(self.value + other.value)
+
 
 class Evaluator:
 	def visit(self, node):
