@@ -17,7 +17,10 @@ class Number:
 	def subtracted_by(self, other):
 		if isinstance(other, Number):
 			return Number(self.value + other.value)
-
+	
+	def multiplied_by(self, other):
+		if isinstance(other, Number):
+			return Number(self.value * other.value)
 
 class Evaluator:
 	def visit(self, node):
