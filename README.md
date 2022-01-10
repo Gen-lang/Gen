@@ -3,7 +3,7 @@
     <h1>The Gen Programming Language</h1>
 </div>
 
-**WARNING!! THIS LANGUAGE IS IN DEVELOPMENT.**
+**WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING MAY CHANGE AT ANY MOMENT.**
 
 
 ## Credits
