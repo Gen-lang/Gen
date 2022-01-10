@@ -1,4 +1,4 @@
-from token import *
+import token as tk
 
 class NumberNode:
 	def __init__(self, token):
@@ -33,15 +33,15 @@ class Parser:
 	
 	def factor(self):
 		token = self.current_token
-		if token.type in (TT_INT, TT_FLOAT):
+		if token.type in (tk.TT_INT, tk.TT_FLOAT):
 			self.advance()
 			return NumberNode(token)
 
 	def term(self):
-		return self.bin_op(self.factor, (TT_MULT, TT_DIV))
+		return self.bin_op(self.factor, (tk.TT_MULT, tk.TT_DIV))
 	
 	def expr(self):
-		return self.bin_op(self.term, (TT_PLUS, TT_MINUS))
+		return self.bin_op(self.term, (tk.TT_PLUS, tk.TT_MINUS))
 	
 	def bin_op(self, func, ops):
 		left = func()

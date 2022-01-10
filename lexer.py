@@ -1,4 +1,4 @@
-from token import *
+import token as tk
 from error import TypeCharError
 from position import Position
 
@@ -26,19 +26,19 @@ class Lexer:
 			elif self.current_char in DIGITS:
 				tokens.append(self.make_number())
 			elif self.current_char == "+":
-				tokens.append(TT_PLUS)
+				tokens.append(tk.TT_PLUS)
 				self.advance()
 			elif self.current_char == "*":
-				tokens.append(TT_MULT)
+				tokens.append(tk.TT_MULT)
 				self.advance()
 			elif self.current_char == "/":
-				tokens.append(TT_DIV)
+				tokens.append(tk.TT_DIV)
 				self.advance()
 			elif self.current_char == "(":
-				tokens.append(TT_L_PAREN)
+				tokens.append(tk.TT_L_PAREN)
 				self.advance()
 			elif self.current_char == ")":
-				tokens.append(TT_R_PAREN)
+				tokens.append(tk.TT_R_PAREN)
 				self.advance()
 			else:
 				# return TypeCharError
@@ -60,4 +60,4 @@ class Lexer:
 				number_str += self.current_char
 			self.advance()
 		
-		return Token(TT_INT, int(number_str)) if dot is False else Token(TT_FLOAT, float(number_str))
+		return tk.Token(tk.TT_INT, int(number_str)) if dot is False else tk.Token(tk.TT_FLOAT, float(number_str))
