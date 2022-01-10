@@ -8,11 +8,11 @@ class Evaluator:
 		raise Exception(f"No visit_{type(node).__name__} method defined.")
 
 	def visit_NumberNode(self, node):
-		pass
+		print("number node")
 	
 	def visit_BinOpNode(self, node):
-		pass
+		print("binary operator")
 	
 	def visit_UnaryOpNode(self, node):
-		pass
+		print("unray operator")
 
