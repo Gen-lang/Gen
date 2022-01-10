@@ -8,6 +8,8 @@
 ### TODO
  - [x] Allow basic arithmetic
  - [ ] Variables
+ - [ ] If statement
+ - [ ] For and while statements
 
 ### Credits
 I learned a lot from this [series](https://ruslanspivak.com/lsbasi-part1/)
