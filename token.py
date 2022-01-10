@@ -1,14 +1,12 @@
-from enum import Enum
 
-class TokenType(Enum):
-	INT 	= "INT"
-	FLOAT 	= "FLOAT"
-	PLUS	= "PLUS"
-	MINUS	= "MINUS"
-	MULT	= "MULT"
-	DIV		= "DIV"
-	L_PAREN	= "L_PAREN"
-	R_PAREN	= "R_PAREN"
+TT_INT	 	= "INT"
+TT_FLOAT 	= "FLOAT"
+TT_PLUS		= "PLUS"
+TT_MINUS	= "MINUS"
+TT_MULT		= "MULT"
+TT_DIV		= "DIV"
+TT_L_PAREN	= "L_PAREN"
+TT_R_PAREN	= "R_PAREN"
 
 
 class Token:
