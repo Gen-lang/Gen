@@ -30,6 +30,7 @@ class RuntimeError(Error):
 		super().__init__(pos_start, pos_end, "RuntimeError", details)
 		self.context = context
 	
+	@property
 	def as_string(self):
 		string = self.generate_traceback()
 		string += f"Gen::{self.error_name}: {self.details}"
