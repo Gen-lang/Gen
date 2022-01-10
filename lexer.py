@@ -46,7 +46,7 @@ class Lexer:
 				char = self.current_char
 				self.advance()
 				return [], TypeCharError(pos_start, self.position, f"'{char}'")
-		tokens.append(tk.Token(tk.TT_EOF), pos_start=self.position)
+		tokens.append(tk.Token(tk.TT_EOF, pos_start=self.position))
 		return tokens, None
 	
 	def make_number(self):

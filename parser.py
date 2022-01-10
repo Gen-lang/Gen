@@ -39,7 +39,7 @@ class Parser:
 			res.register(self.advance()) # it does nothing for now.
 			return res.success(NumberNode(token))
 		return res.failure(InvalidSyntaxError(
-			token.pos_start, token.pos_end, f"Expected INT or FLOAT"
+			token.pos_start, token.pos_end, "Expected INT or FLOAT"
 		))
 
 	def term(self):
@@ -76,14 +76,14 @@ class ParseResult:
 	
 	def register(self, result):
 		if isinstance(result, ParseResult):
-			self.error = result.error if result.error else None
+			if result.error: self.error = result.error
 			return result.node
 		return result
 	
 	def success(self, node):
 		self.node = node
-		return
+		return self
 	
 	def failure(self, error):
 		self.error = error
-		return
+		return self

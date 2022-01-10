@@ -11,7 +11,7 @@ class Error:
 	def as_string(self):
 		string = f"File {self.pos_start.filename}, line {self.pos_start.lnum+1}\n"
 		string += f"Gen::{self.error_name}: {self.details}"
-		string += f"\n\n" + string_with_arrows(self.pos_start.filetext, self.pos_start.pos_start, self.pos_end)
+		string += f"\n\n" + string_with_arrows(self.pos_start.filetext, self.pos_start, self.pos_end)
 		return string
 
 class TypeCharError(Error):
