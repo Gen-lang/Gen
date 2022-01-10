@@ -17,7 +17,7 @@ def run(filename, text):
 	evaluator = Evaluator()
 	result = evaluator.visit(ast.node)
 
-	return result, None
+	return result.value, result.error
 
 def main():
 	while True:
