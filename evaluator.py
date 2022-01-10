@@ -37,7 +37,7 @@ class Number:
 	
 	def subtracted_by(self, other):
 		if isinstance(other, Number):
-			return Number(self.value + other.value), None
+			return Number(self.value - other.value), None
 	
 	def multiplied_by(self, other):
 		if isinstance(other, Number):
@@ -71,7 +71,8 @@ class Evaluator:
 		res = RuntimeResult()
 		left = res.register(self.visit(node.left_node))
 		if res.error: return res
-		right = self.visit(node.right_node)
+		right = res.register(self.visit(node.right_node))
+		if res.error: return res
 		# check the operator type
 		if node.op_token.type == tk.TT_PLUS:
 			result, err = left.added_to(right)
