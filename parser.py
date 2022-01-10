@@ -24,7 +24,7 @@ class UnaryOpNode:
 		self.op_token = op_token
 		self.node = node
 	
-	def __repre__(self):
+	def __repr__(self):
 		return f"({self.op_token}, {self.node})"
 
 
@@ -44,9 +44,26 @@ class Parser:
 	def factor(self):
 		res = ParseResult()
 		token = self.current_token
-		if token.type in (tk.TT_INT, tk.TT_FLOAT):
+
+		if token.type in (tk.TT_PLUS,  tk.TT_MINUS):
+			res.register(self.advance())
+			factor = res.register(self.factor())
+			if res.error: return res
+			return res.success(UnaryOpNode(token, factor))
+		elif token.type in (tk.TT_INT, tk.TT_FLOAT):
 			res.register(self.advance()) # it does nothing for now.
 			return res.success(NumberNode(token))
+		elif token.type == tk.TT_L_PAREN:
+			res.register(self.advance())
+			expr = res.register(self.expr())
+			if res.error: return res
+			if self.current_token.type == tk.TT_R_PAREN:
+				res.register(self.advance())
+				return res.success(expr)
+			else:
+				return res.failure(InvalidSyntaxError(
+					self.current_token.pos_start, self.current_token.pos_end, "Expected a ')'"
+				))
 		return res.failure(InvalidSyntaxError(
 			token.pos_start, token.pos_end, "Expected INT or FLOAT"
 		))
