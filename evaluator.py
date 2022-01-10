@@ -1,3 +1,5 @@
+import gen_token as tk
+
 class Number:
 	def __init__(self, value):
 		self.value = value
@@ -40,14 +42,25 @@ class Evaluator:
 		raise Exception(f"No visit_{type(node).__name__} method defined.")
 
 	def visit_NumberNode(self, node):
-		print("number node")
+		return Number(node.token.value).set_position(node.pos_start, node.pos_end)
 	
 	def visit_BinOpNode(self, node):
-		print("binary operator")
-		self.visit(node.left_node)
-		self.visit(node.right_node)
+		left = self.visit(node.left_node)
+		right = self.visit(node.right_node)
+		# check the operator type
+		if node.op_token.type == tk.TT_PLUS:
+			result = left.added_to(right)
+		elif node.op_token.type == tk.TT_MINUS:
+			result = left.subtracted_by(right)
+		elif node.op_token.type == tk.TT_MULT:
+			result = left.multiplied_by(right)
+		elif node.op_token.type == tk.TT_DIV:
+			result = left.divided_by(right)
+		return result.set_position(node.pos_start, node.pos_end)
 	
 	def visit_UnaryOpNode(self, node):
-		print("unray operator")
-		self.visit(node.node)
+		num = self.visit(node.node)
+		if node.op_token.type == tk.TT_MINUS:
+			num = num.multiplied_by(Number(-1))
+		return num.set_position(node.pos_start, node.pos_end)
 
