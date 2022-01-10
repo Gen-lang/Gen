@@ -56,9 +56,11 @@ class Evaluator:
 			result = left.multiplied_by(right)
 		elif node.op_token.type == tk.TT_DIV:
 			result = left.divided_by(right)
-		return result
+		return result.set_position(node.pos_start, node.pos_end)
 	
 	def visit_UnaryOpNode(self, node):
-		print("unray operator")
-		self.visit(node.node)
+		num = self.visit(node.node)
+		if node.op_token.type == tk.TT_MINUS:
+			num = num.multiplied_by(Number(-1))
+		return num.set_position(node.pos_start, node.pos_end)
 
