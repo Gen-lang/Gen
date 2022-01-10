@@ -7,7 +7,7 @@ TT_MULT		= "MULT"
 TT_DIV		= "DIV"
 TT_L_PAREN	= "L_PAREN"
 TT_R_PAREN	= "R_PAREN"
-
+TT_EOF		= "EOF"
 
 class Token:
 	def __init__(self, type, value=None, pos_start=None, pos_end=None):
