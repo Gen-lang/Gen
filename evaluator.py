@@ -1,4 +1,5 @@
 import gen_token as tk
+from error import RuntimeError
 
 class RuntimeResult:
 	def __init__(self):
@@ -32,19 +33,23 @@ class Number:
 		# This language will have strings and arrays, so check
 		# if the other is Number or not is necessary later
 		if isinstance(other, Number):
-			return Number(self.value + other.value)
+			return Number(self.value + other.value), None
 	
 	def subtracted_by(self, other):
 		if isinstance(other, Number):
-			return Number(self.value + other.value)
+			return Number(self.value + other.value), None
 	
 	def multiplied_by(self, other):
 		if isinstance(other, Number):
-			return Number(self.value * other.value)
+			return Number(self.value * other.value), None
 	
 	def divided_by(self, other):
 		if isinstance(other, Number):
-			return Number(self.value / other.value)
+			if other.value == 0: return None, RuntimeError(
+				other.pos_start, other.pos_end, "Division by zero is not allowed"
+			)
+			else:
+				return Number(self.value / other.value), None
 		
 	def __repr__(self):
 		return f"{self.value}"
