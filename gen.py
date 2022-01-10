@@ -1,5 +1,6 @@
 from lexer import Lexer
 from parser import Parser
+from evaluator import Evaluator
 
 def run(filename, text):
 	# generate tokens
@@ -10,8 +11,14 @@ def run(filename, text):
 	# generate AST
 	parser = Parser(tokens)
 	ast = parser.parse()
+	if ast.error: return None, ast.error
 
-	return ast.node, ast.error
+	# call evaluator
+	evaluator = Evaluator()
+	evaluator.visit(ast.node)
+	
+	return None, None
+	# return ast.node, ast.error
 
 def main():
 	while True:
