@@ -21,6 +21,14 @@ class Number:
 	def multiplied_by(self, other):
 		if isinstance(other, Number):
 			return Number(self.value * other.value)
+	
+	def divided_by(self, other):
+		if isinstance(other, Number):
+			return Number(self.value / other.value)
+		
+	def __repr__(self):
+		return f"{self.value}"
+
 
 class Evaluator:
 	def visit(self, node):
