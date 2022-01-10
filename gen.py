@@ -15,10 +15,9 @@ def run(filename, text):
 
 	# call evaluator
 	evaluator = Evaluator()
-	evaluator.visit(ast.node)
-	
-	return None, None
-	# return ast.node, ast.error
+	result = evaluator.visit(ast.node)
+
+	return result, None
 
 def main():
 	while True:
