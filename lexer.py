@@ -28,6 +28,9 @@ class Lexer:
 			elif self.current_char == "+":
 				tokens.append(tk.Token(tk.TT_PLUS, pos_start=self.position))
 				self.advance()
+			elif self.current_char == "-":
+				tokens.append(tk.Token(tk.TT_MINUS, pos_start=self.position))
+				self.advance()
 			elif self.current_char == "*":
 				tokens.append(tk.Token(tk.TT_MULT, pos_start=self.position))
 				self.advance()
