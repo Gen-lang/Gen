@@ -6,8 +6,8 @@
 **WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING MAY CHANGE AT ANY MOMENT.**
 
 ### TODO
- - [] Allow basic arithmetic
- - [] Variables
+ - [ ] Allow basic arithmetic
+ - [ ] Variables
 
 ### Credits
 I learned a lot from this [series](https://ruslanspivak.com/lsbasi-part1/)
