@@ -6,7 +6,7 @@
 **WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING MAY CHANGE AT ANY MOMENT.**
 
 ### TODO
- - [ ] Allow basic arithmetic
+ - [x] Allow basic arithmetic
  - [ ] Variables
 
 ### Credits
