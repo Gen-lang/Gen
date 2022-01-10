@@ -52,7 +52,7 @@ class Parser:
 		res = ParseResult()
 		left = res.register(func())
 		if res.error: return res
-		while self.current_token in ops:
+		while self.current_token.type in ops:
 			op_token = self.current_token
 			res.register(self.advance())
 			right = res.register(func())
@@ -62,6 +62,10 @@ class Parser:
 	
 	def parse(self):
 		result = self.expr()
+		if not result.error and self.current_token.type != tk.TT_EOF:
+			return result.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected +, -, *, or /"
+			))
 		return result
 
 
