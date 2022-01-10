@@ -1,5 +1,23 @@
 import gen_token as tk
 
+class RuntimeResult:
+	def __init__(self):
+		self.value = None
+		self.error = None
+	
+	def register(self, result):
+		if result.error: self.error = result.error
+		return result.value
+	
+	def success(self, value):
+		self.value = value
+		return self
+
+	def failure(self, error):
+		self.error = error
+		return self
+
+
 class Number:
 	def __init__(self, value):
 		self.value = value
@@ -42,25 +60,32 @@ class Evaluator:
 		raise Exception(f"No visit_{type(node).__name__} method defined.")
 
 	def visit_NumberNode(self, node):
-		return Number(node.token.value).set_position(node.pos_start, node.pos_end)
+		return RuntimeResult().success(Number(node.token.value).set_position(node.pos_start, node.pos_end))
 	
 	def visit_BinOpNode(self, node):
-		left = self.visit(node.left_node)
+		res = RuntimeResult()
+		left = res.register(self.visit(node.left_node))
+		if res.error: return res
 		right = self.visit(node.right_node)
 		# check the operator type
 		if node.op_token.type == tk.TT_PLUS:
-			result = left.added_to(right)
+			result, err = left.added_to(right)
 		elif node.op_token.type == tk.TT_MINUS:
-			result = left.subtracted_by(right)
+			result, err = left.subtracted_by(right)
 		elif node.op_token.type == tk.TT_MULT:
-			result = left.multiplied_by(right)
+			result, err = left.multiplied_by(right)
 		elif node.op_token.type == tk.TT_DIV:
-			result = left.divided_by(right)
-		return result.set_position(node.pos_start, node.pos_end)
+			result, err = left.divided_by(right)
+		
+		return res.failure(err) if err is not None else res.success(result.set_position(node.pos_start, node.pos_end))
 	
 	def visit_UnaryOpNode(self, node):
-		num = self.visit(node.node)
+		res = RuntimeResult()
+		num = res.register(self.visit(node.node))
+		if res.error: return res
+		err = None
 		if node.op_token.type == tk.TT_MINUS:
-			num = num.multiplied_by(Number(-1))
-		return num.set_position(node.pos_start, node.pos_end)
+			num, err = num.multiplied_by(Number(-1))
+
+		return res.failure(err)	if err is not None else res.success(num.set_position(node.pos_start, node.pos_end))
 
