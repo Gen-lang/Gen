@@ -11,7 +11,7 @@ def run(filename, text):
 	parser = Parser(tokens)
 	ast = parser.parse()
 
-	return ast, None
+	return ast.node, ast.error
 
 def main():
 	while True:
