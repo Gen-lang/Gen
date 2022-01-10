@@ -12,7 +12,10 @@ class Evaluator:
 	
 	def visit_BinOpNode(self, node):
 		print("binary operator")
+		self.visit(node.left_node)
+		self.visit(node.right_node)
 	
 	def visit_UnaryOpNode(self, node):
 		print("unray operator")
+		self.visit(node.node)
 
