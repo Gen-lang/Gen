@@ -1,6 +1,7 @@
 from lexer import Lexer
 from parser import Parser
 from evaluator import Evaluator
+from context import Context
 
 def run(filename, text):
 	# generate tokens
@@ -15,7 +16,8 @@ def run(filename, text):
 
 	# call evaluator
 	evaluator = Evaluator()
-	result = evaluator.visit(ast.node)
+	context = Context("<module>")
+	result = evaluator.visit(ast.node, context)
 
 	return result.value, result.error
 
