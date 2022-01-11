@@ -122,11 +122,13 @@ class ParseResult:
 	def __init__(self):
 		self.error = None
 		self.node = None
+		self.count_advanced = 0
 
 	def register_advance(self):
-		pass
+		self.count_advanced += 1
 	
 	def register(self, result):
+		self.count_advanced += result.count_advanced
 		if result.error: self.error = result.error
 		return result.node
 	
@@ -135,5 +137,6 @@ class ParseResult:
 		return self
 	
 	def failure(self, error):
-		self.error = error
+		if self.error is None or self.count_advanced == 0:
+			self.error = error
 		return self
