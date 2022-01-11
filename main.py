@@ -1,7 +1,7 @@
-from lexer import Lexer
-from parser import Parser
-from evaluator import Evaluator
-from context import Context
+from src.lexer import Lexer
+from src.parser import Parser
+from src.evaluator import Evaluator
+from src.context import Context
 
 def run(filename, text):
 	# generate tokens
