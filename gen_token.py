@@ -1,14 +1,21 @@
 
-TT_INT	 	= "INT"
-TT_FLOAT 	= "FLOAT"
-TT_PLUS		= "PLUS"
-TT_MINUS	= "MINUS"
-TT_MULT		= "MULT"
-TT_DIV		= "DIV"
-TT_POWER	= "POWER"
-TT_L_PAREN	= "L_PAREN"
-TT_R_PAREN	= "R_PAREN"
-TT_EOF		= "EOF"
+TT_INT	 		= "INT"
+TT_FLOAT 		= "FLOAT"
+TT_PLUS			= "PLUS"
+TT_MINUS		= "MINUS"
+TT_MULT			= "MULT"
+TT_DIV			= "DIV"
+TT_POWER		= "POWER"
+TT_L_PAREN		= "L_PAREN"
+TT_R_PAREN		= "R_PAREN"
+TT_IDENTIFIER	= "IDENTIFIER"
+TT_KEYWORD 		= "KEYWORD"
+TT_EQUALS		= "EQUALS"
+TT_EOF			= "EOF"
+
+KEYWORDS = [
+	"var"
+]
 
 class Token:
 	def __init__(self, type, value=None, pos_start=None, pos_end=None):
