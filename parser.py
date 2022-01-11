@@ -1,39 +1,6 @@
 import gen_token as tk
 from error import InvalidSyntaxError
-
-class NumberNode:
-	def __init__(self, token):
-		self.token = token
-		self.pos_start = self.token.pos_start
-		self.pos_end = self.token.pos_end
-
-	def __repr__(self):
-		return f"{self.token}"
-
-
-class BinOpNode:
-	def __init__(self, left_node, op_token, right_node):
-		self.left_node = left_node
-		self.op_token = op_token
-		self.right_node = right_node
-		
-		self.pos_start = self.left_node.pos_start
-		self.pos_end = self.right_node.pos_end
-	
-	def __repr__(self):
-		return f"({self.left_node}, {self.op_token}, {self.right_node})"
-
-
-class UnaryOpNode:
-	def __init__(self, op_token, node):
-		self.op_token = op_token
-		self.node = node
-		self.pos_start = self.op_token.pos_start
-		self.pos_end = self.node.pos_end
-	
-	def __repr__(self):
-		return f"({self.op_token}, {self.node})"
-
+from node import NumberNode, BinOpNode, UnaryOpNode, VarAccessNode, VarAssignNode
 
 class Parser:
 	def __init__(self, tokens):
@@ -55,6 +22,7 @@ class Parser:
 		if token.type in (tk.TT_INT, tk.TT_FLOAT):
 			res.register(self.advance()) # it does nothing for now.
 			return res.success(NumberNode(token))
+			
 		elif token.type == tk.TT_L_PAREN:
 			res.register(self.advance())
 			expr = res.register(self.expr())
@@ -68,7 +36,7 @@ class Parser:
 				))
 		else:
 			return res.failure(InvalidSyntaxError(
-				self.current_token.pos_start, self.current_token.pos_end, "Expected INT, FLOAT, +, -, or '('"
+				token.pos_start, token.pos_end, "Expected INT, FLOAT, +, -, or '('"
 			))
 
 	def power(self):
@@ -90,6 +58,25 @@ class Parser:
 		return self.bin_op(self.factor, (tk.TT_MULT, tk.TT_DIV))
 	
 	def expr(self):
+		res = ParseResult()
+		# checking for a variable assignment
+		if self.current_token.matches(tk.TT_KEYWORD, "var"):
+			res.register(self.advance())
+			if self.current_token.type != tk.TT_IDENTIFIER:
+				return res.failure(InvalidSyntaxError(
+					self.current_token.pos_start, self.current_token.pos_end, "Expected an identifier"
+				))
+			var_name = self.current_token
+			res.register(self.advance())
+			if self.current_token.type != tk.TT_EQUALS:
+				return res.failure(InvalidSyntaxError(
+					self.current_token.pos_start, self.current_token.pos_end, "Expected an '='"
+				))
+			res.register(self.advance())
+			expression = res.register(self.expr())
+			if expression.error: return res
+			return res.success(VarAssignNode(var_name, expression))
+
 		return self.bin_op(self.term, (tk.TT_PLUS, tk.TT_MINUS))
 	
 	def bin_op(self, func_a, ops, func_b=None):
