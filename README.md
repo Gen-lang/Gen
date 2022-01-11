@@ -9,7 +9,7 @@ Gen is supposed to be a general-purpose programming language.
 
 ### TODO List
  - [x] Basic arithmetic
- - [ ] Variables
+ - [x] Variables
  - [ ] If statement
  - [ ] For and while statements
  - [ ] Functions
