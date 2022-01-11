@@ -22,7 +22,9 @@ class Parser:
 		if token.type in (tk.TT_INT, tk.TT_FLOAT):
 			res.register(self.advance()) # it does nothing for now.
 			return res.success(NumberNode(token))
-			
+		elif token.type == tk.TT_IDENTIFIER:
+			res.register(self.advance())
+			return res.success(VarAccessNode(token))
 		elif token.type == tk.TT_L_PAREN:
 			res.register(self.advance())
 			expr = res.register(self.expr())
