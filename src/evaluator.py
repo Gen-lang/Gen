@@ -85,7 +85,7 @@ class Evaluator:
 	def visit_VarAssignNode(self, node, context):
 		res = RuntimeError()
 		var_name = node.var_name_token.value
-		value = res.register(self.visit(node.value_node))
+		value = res.register(self.visit(node.value_node, context))
 		if res.error: return res
 		context.symbol_table.set(var_name, value)
 		return res.success(value)
