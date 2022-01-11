@@ -28,3 +28,6 @@ class Token:
 	
 	def __repr__(self):
 		return f"{self.type}:{self.value}" if self.value is not None else self.type
+	
+	def matches(self, type, value):
+		return self.type == type and self.value == value
