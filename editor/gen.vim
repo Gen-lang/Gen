@@ -5,7 +5,7 @@
 " Put this file to ~/.vim/syntax directory:
 "	(if you are on Mac) cp editor/gen.vim ~/.vim/syntax/
 " And add the following line to your .vimrc: 
-" autocmd BufRead,BufNewFile *.tsp set filetype=gen
+" autocmd BufRead,BufNewFile *.gen set filetype=gen
 
 if exists("b:current_syntax")
     finish
@@ -15,7 +15,10 @@ endif
 syntax keyword genKeywords var and or not
 
 " Type keywords
-syntax keyword genType INT FLOAT TRUE FALSE
+syntax keyword genType INT FLOAT
+
+" Boolean
+syntax keyword genBool TRUE FALSE
 
 " Numbers
 syntax match genNumbers "\d\+"
@@ -24,5 +27,6 @@ syntax match genNumbers "\d\+"
 highlight default link genKeywords Repeat
 highlight default link genNumbers Number
 highlight default link genType Type
+highlight default link genBool Boolean
 
 let b:current_syntax = "gen"
