@@ -158,15 +158,15 @@ class Evaluator:
 			result, err = left.get_comparison_not_equal(right)
 		elif node.op_token.type == tk.TT_LTHAN:
 			result, err = left.get_comparison_less_than(right)
-		elif node.op_tokne.type == tk.TT_GTHAN:
+		elif node.op_token.type == tk.TT_GTHAN:
 			result, err = left.get_comparison_greater_than(right)
-		elif node.op_tokne.type == tk.TT_LTEQUALS:
+		elif node.op_token.type == tk.TT_LTEQUALS:
 			result, err = left.get_comparison_lt_equals(right)
-		elif node.op_tokne.type == tk.TT_GTEQUALS:
+		elif node.op_token.type == tk.TT_GTEQUALS:
 			result, err = left.get_comparison_gt_equals(right)
-		elif node.op_tokne.type.matches(tk.TT_KEYWORD, "and"):
+		elif node.op_token.type.matches(tk.TT_KEYWORD, "and"):
 			result, err = left.and_by(right)
-		elif node.op_tokne.type.matches(tk.TT_KEYWORD, "or"):
+		elif node.op_token.type.matches(tk.TT_KEYWORD, "or"):
 			result, err = left.or_by(right)
 		
 		return res.failure(err) if err is not None else res.success(result.set_position(node.pos_start, node.pos_end))
