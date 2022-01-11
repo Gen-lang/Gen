@@ -1,6 +1,6 @@
 import src.gen_token as tk
 import string
-from src.error import TypeCharError
+from src.error import InvalidSyntaxError, TypeCharError
 from src.position import Position
 
 # for checking if a character is a digit or not
@@ -49,9 +49,16 @@ class Lexer:
 			elif self.current_char == ")":
 				tokens.append(tk.Token(tk.TT_R_PAREN, pos_start=self.position))
 				self.advance()
+			elif self.current_char == "!":
+				token, error = self.make_not_equals()
+				if error: return [], error
+				tokens.append(token)
 			elif self.current_char == "=":
-				tokens.append(tk.Token(tk.TT_EQUALS, pos_start=self.position))
-				self.advance()
+				tokens.append(self.make_equals())
+			elif self.current_char == "<":
+				tokens.append(self.make_less_than())
+			elif self.current_char == ">":
+				tokens.append(self.make_greater_than())
 			elif self.current_char in LETTERS:
 				tokens.append(self.make_identifier())
 			else:
@@ -86,3 +93,44 @@ class Lexer:
 			self.advance()
 		token_type = tk.TT_KEYWORD if string in tk.KEYWORDS else tk.TT_IDENTIFIER
 		return tk.Token(token_type, string, pos_start, self.position)
+	
+	def make_not_equals(self):
+		pos_start = self.position.copy()
+		self.advance()
+		if self.current_char == "=":
+			self.advance()
+			return tk.Token(tk.TT_NEQUALS, pos_start=pos_start, pos_end=self.position), None
+		else:
+			self.advance()
+			return None, InvalidSyntaxError(
+				pos_start, self.position, "Expected '=' after '!'"
+			)
+	
+	def make_equals(self):
+		pos_start = self.position.copy()
+		token_type = tk.TT_EQUALS
+		self.advance()
+		if self.current_char == "=":
+			self.advance()
+			token_type = tk.TT_DEQUALS
+		return tk.Token(token_type, pos_start=pos_start, pos_end=self.position)
+	
+	def make_less_than(self):
+		pos_start = self.position.copy()
+		token_type = tk.TT_LTHAN
+		self.advance()
+		if self.current_char == "=":
+			self.advance()
+			token_type = tk.TT_LTEQUALS
+		return tk.Token(token_type, pos_start=pos_start, pos_end=self.position)
+	
+	def make_greater_than(self):
+		pos_start = self.position.copy()
+		token_type = tk.TT_GTHAN
+		self.advance()
+		if self.current_char == "=":
+			self.advance()
+			token_type = tk.TT_GTEQUALS
+		return tk.Token(token_type, pos_start=pos_start, pos_end=self.position)
+
+		

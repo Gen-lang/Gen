@@ -60,6 +60,41 @@ class Number:
 		if isinstance(other, Number):
 			return Number(self.value ** other.value).set_context(self.context), None
 	
+	def get_comparison_equal(self, other):
+		if isinstance(other, Number):
+			return Number(int(self.value == other.value)).set_context(self.context), None
+	
+	def get_comparison_not_equal(self, other):
+		if isinstance(other, Number):
+			return Number(int(self.value != other.value)).set_context(self.context), None
+	
+	def get_comparison_less_than(self, other):
+		if isinstance(other, Number):
+			return Number(int(self.value < other.value)).set_context(self.context), None
+	
+	def get_comparison_greater_than(self, other):
+		if isinstance(other, Number):
+			return Number(int(self.value > other.value)).set_context(self.context), None
+	
+	def get_comparison_lt_equals(self, other):
+		if isinstance(other, Number):
+			return Number(int(self.value <= other.value)).set_context(self.context), None
+	
+	def get_comparison_gt_equals(self, other):
+		if isinstance(other, Number):
+			return Number(int(self.value >= other.value)).set_context(self.context), None
+	
+	def and_by(self, other):
+		if isinstance(other, Number):
+			return Number(int(self.value and other.value)).set_context(self.context), None
+	
+	def or_by(self, other):
+		if isinstance(other, Number):
+			return Number(int(self.value or other.value)).set_context(self.context), None
+	
+	def notted(self):
+		return Number(1 if self.value == 0 else 0).set_context(self.context), None
+	
 	def copy(self):
 		copy = Number(self.value)
 		copy.set_position(self.pos_start, self.pos_end)
@@ -117,6 +152,22 @@ class Evaluator:
 			result, err = left.divided_by(right)
 		elif node.op_token.type == tk.TT_POWER:
 			result, err = left.powered_by(right)
+		elif node.op_token.type == tk.TT_DEQUALS:
+			result, err = left.get_comparison_equal(right)
+		elif node.op_token.type == tk.TT_NEQUALS:
+			result, err = left.get_comparison_not_equal(right)
+		elif node.op_token.type == tk.TT_LTHAN:
+			result, err = left.get_comparison_less_than(right)
+		elif node.op_token.type == tk.TT_GTHAN:
+			result, err = left.get_comparison_greater_than(right)
+		elif node.op_token.type == tk.TT_LTEQUALS:
+			result, err = left.get_comparison_lt_equals(right)
+		elif node.op_token.type == tk.TT_GTEQUALS:
+			result, err = left.get_comparison_gt_equals(right)
+		elif node.op_token.matches(tk.TT_KEYWORD, "and"):
+			result, err = left.and_by(right)
+		elif node.op_token.matches(tk.TT_KEYWORD, "or"):
+			result, err = left.or_by(right)
 		
 		return res.failure(err) if err is not None else res.success(result.set_position(node.pos_start, node.pos_end))
 	
@@ -127,6 +178,8 @@ class Evaluator:
 		err = None
 		if node.op_token.type == tk.TT_MINUS:
 			num, err = num.multiplied_by(Number(-1))
+		elif node.op_token.matches(tk.TT_KEYWORD, "not"):
+			num, err = num.notted()
 
 		return res.failure(err)	if err is not None else res.success(num.set_position(node.pos_start, node.pos_end))
 

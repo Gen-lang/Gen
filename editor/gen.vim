@@ -12,10 +12,10 @@ if exists("b:current_syntax")
 endif
 
 " Language keywords
-syntax keyword genKeywords var
+syntax keyword genKeywords var and or not
 
 " Type keywords
-syntax keyword genType INT FLOAT
+syntax keyword genType INT FLOAT TRUE FALSE
 
 " Numbers
 syntax match genNumbers "\d\+"

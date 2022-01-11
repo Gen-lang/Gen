@@ -38,11 +38,11 @@ class Parser:
 				return res.success(expr)
 			else:
 				return res.failure(InvalidSyntaxError(
-					self.current_token.pos_start, self.current_token.pos_end, "Expected a ')'"
+					self.current_token.pos_start, self.current_token.pos_end, "Expected ')'"
 				))
 		else:
 			return res.failure(InvalidSyntaxError(
-				token.pos_start, token.pos_end, "Expected an INT, a FLOAT, an identifier, a +, a -, or a '('"
+				token.pos_start, token.pos_end, "Expected an INT, FLOAT, identifier, +, -, or '('"
 			))
 
 	def power(self):
@@ -87,10 +87,10 @@ class Parser:
 			if res.error: return res
 			return res.success(VarAssignNode(var_name, expression))
 
-		node = res.register(self.bin_op(self.term, (tk.TT_PLUS, tk.TT_MINUS)))
+		node = res.register(self.bin_op(self.comp_expr, ((tk.TT_KEYWORD, "and"), (tk.TT_KEYWORD, "or"))))
 		if res.error:
 			return res.failure(InvalidSyntaxError(
-				self.current_token.pos_start, self.current_token.pos_end, "Expected a 'var', an INT, a FLOAT, an identifier, a +, a -, or a '('"
+				self.current_token.pos_start, self.current_token.pos_end, "Expected 'var', INT, FLOAT, identifier, +, -, or '('"
 			))
 		return res.success(node)
 	
@@ -100,7 +100,7 @@ class Parser:
 		res = ParseResult()
 		left = res.register(func_a())
 		if res.error: return res
-		while self.current_token.type in ops:
+		while self.current_token.type in ops or (self.current_token.type, self.current_token.value) in ops:
 			op_token = self.current_token
 			res.register_advance()
 			self.advance()
@@ -108,6 +108,26 @@ class Parser:
 			if res.error: return res
 			left = BinOpNode(left, op_token, right)
 		return res.success(left)
+	
+	def comp_expr(self):
+		res = ParseResult()
+		if self.current_token.matches(tk.TT_KEYWORD, "not"):
+			op_token = self.current_token
+			res.register_advance()
+			self.advance()
+			node = res.register(self.comp_expr())
+			if res.error: return res
+			return res.success(UnaryOpNode(op_token, node))
+		else:
+			node = res.register(self.bin_op(self.arithmatic_expr, (tk.TT_DEQUALS, tk.TT_NEQUALS, tk.TT_LTHAN, tk.TT_GTHAN, tk.TT_LTEQUALS, tk.TT_GTEQUALS)))
+			if res.error: return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected INT, FLOAT, not, identifier, +, -, or '('"
+			))
+			return res.success(node)
+	
+	def arithmatic_expr(self):
+		return self.bin_op(self.term, (tk.TT_PLUS, tk.TT_MINUS))
+
 	
 	def parse(self):
 		result = self.expr()
