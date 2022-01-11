@@ -16,3 +16,7 @@ Gen is supposed to be a general-purpose programming language.
 
 ### Credits
 I learned a lot from this [series](https://ruslanspivak.com/lsbasi-part1/)
+
+
+### Contributing
+Contributions are welcome!
