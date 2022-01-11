@@ -1,20 +1,29 @@
 
-TT_INT	 		= "INT"
-TT_FLOAT 		= "FLOAT"
-TT_PLUS			= "PLUS"
-TT_MINUS		= "MINUS"
-TT_MULT			= "MULT"
-TT_DIV			= "DIV"
-TT_POWER		= "POWER"
-TT_L_PAREN		= "L_PAREN"
-TT_R_PAREN		= "R_PAREN"
-TT_IDENTIFIER	= "IDENTIFIER"
-TT_KEYWORD 		= "KEYWORD"
-TT_EQUALS		= "EQUALS"
-TT_EOF			= "EOF"
+TT_INT	 		= "INT" # int
+TT_FLOAT 		= "FLOAT" # float
+TT_PLUS			= "PLUS" # plus
+TT_MINUS		= "MINUS" # minus
+TT_MULT			= "MULT" # multiplication
+TT_DIV			= "DIV" # division
+TT_POWER		= "POWER" # power
+TT_L_PAREN		= "L_PAREN" # left parenthesis
+TT_R_PAREN		= "R_PAREN" # right parenthesis
+TT_IDENTIFIER	= "IDENTIFIER" # identifier
+TT_KEYWORD 		= "KEYWORD" # keyword
+TT_EQUALS		= "EQUALS" # =
+TT_DEQUALS		= "DOUBLE_EQUALS" # ==
+TT_NEQUALS		= "NOT_EQUALS" # !=
+TT_LTHAN		= "L_THAN" # <
+TT_GTHAN		= "G_THAN" # >
+TT_LTEQUALS		= "LT_EQUALS" # <=
+TT_GTEQUALS		= "GT_EQUALS" # >=
+TT_EOF			= "EOF" # End Of File
 
 KEYWORDS = [
-	"var"
+	"var",
+	"or",
+	"and",
+	"not"
 ]
 
 class Token:
