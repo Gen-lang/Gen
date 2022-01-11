@@ -87,7 +87,12 @@ class Parser:
 			if res.error: return res
 			return res.success(VarAssignNode(var_name, expression))
 
-		return self.bin_op(self.term, (tk.TT_PLUS, tk.TT_MINUS))
+		node = res.register(self.bin_op(self.term, (tk.TT_PLUS, tk.TT_MINUS)))
+		if res.error:
+			return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected a 'var', an INT, a FLOAT, an identifier, a +, a -, or a '('"
+			))
+		return res.success(node)
 	
 	def bin_op(self, func_a, ops, func_b=None):
 		if func_b is None:
