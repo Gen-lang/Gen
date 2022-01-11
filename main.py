@@ -2,6 +2,10 @@ from src.lexer import Lexer
 from src.parser import Parser
 from src.evaluator import Evaluator
 from src.context import Context
+from src.symbol_table import SymbolTable
+
+global_symbol_table = SymbolTable()
+global_symbol_table.set("nothing", 0)
 
 def run(filename, text):
 	# generate tokens
@@ -17,6 +21,7 @@ def run(filename, text):
 	# call evaluator
 	evaluator = Evaluator()
 	context = Context("<module>")
+	context.symbol_table = global_symbol_table
 	result = evaluator.visit(ast.node, context)
 
 	return result.value, result.error
