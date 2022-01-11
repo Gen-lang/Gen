@@ -3,11 +3,16 @@
     <h1>The Gen Programming Language</h1>
 </div>
 
-**WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING MAY CHANGE AT ANY MOMENT.**
+**WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING CAN CHANGE AT ANY MOMENT.**
 
-### TODO
- - [x] Allow basic arithmetic
+Gen is supposed to be a general-purpose programming language.
+
+### TODO List
+ - [x] Basic arithmetic
  - [ ] Variables
+ - [ ] If statement
+ - [ ] For and while statements
+ - [ ] Functions
 
 ### Credits
 I learned a lot from this [series](https://ruslanspivak.com/lsbasi-part1/)
