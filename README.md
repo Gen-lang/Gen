@@ -11,8 +11,30 @@ Gen is supposed to be a general-purpose programming language.
  - [x] Basic arithmetic
  - [x] Variables
  - [ ] If statement (logical operators)
+ - [ ] String
  - [ ] For and while statements
  - [ ] Functions
+
+### Syntax
+*Note:* **Currently Gen only supports integer and floats**
+
+#### Variables
+Variable assignment is very simple.
+```
+var a = 1
+var b = 9
+
+1 + (var c = 10)
+>>> 11
+```
+#### Logical Operators
+```
+1 > 0
+>>> 1
+
+1 >= 4
+>>> 0
+```
 
 ### Contributing
 Contributions are welcome!
