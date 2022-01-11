@@ -1,11 +1,11 @@
 from src.lexer import Lexer
 from src.parser import Parser
-from src.evaluator import Evaluator
+from src.evaluator import Evaluator, Number
 from src.context import Context
 from src.symbol_table import SymbolTable
 
 global_symbol_table = SymbolTable()
-global_symbol_table.set("nothing", 0)
+global_symbol_table.set("nothing", Number(0))
 
 def run(filename, text):
 	# generate tokens
