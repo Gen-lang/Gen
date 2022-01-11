@@ -1,9 +1,12 @@
-import gen_token as tk
-from error import TypeCharError
-from position import Position
+import src.gen_token as tk
+import string
+from src.error import TypeCharError
+from src.position import Position
 
 # for checking if a character is a digit or not
 DIGITS = "0123456789"
+LETTERS = string.ascii_letters
+LETTERS_AND_DIGITS = DIGITS + LETTERS
 
 class Lexer:
 	def __init__(self, filename, text):
@@ -46,6 +49,11 @@ class Lexer:
 			elif self.current_char == ")":
 				tokens.append(tk.Token(tk.TT_R_PAREN, pos_start=self.position))
 				self.advance()
+			elif self.current_char == "=":
+				tokens.append(tk.Token(tk.TT_EQUALS, pos_start=self.position))
+				self.advance()
+			elif self.current_char in LETTERS:
+				tokens.append(self.make_identifier())
 			else:
 				# return TypeCharError
 				pos_start = self.position.copy()
@@ -69,3 +77,12 @@ class Lexer:
 			self.advance()
 		
 		return tk.Token(tk.TT_INT, int(number_str), pos_start, self.position) if dot is False else tk.Token(tk.TT_FLOAT, float(number_str), pos_start, self.position)
+	
+	def make_identifier(self):
+		string = ""
+		pos_start = self.position.copy()
+		while self.current_char is not None and self.current_char in LETTERS_AND_DIGITS+"_":
+			string += self.current_char
+			self.advance()
+		token_type = tk.TT_KEYWORD if string in tk.KEYWORDS else tk.TT_IDENTIFIER
+		return tk.Token(token_type, string, pos_start, self.position)

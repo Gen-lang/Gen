@@ -1,5 +1,5 @@
-import gen_token as tk
-from error import RuntimeError
+import src.gen_token as tk
+from src.error import RuntimeError
 
 class RuntimeResult:
 	def __init__(self):
@@ -72,6 +72,23 @@ class Evaluator:
 	
 	def no_visit_method(self, node, context):
 		raise Exception(f"No visit_{type(node).__name__} method defined.")
+	
+	def visit_VarAccessNode(self, node, context):
+		res = RuntimeResult()
+		var_name = node.var_name_token.value
+		value = context.symbol_table.get(var_name)
+		if value is None: return res.failure(RuntimeError(
+			node.pos_start, node.pos_end, f"var '{var_name}' is not defined", context
+		))
+		return res.success(value)
+	
+	def visit_VarAssignNode(self, node, context):
+		res = RuntimeResult()
+		var_name = node.var_name_token.value
+		value = res.register(self.visit(node.value_node, context))
+		if res.error: return res
+		context.symbol_table.set(var_name, value)
+		return res.success(value)
 
 	def visit_NumberNode(self, node, context):
 		return RuntimeResult().success(Number(node.token.value).set_context(context).set_position(node.pos_start, node.pos_end))
