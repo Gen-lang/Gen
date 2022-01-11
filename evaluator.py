@@ -55,6 +55,10 @@ class Number:
 			)
 			else:
 				return Number(self.value / other.value), None
+
+	def powered_by(self, other):
+		if isinstance(other, Number):
+			return Number(self.value ** other.value).set_context(self.context), None
 		
 	def __repr__(self):
 		return f"{self.value}"
@@ -87,6 +91,8 @@ class Evaluator:
 			result, err = left.multiplied_by(right)
 		elif node.op_token.type == tk.TT_DIV:
 			result, err = left.divided_by(right)
+		elif node.op_token.type == tk.TT_POWER:
+			result, err = left.powered_by(right)
 		
 		return res.failure(err) if err is not None else res.success(result.set_position(node.pos_start, node.pos_end))
 	
