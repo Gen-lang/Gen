@@ -1,6 +1,6 @@
-import gen_token as tk
-from error import InvalidSyntaxError
-from node import NumberNode, BinOpNode, UnaryOpNode, VarAccessNode, VarAssignNode
+import src.gen_token as tk
+from src.error import InvalidSyntaxError
+from src.node import NumberNode, BinOpNode, UnaryOpNode, VarAccessNode, VarAssignNode
 
 class Parser:
 	def __init__(self, tokens):
@@ -76,13 +76,13 @@ class Parser:
 				))
 			res.register(self.advance())
 			expression = res.register(self.expr())
-			if expression.error: return res
+			if res.error: return res
 			return res.success(VarAssignNode(var_name, expression))
 
 		return self.bin_op(self.term, (tk.TT_PLUS, tk.TT_MINUS))
 	
 	def bin_op(self, func_a, ops, func_b=None):
-		if func_a is None:
+		if func_b is None:
 			func_b = func_a
 		res = ParseResult()
 		left = res.register(func_a())

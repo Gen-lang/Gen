@@ -1,7 +1,7 @@
-import gen_token as tk
+import src.gen_token as tk
 import string
-from error import TypeCharError
-from position import Position
+from src.error import TypeCharError
+from src.position import Position
 
 # for checking if a character is a digit or not
 DIGITS = "0123456789"
@@ -53,7 +53,7 @@ class Lexer:
 				tokens.append(tk.Token(tk.TT_EQUALS, pos_start=self.position))
 				self.advance()
 			elif self.current_char in LETTERS:
-				tokens.append(tk.Token(self.make_identifier()))
+				tokens.append(self.make_identifier())
 			else:
 				# return TypeCharError
 				pos_start = self.position.copy()

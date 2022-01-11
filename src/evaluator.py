@@ -1,5 +1,5 @@
-import gen_token as tk
-from error import RuntimeError
+import src.gen_token as tk
+from src.error import RuntimeError
 
 class RuntimeResult:
 	def __init__(self):
@@ -83,7 +83,7 @@ class Evaluator:
 		return res.success(value)
 	
 	def visit_VarAssignNode(self, node, context):
-		res = RuntimeError()
+		res = RuntimeResult()
 		var_name = node.var_name_token.value
 		value = res.register(self.visit(node.value_node, context))
 		if res.error: return res
