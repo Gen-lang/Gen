@@ -47,17 +47,12 @@ class Parser:
 		if self.token_index < len(self.tokens):
 			self.current_token = self.tokens[self.token_index]
 		return self.current_token
-	
-	def factor(self):
+
+	def atom(self):
 		res = ParseResult()
 		token = self.current_token
 
-		if token.type in (tk.TT_PLUS,  tk.TT_MINUS):
-			res.register(self.advance())
-			factor = res.register(self.factor())
-			if res.error: return res
-			return res.success(UnaryOpNode(token, factor))
-		elif token.type in (tk.TT_INT, tk.TT_FLOAT):
+		if token.type in (tk.TT_INT, tk.TT_FLOAT):
 			res.register(self.advance()) # it does nothing for now.
 			return res.success(NumberNode(token))
 		elif token.type == tk.TT_L_PAREN:
@@ -71,9 +66,25 @@ class Parser:
 				return res.failure(InvalidSyntaxError(
 					self.current_token.pos_start, self.current_token.pos_end, "Expected a ')'"
 				))
-		return res.failure(InvalidSyntaxError(
-			token.pos_start, token.pos_end, "Expected INT or FLOAT"
-		))
+		else:
+			return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected INT, FLOAT, +, -, or '('"
+			))
+
+	def power(self):
+		return self.bin_op(self.atom, (tk.TT_POWER,), self.factor)
+	
+	def factor(self):
+		res = ParseResult()
+		token = self.current_token
+
+		if token.type in (tk.TT_PLUS,  tk.TT_MINUS):
+			res.register(self.advance())
+			factor = res.register(self.factor())
+			if res.error: return res
+			return res.success(UnaryOpNode(token, factor))
+
+		return self.power()
 
 	def term(self):
 		return self.bin_op(self.factor, (tk.TT_MULT, tk.TT_DIV))
