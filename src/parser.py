@@ -87,7 +87,7 @@ class Parser:
 			if res.error: return res
 			return res.success(VarAssignNode(var_name, expression))
 
-		node = res.register(self.bin_op(self.comp_expr, ((tk.TT_KEYWORD, "and"), (tk.KEYWORDS, "or")))) # HERE ERROR?
+		node = res.register(self.bin_op(self.comp_expr, ((tk.TT_KEYWORD, "and"), (tk.TT_KEYWORD, "or"))))
 		if res.error:
 			return res.failure(InvalidSyntaxError(
 				self.current_token.pos_start, self.current_token.pos_end, "Expected 'var', INT, FLOAT, identifier, +, -, or '('"
