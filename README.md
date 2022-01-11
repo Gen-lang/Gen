@@ -14,9 +14,9 @@ Gen is supposed to be a general-purpose programming language.
  - [ ] For and while statements
  - [ ] Functions
 
+### Contributing
+Contributions are welcome!
+
 ### Credits
 I learned a lot from this [series](https://ruslanspivak.com/lsbasi-part1/)
 
-
-### Contributing
-Contributions are welcome!
