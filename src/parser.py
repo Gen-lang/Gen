@@ -123,6 +123,7 @@ class Parser:
 			if res.error: return res.failure(InvalidSyntaxError(
 				self.current_token.pos_start, self.current_token.pos_end, "Expected INT, FLOAT, not, identifier, +, -, or '('"
 			))
+			return res.success(node)
 	
 	def arithmatic_expr(self):
 		return self.bin_op(self.term, (tk.TT_PLUS, tk.TT_MINUS))
