@@ -59,6 +59,12 @@ class Number:
 	def powered_by(self, other):
 		if isinstance(other, Number):
 			return Number(self.value ** other.value).set_context(self.context), None
+	
+	def copy(self):
+		copy = Number(self.value)
+		copy.set_position(self.pos_start, self.pos_end)
+		copy.set_context(self.context)
+		return copy
 		
 	def __repr__(self):
 		return f"{self.value}"
@@ -80,6 +86,7 @@ class Evaluator:
 		if value is None: return res.failure(RuntimeError(
 			node.pos_start, node.pos_end, f"var '{var_name}' is not defined", context
 		))
+		value = value.copy().set_position(node.pos_start, node.pos_end)
 		return res.success(value)
 	
 	def visit_VarAssignNode(self, node, context):
