@@ -81,6 +81,14 @@ class Evaluator:
 			node.pos_start, node.pos_end, f"var '{var_name}' is not defined", context
 		))
 		return res.success(value)
+	
+	def visit_VarAssignNode(self, node, context):
+		res = RuntimeError()
+		var_name = node.var_name_token.value
+		value = res.register(self.visit(node.value_node))
+		if res.error: return res
+		context.symbol_table.set(var_name, value)
+		return res.success(value)
 
 	def visit_NumberNode(self, node, context):
 		return RuntimeResult().success(Number(node.token.value).set_context(context).set_position(node.pos_start, node.pos_end))
