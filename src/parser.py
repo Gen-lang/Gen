@@ -20,17 +20,21 @@ class Parser:
 		token = self.current_token
 
 		if token.type in (tk.TT_INT, tk.TT_FLOAT):
-			res.register(self.advance()) # it does nothing for now.
+			res.register_advance()
+			self.advance()
 			return res.success(NumberNode(token))
 		elif token.type == tk.TT_IDENTIFIER:
-			res.register(self.advance())
+			res.register_advance()
+			self.advance()
 			return res.success(VarAccessNode(token))
 		elif token.type == tk.TT_L_PAREN:
-			res.register(self.advance())
+			res.register_advance()
+			self.advance()
 			expr = res.register(self.expr())
 			if res.error: return res
 			if self.current_token.type == tk.TT_R_PAREN:
-				res.register(self.advance())
+				res.register_advance()
+				self.advance()
 				return res.success(expr)
 			else:
 				return res.failure(InvalidSyntaxError(
@@ -38,7 +42,7 @@ class Parser:
 				))
 		else:
 			return res.failure(InvalidSyntaxError(
-				token.pos_start, token.pos_end, "Expected INT, FLOAT, +, -, or '('"
+				token.pos_start, token.pos_end, "Expected an INT, a FLOAT, an identifier, a +, a -, or a '('"
 			))
 
 	def power(self):
@@ -49,7 +53,8 @@ class Parser:
 		token = self.current_token
 
 		if token.type in (tk.TT_PLUS,  tk.TT_MINUS):
-			res.register(self.advance())
+			res.register_advance()
+			self.advance()
 			factor = res.register(self.factor())
 			if res.error: return res
 			return res.success(UnaryOpNode(token, factor))
@@ -63,23 +68,31 @@ class Parser:
 		res = ParseResult()
 		# checking for a variable assignment
 		if self.current_token.matches(tk.TT_KEYWORD, "var"):
-			res.register(self.advance())
+			res.register_advance()
+			self.advance()
 			if self.current_token.type != tk.TT_IDENTIFIER:
 				return res.failure(InvalidSyntaxError(
 					self.current_token.pos_start, self.current_token.pos_end, "Expected an identifier"
 				))
 			var_name = self.current_token
-			res.register(self.advance())
+			res.register_advance()
+			self.advance()
 			if self.current_token.type != tk.TT_EQUALS:
 				return res.failure(InvalidSyntaxError(
 					self.current_token.pos_start, self.current_token.pos_end, "Expected an '='"
 				))
-			res.register(self.advance())
+			res.register_advance()
+			self.advance()
 			expression = res.register(self.expr())
 			if res.error: return res
 			return res.success(VarAssignNode(var_name, expression))
 
-		return self.bin_op(self.term, (tk.TT_PLUS, tk.TT_MINUS))
+		node = res.register(self.bin_op(self.term, (tk.TT_PLUS, tk.TT_MINUS)))
+		if res.error:
+			return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected a 'var', an INT, a FLOAT, an identifier, a +, a -, or a '('"
+			))
+		return res.success(node)
 	
 	def bin_op(self, func_a, ops, func_b=None):
 		if func_b is None:
@@ -89,7 +102,8 @@ class Parser:
 		if res.error: return res
 		while self.current_token.type in ops:
 			op_token = self.current_token
-			res.register(self.advance())
+			res.register_advance()
+			self.advance()
 			right = res.register(func_b())
 			if res.error: return res
 			left = BinOpNode(left, op_token, right)
@@ -108,17 +122,21 @@ class ParseResult:
 	def __init__(self):
 		self.error = None
 		self.node = None
+		self.count_advanced = 0
+
+	def register_advance(self):
+		self.count_advanced += 1
 	
 	def register(self, result):
-		if isinstance(result, ParseResult):
-			if result.error: self.error = result.error
-			return result.node
-		return result
+		self.count_advanced += result.count_advanced
+		if result.error: self.error = result.error
+		return result.node
 	
 	def success(self, node):
 		self.node = node
 		return self
 	
 	def failure(self, error):
-		self.error = error
+		if self.error is None or self.count_advanced == 0:
+			self.error = error
 		return self
