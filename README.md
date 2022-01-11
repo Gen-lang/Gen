@@ -5,7 +5,7 @@
 
 **WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING CAN CHANGE AT ANY MOMENT.**
 
-Gen is a (hopefully) general-purpose programming language.
+Gen is supposed to be a general-purpose programming language.
 
 ### TODO List
  - [x] Basic arithmetic
