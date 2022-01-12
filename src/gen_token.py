@@ -27,7 +27,11 @@ KEYWORDS = [
 	"if",
 	"elseif",
 	":",
-	"else"
+	"else",
+	"for",
+	"through",
+	"step",
+	"while",
 ]
 
 class Token:
