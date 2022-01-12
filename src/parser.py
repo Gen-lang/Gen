@@ -1,6 +1,6 @@
 import src.gen_token as tk
 from src.error import InvalidSyntaxError
-from src.node import NumberNode, BinOpNode, UnaryOpNode, VarAccessNode, VarAssignNode
+from src.node import *
 
 class Parser:
 	def __init__(self, tokens):
@@ -40,6 +40,10 @@ class Parser:
 				return res.failure(InvalidSyntaxError(
 					self.current_token.pos_start, self.current_token.pos_end, "Expected ')'"
 				))
+		elif token.matches(tk.TT_KEYWORD, "if"):
+			if_expression = res.register(self.if_expr())
+			if res.error: return res
+			return res.success(if_expression)
 		else:
 			return res.failure(InvalidSyntaxError(
 				token.pos_start, token.pos_end, "Expected an INT, FLOAT, identifier, +, -, or '('"
@@ -94,6 +98,51 @@ class Parser:
 			))
 		return res.success(node)
 	
+	def if_expr(self):
+		res = ParseResult()
+		cases = []
+		else_case = None
+		if self.current_token.matches(tk.TT_KEYWORD, "if") is False:
+			return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected 'if'"
+			))
+		res.register_advance()
+		self.advance()
+		condition = res.register(self.expr())
+		if res.error: return res
+		if self.current_token.matches(tk.TT_KEYWORD, ":") is False:
+			return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected ':'"
+			))
+		res.register_advance()
+		self.advance()
+		expression = res.register(self.expr())
+		if res.error: return res
+		cases.append((condition, expression))
+		
+		while self.current_token.matches(tk.TT_KEYWORD, "elif") is True:
+			res.register_advance()
+			self.advance()
+			condition = res.register(self.expr())
+			if res.error: return res
+			if self.current_token.matches(tk.TT_KEYWORD, ":") is False:
+				return res.failure(InvalidSyntaxError(
+					self.current_token.pos_start, self.current_token.pos_end, "Expected ':'"
+				))
+			res.register_advance()
+			self.advance()
+			expression = res.register(self.expr())
+			if res.error: return res
+			cases.append((condition, expression))
+		
+		if self.current_token.matches(tk.TT_KEYWORD, "else"):
+			res.register_advance()
+			self.advance()
+			expression = res.register(self.expr())
+			if res.error: return res
+			else_case = expression
+		return res.success(IfNode(cases, else_case))
+
 	def bin_op(self, func_a, ops, func_b=None):
 		if func_b is None:
 			func_b = func_a
