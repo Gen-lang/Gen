@@ -5,7 +5,7 @@ from src.position import Position
 
 # for checking if a character is a digit or not
 DIGITS = "0123456789"
-LETTERS = string.ascii_letters
+LETTERS = string.ascii_letters + ":"
 LETTERS_AND_DIGITS = DIGITS + LETTERS
 
 class Lexer:
