@@ -201,3 +201,32 @@ class Evaluator:
 
 		return res.failure(err)	if err is not None else res.success(num.set_position(node.pos_start, node.pos_end))
 
+	def visit_ForNode(self, node, context):
+		res = RuntimeResult()
+		start_value = res.register(self.visit(node.start_value_node, context))
+		if res.error: return res
+		end_value = res.register(self.visit(node.end_value_node, context))
+		if res.error: return res
+		if node.step_value_node:
+			step_value = res.register(self.visit(node.step_value_node, context))
+			if res.error: return res
+		else:
+			step_value = Number(1)
+		sv = start_value.value
+		condition = lambda: sv < end_value.value if step_value.value >= 0 else lambda: sv > end_value.value
+		while condition():
+			context.symbol_table.set(node.var_name_token.value, Number(sv))
+			sv += step_value.value
+			res.register(self.visit(node.body_node, context))
+			if res.error: return res
+		return res.success(None)
+	
+	def visit_WhileNode(self, node, context):
+		res = RuntimeResult()
+		while True:
+			condition = res.register(self.visit(node.condition_node, context))
+			if res.error: return res
+			if condition.is_true() is False: break
+			res.register(self.visit(node.body_node, context))
+			if res.error: return res
+		return res.success(None)
