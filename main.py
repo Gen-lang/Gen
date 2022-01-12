@@ -32,8 +32,10 @@ def main():
 	while True:
 		t = input("gen>> ")
 		result, err = run("<stdin>", t)
-		if err is not None: print(err.as_string)
-		else: print(result)
+		if err is not None:
+			print(err.as_string)
+		elif result:
+			print(result)
 
 if __name__ == "__main__":
 	main()
