@@ -40,6 +40,8 @@ gen>> var a = 10
 10
 gen>> var b = a
 10
+gen>> 1 + (var c = 9)
+10
 ```
 #### Logical Operators
 Just like any other language.
