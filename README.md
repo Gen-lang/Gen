@@ -10,9 +10,9 @@ Gen is supposed to be a general-purpose programming language.
 ### TODO List
  - [x] Basic arithmetic
  - [x] Variables
- - [ ] If statement (logical operators)
+ - [x] If statement (logical operators)
  - [ ] String
- - [ ] For and while statements
+ - [x] For and while statements
  - [ ] Functions
 
 ### Installation
