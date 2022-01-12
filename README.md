@@ -35,19 +35,57 @@ pygen
 #### Variables
 Variable assignment is very simple.
 ```
-var a = 1
-var b = 9
-
-1 + (var c = 10)
->>> 11
+gen>> var a = 10
+10
+gen>> var b = a
+10
 ```
 #### Logical Operators
+Just like any other language.
 ```
-1 > 0
->>> 1
+gen>> 1 > 10
+0
+gen>> 1 < 10 
+1
+gen>> 2 <= 3
+1
+gen>> 2 >= 3
+0
+gen>> 2 == 3
+0
+gen>> 2 == 2
+1
+gen>> 2 != 4
+1
+```
 
-1 >= 4
->>> 0
+### If statement
+It's simple.
+```
+gen>> var age = 18
+18
+gen>> if age >= 18: 1 else 0
+1
+```
+
+### For loop
+Maybe a bit wordy.
+```
+gen>> var a = 0
+0
+gen>> for b = 0 through 10 step 2: var a = a + b
+gen>> a
+20
+```
+
+### While loop
+It's quite similar to Python.
+```
+gen>> var a = 0
+0
+gen>> while a <= 10: var a = a + 1
+gen>> a 
+11
 ```
 
 ### Contributing
