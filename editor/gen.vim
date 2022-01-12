@@ -4,7 +4,7 @@
 " Usage Instructions
 " Put this file to ~/.vim/syntax directory:
 "	(if you are on Mac) cp editor/gen.vim ~/.vim/syntax/
-" And add the following line to your .vimrc: 
+" And add the following line to your ~/.vimrc: 
 " autocmd BufRead,BufNewFile *.gen set filetype=gen
 
 if exists("b:current_syntax")
