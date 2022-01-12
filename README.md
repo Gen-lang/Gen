@@ -24,7 +24,7 @@ Then you can run the main file:
 ```
 python3 main.py
 ```
-Or you can use `pyinstaller` to convert main.py to an executable:
+Or you can use [`pyinstaller`](https://github.com/pyinstaller/pyinstaller) to convert main.py to an executable:
 ```
 pip3 install pyinstaller
 pyinstaller main.py --onefile
