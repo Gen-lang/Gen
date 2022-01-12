@@ -213,7 +213,10 @@ class Evaluator:
 		else:
 			step_value = Number(1)
 		sv = start_value.value
-		condition = lambda: sv < end_value.value if step_value.value >= 0 else lambda: sv > end_value.value
+		if step_value.value >= 0:
+			condition = lambda: sv < end_value.value
+		else:
+			condition = lambda: sv > end_value.value
 		while condition():
 			context.symbol_table.set(node.var_name_token.value, Number(sv))
 			sv += step_value.value
