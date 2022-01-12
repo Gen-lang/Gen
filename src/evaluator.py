@@ -95,6 +95,9 @@ class Number:
 	def notted(self):
 		return Number(1 if self.value == 0 else 0).set_context(self.context), None
 	
+	def is_true(self):
+		return self.value != 0
+	
 	def copy(self):
 		copy = Number(self.value)
 		copy.set_position(self.pos_start, self.pos_end)
@@ -131,6 +134,21 @@ class Evaluator:
 		if res.error: return res
 		context.symbol_table.set(var_name, value)
 		return res.success(value)
+	
+	def visit_IfNode(self, node, context):
+		res = RuntimeResult()
+		for condition, expression in node.cases:
+			condition_value = res.register(self.visit(condition, context))
+			if res.error: return res
+			if condition_value.is_true():
+				expr_value = res.register(self.visit(expression, context))
+				if res.error: return res
+				return res.success(expr_value)
+		if node.else_case is not None:
+			else_value = res.register(self.visit(node.else_case, context))
+			if res.error: return res
+			return res.success(else_value)
+		return res.success(None)
 
 	def visit_NumberNode(self, node, context):
 		return RuntimeResult().success(Number(node.token.value).set_context(context).set_position(node.pos_start, node.pos_end))
