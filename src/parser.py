@@ -189,7 +189,7 @@ class Parser:
 			if res.error: return res
 		else:
 			step_value = None
-		if self.current_token.matches(tk.TT_KEYWORD, ":"):
+		if self.current_token.matches(tk.TT_KEYWORD, ":") is False:
 			return res.failure(InvalidSyntaxError(
 				self.current_token.pos_start, self.current_token.pos_end, "Expected ':'"
 			))
@@ -198,6 +198,26 @@ class Parser:
 		body = res.register(self.expr())
 		if res.error: return res
 		return res.success(ForNode(var_name, start_value, end_value, step_value, body))
+	
+	def while_expr(self):
+		res = ParseResult()
+		if self.current_token.matches(tk.TT_KEYWORD, "while") is False:
+			return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected 'while'"
+			))
+		res.register_advance()
+		self.advance()
+		condition = res.register(self.expr())
+		if res.erorr: return res
+		if self.current_token.matches(tk.TT_KEYWORD, ":") is False:
+			return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected ':'"
+			))
+		res.register_advance()
+		self.advance()
+		body = res.register(self.expr())
+		if res.error: return res
+		return res.success(WhileNode(condition, body))
 
 	def bin_op(self, func_a, ops, func_b=None):
 		if func_b is None:
