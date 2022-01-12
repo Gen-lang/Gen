@@ -24,6 +24,16 @@ Then you can run the main file:
 ```
 python3 main.py
 ```
+Or you can use `pyinstaller` to convert main.py to an executable:
+```
+pip3 install pyinstaller
+pyinstaller main.py --onefile
+ln ./dist/main /usr/local/bin/pygen
+```
+Then you can use pygen:
+```
+pygen
+```
 
 ### Syntax
 *Note:* **Currently Gen only supports integers and floats**
