@@ -23,7 +23,11 @@ KEYWORDS = [
 	"var",
 	"or",
 	"and",
-	"not"
+	"not",
+	"if",
+	"elseif",
+	"then",
+	"else"
 ]
 
 class Token:
