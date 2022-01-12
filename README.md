@@ -15,8 +15,18 @@ Gen is supposed to be a general-purpose programming language.
  - [ ] For and while statements
  - [ ] Functions
 
+### Installation
+```
+git clone https://github.com/Gen-lang/PyGen.git
+cd PyGen
+```
+Then you can run the main file:
+```
+python3 main.py
+```
+
 ### Syntax
-*Note:* **Currently Gen only supports integer and floats**
+*Note:* **Currently Gen only supports integers and floats**
 
 #### Variables
 Variable assignment is very simple.
