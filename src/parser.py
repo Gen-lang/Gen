@@ -44,6 +44,14 @@ class Parser:
 			if_expression = res.register(self.if_expr())
 			if res.error: return res
 			return res.success(if_expression)
+		elif token.matches(tk.TT_KEYWORD, "for"):
+			for_expression = res.register(self.for_expr())
+			if res.error: return res
+			return res.success(for_expression)
+		elif token.matches(tk.TT_KEYWORD, "while"):
+			while_expression = res.register(self.while_expr())
+			if res.error: return res
+			return res.success(while_expression)
 		else:
 			return res.failure(InvalidSyntaxError(
 				token.pos_start, token.pos_end, "Expected an INT, FLOAT, identifier, +, -, or '('"
@@ -142,6 +150,54 @@ class Parser:
 			if res.error: return res
 			else_case = expression
 		return res.success(IfNode(cases, else_case))
+	
+	def for_expr(self):
+		res = ParseResult()
+		if self.current_token(tk.TT_KEYWORD, "for") is False:
+			return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected 'for'"
+			))
+		res.register_advance()
+		self.advance()
+		if self.current_token.type != tk.TT_IDENTIFIER:
+			return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected an identifier"
+			))
+		var_name = self.current_token
+		res.register_advance()
+		self.advance()
+		if self.current_token.type != tk.TT_EQUALS:
+			return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected '='"
+			))
+		res.register_advance()
+		self.advance()
+		start_value = res.register(self.expr())
+		if res.error: return res
+		if self.current_token.matches(tk.TT_KEYWORD, "through") is False:
+			return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected 'through'"
+			))
+		res.register_advance()
+		self.advance()
+		end_value = res.register(self.expr())
+		if res.error: return res
+		if self.current_token.matches(tk.TT_KEYWORD, "step"):
+			res.register_advance()
+			self.advance()
+			step_value = res.register(self.expr())
+			if res.error: return res
+		else:
+			step_value = None
+		if self.current_token.matches(tk.TT_KEYWORD, ":"):
+			return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected ':'"
+			))
+		res.register_advance()
+		self.advance()
+		body = res.register(self.expr())
+		if res.error: return res
+		return res.success(ForNode(var_name, start_value, end_value, step_value, body))
 
 	def bin_op(self, func_a, ops, func_b=None):
 		if func_b is None:
