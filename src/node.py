@@ -66,3 +66,10 @@ class ForNode:
 		self.pos_end = self.body_node.pos_end
 
 
+class WhileNode:
+	def __init__(self, condition, body_node):
+		self.condition = condition
+		self.body_node = body_node
+		self.pos_start = self.condition.pos_start
+		self.pos_end = self.body_node.pos_end
+
