@@ -5,7 +5,7 @@
 
 **WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING CAN CHANGE AT ANY MOMENT.**
 
-Gen is supposed to be a general-purpose programming language.
+Gen is supposed to be a general-purpose programming language. And almost everything (while to if) can be written in just one line.
 
 ### TODO List
  - [x] Basic arithmetic
