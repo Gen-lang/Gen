@@ -208,7 +208,7 @@ class Parser:
 		res.register_advance()
 		self.advance()
 		condition = res.register(self.expr())
-		if res.erorr: return res
+		if res.error: return res
 		if self.current_token.matches(tk.TT_KEYWORD, ":") is False:
 			return res.failure(InvalidSyntaxError(
 				self.current_token.pos_start, self.current_token.pos_end, "Expected ':'"
