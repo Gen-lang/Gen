@@ -153,7 +153,7 @@ class Parser:
 	
 	def for_expr(self):
 		res = ParseResult()
-		if self.current_token(tk.TT_KEYWORD, "for") is False:
+		if self.current_token.matches(tk.TT_KEYWORD, "for") is False:
 			return res.failure(InvalidSyntaxError(
 				self.current_token.pos_start, self.current_token.pos_end, "Expected 'for'"
 			))
