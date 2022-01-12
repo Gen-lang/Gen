@@ -20,15 +20,9 @@ Gen is supposed to be a general-purpose programming language.
 git clone https://github.com/Gen-lang/PyGen.git
 cd PyGen
 ```
-Then you can run the main file:
+Then you can run Makefile:
 ```
-python3 main.py
-```
-Or you can use [`pyinstaller`](https://github.com/pyinstaller/pyinstaller) to convert main.py to an executable:
-```
-pip3 install pyinstaller
-pyinstaller main.py --onefile
-ln ./dist/main /usr/local/bin/pygen
+make install
 ```
 Then you can use pygen:
 ```
