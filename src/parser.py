@@ -29,6 +29,10 @@ class Parser:
 			res.register_advance()
 			self.advance()
 			return res.success(NumberNode(token))
+		elif token.type == tk.TT_STRING:
+			res.register_advance()
+			self.advance()
+			return res.success(StringNode(token))
 		elif token.type == tk.TT_IDENTIFIER:
 			res.register_advance()
 			self.advance()
