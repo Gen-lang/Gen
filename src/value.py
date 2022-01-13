@@ -1,4 +1,7 @@
 from error import RuntimeError
+from evaluator import RuntimeResult, Evaluator
+from context import Context
+from symbol_table import SymbolTable
 
 class Value:
 	def __init__(self, value):
@@ -175,3 +178,44 @@ class Number(Value):
 		copy.set_context(self.context)
 		return copy
 
+
+class Function(Value):
+	def __init__(self, name, body_node, arg_names):
+		super().__init__()
+		self.name = name if name is not None else "<unnamed>"
+		self.body_node = body_node
+		self.arg_names = arg_names
+	
+	def execute_func(self, args):
+		res = RuntimeResult()
+		evaluator = Evaluator()
+		new_context = Context(self.name, self.context, self.pos_start)
+		new_context.symbol_table = SymbolTable(new_context.parent.symbol.table)
+		# check the number of args are correct or not
+		if len(args) > len(self.arg_names):
+			return res.failure(RuntimeError(
+				self.pos_start, self.pos_end, f"Too many arguments are passed to {self.name}", self.context
+			))
+		elif len(args) < len(self.arg_names):
+			return res.failure(RuntimeError(
+				self.pos_start, self.pos_end, f"Too few arguments are passed to {self.name}", self.context
+			))
+		else:
+			for i in range(len(args)):
+				arg_name = self.arg_names[i]
+				arg_value = args[i]
+				arg_value.set_context(new_context)
+				new_context.symbol_table.set(arg_name, arg_value)
+			value = res.register(evaluator.visit(self.body_node, new_context))
+			if res.error: return res
+			return res.success(value)
+		
+	def copy(self):
+		copy = Function(self.name, self.body_node, self.arg_names)
+		copy.set_position(self.pos_start, self.pos_end)
+		copy.set_context(self.context)
+		return copy
+	
+	def __repr__(self):
+		return f"<func {self.name}>"
+		
