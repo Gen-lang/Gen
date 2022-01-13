@@ -91,12 +91,23 @@ class Lexer:
 
 	def make_string(self):
 		pos_start = self.position.copy()
-		escape_character = None
+		escape_character = False
 		string_to_return = ""
 		self.advance()
-		while self.current_char != None and self.current_char != "\"":
-			string_to_return += self.current_char
+		while self.current_char != None and (self.current_char != "\"" or escape_character is not False):
+			if escape_character is True:
+				if self.current_char == "n": # new line
+					string_to_return += "\n"
+				elif self.current_char == "t": # tab
+					string_to_return += "\t"
+				else:
+					string_to_return += self.current_char
+			if self.current_char == "\\":
+				escape_character = True
+			else:
+				string_to_return += self.current_char
 			self.advance()
+			escape_character = False
 		self.advance()
 		return tk.Token(tk.TT_STRING, string_to_return, pos_start, self.position)
 	
