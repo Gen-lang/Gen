@@ -78,7 +78,8 @@ class Value:
 
 class Number(Value):
 	def __init__(self, value):
-		super().__init__(value)
+		super().__init__()
+		self.value = value
 	
 	def added_to(self, other):
 		# This language will have strings and arrays, so check
