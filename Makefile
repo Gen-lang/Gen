@@ -3,6 +3,9 @@
 
 install:
 ifeq ($(OS),Windows_NT)
+# I'm not using Windows, so I don't know
+# Windows commands to achieve the same thing for Linux-based systems.
+# Need help here!!
 	@echo "Currently, Windows is not supported."
 else
 	@pip install pyinstaller
