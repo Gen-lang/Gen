@@ -58,7 +58,6 @@ gen>> a
 
 ### 関数
 関数には、defuncを使ってください（def + func)
-
 ```
 gen>> defunc a(b) -> b * 4
 <func a>
@@ -68,4 +67,8 @@ gen>> test_func = defunc (a, b, c) -> a + b + c
 <func <unnamed>>
 gen>> test_func(1,2,3)
 6
+gen>> defunc greet(name) -> "Hello " + name
+<func greet>
+gen>> greet("bichanna")
+Hello bichanna
 ```
