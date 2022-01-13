@@ -61,7 +61,7 @@ gen>> a
 ```
 
 ### Function
-It's a bit unique with the keyword 'defunc.'
+It's a bit unique with the keyword 'defunc.' (def + func)
 ```
 gen>> defunc a(b) -> b * 4
 <func a>
