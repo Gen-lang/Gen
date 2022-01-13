@@ -4,8 +4,7 @@ from src.context import Context
 from src.symbol_table import SymbolTable
 
 class Value:
-	def __init__(self, value):
-		self.value = value
+	def __init__(self):
 		self.set_position()
 		self.set_context()
 
