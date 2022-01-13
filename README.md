@@ -36,7 +36,7 @@ pygen
 
 *Note:* **Currently Gen only supports integers and floats**
 
-See the [documentation](https://github.com/Gen-lang/PyGen/tree/master/doc/doc_en.md)
+See the [documentation](https://github.com/Gen-lang/PyGen/tree/master/doc/doc_en.md)<br>
 日本語は[こっち](https://github.com/Gen-lang/PyGen/tree/master/doc/doc_jp.md)です
 
 ### Contributing
