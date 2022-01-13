@@ -155,3 +155,17 @@ class Evaluator:
 		if node.var_name_token is not None:
 			context.symbol_table.set(func_name, func_value)
 		return res.success(func_value)
+
+	def visit_CallNode(self, node, context):
+		res = RuntimeResult()
+		args = []
+		called_value = res.register(self.visit(node.node_to_call, context))
+		if res.error: return res
+		called_value = called_value.copy().set_position(node.pos_start, node.pos_end)
+		for argnode in node.arg_nodes:
+			args.append(res.register(self.visit(argnode, context)))
+			if res.register: return res
+		
+		return_value = res.register(called_value.execute_func(args))
+		if res.error: return res
+		return res.success(return_value)
