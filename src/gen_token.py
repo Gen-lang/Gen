@@ -20,7 +20,6 @@ TT_GTEQUALS		= "GT_EQUALS" # >=
 TT_EOF			= "EOF" # End Of File
 
 KEYWORDS = [
-	"var",
 	"or",
 	"and",
 	"not",

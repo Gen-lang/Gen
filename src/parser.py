@@ -14,6 +14,12 @@ class Parser:
 		if self.token_index < len(self.tokens):
 			self.current_token = self.tokens[self.token_index]
 		return self.current_token
+	
+	def deadvance(self):
+		self.token_index -= 1
+		if self.token_index >= 0:
+			self.current_token = self.tokens[self.token_index]
+		return self.current_token
 
 	def atom(self):
 		res = ParseResult()
@@ -78,26 +84,20 @@ class Parser:
 	
 	def expr(self):
 		res = ParseResult()
-		# checking for a variable assignment
-		if self.current_token.matches(tk.TT_KEYWORD, "var"):
-			res.register_advance()
-			self.advance()
-			if self.current_token.type != tk.TT_IDENTIFIER:
-				return res.failure(InvalidSyntaxError(
-					self.current_token.pos_start, self.current_token.pos_end, "Expected an identifier"
-				))
+		# checking variable assignment
+		if self.current_token.type == tk.TT_IDENTIFIER:
 			var_name = self.current_token
 			res.register_advance()
 			self.advance()
-			if self.current_token.type != tk.TT_EQUALS:
-				return res.failure(InvalidSyntaxError(
-					self.current_token.pos_start, self.current_token.pos_end, "Expected an '='"
-				))
-			res.register_advance()
-			self.advance()
-			expression = res.register(self.expr())
-			if res.error: return res
-			return res.success(VarAssignNode(var_name, expression))
+			if self.current_token.type == tk.TT_EQUALS:
+				res.register_advance()
+				self.advance()
+				expression = res.register(self.expr())
+				if res.error: return res
+				return res.success(VarAssignNode(var_name, expression))
+			else:
+				res.deregister_advance()
+				self.deadvance()
 
 		node = res.register(self.bin_op(self.comp_expr, ((tk.TT_KEYWORD, "and"), (tk.TT_KEYWORD, "or"))))
 		if res.error:
@@ -271,6 +271,9 @@ class ParseResult:
 
 	def register_advance(self):
 		self.count_advanced += 1
+	
+	def deregister_advance(self):
+		self.count_advanced -= 1
 	
 	def register(self, result):
 		self.count_advanced += result.count_advanced
