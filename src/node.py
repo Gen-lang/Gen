@@ -8,6 +8,16 @@ class NumberNode:
 		return f"{self.token}"
 
 
+class StringNode:
+	def __init__(self, token):
+		self.token = token
+		self.pos_start = self.token.pos_start
+		self.pos_end = self.token.pos_end
+	
+	def __repr__(self):
+		return str(self.token)
+
+
 class BinOpNode:
 	def __init__(self, left_node, op_token, right_node):
 		self.left_node = left_node
