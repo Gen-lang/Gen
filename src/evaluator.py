@@ -145,3 +145,13 @@ class Evaluator:
 			res.register(self.visit(node.body_node, context))
 			if res.error: return res
 		return res.success(None)
+	
+	def visit_FuncDefNode(self, node, context):
+		res = RuntimeResult()
+		func_name = node.var_name_token.value
+		body_node = node.body_node
+		arg_names = [arg.value for arg in node.arg_name_tokens]
+		func_value = Function(func_name, body_node, arg_names).set_context(context).set_position(node.pos_start, node.pos_end)
+		if node.var_name_token is not None:
+			context.symbol_table.set(func_name, func_value)
+		return res.success(func_value)
