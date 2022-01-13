@@ -100,15 +100,9 @@ class Lexer:
 		token_type = tk.TT_MINUS
 		pos_start = self.position.copy()
 		self.advance()
-		if self.current_char == "-":
+		if self.current_char == ">":
+			token_type = tk.TT_ARROW
 			self.advance()
-			if self.current_char == ">":
-				self.advance()
-				token_type = tk.TT_ARROW
-			else:
-				return None, InvalidSyntaxError(
-					pos_start, self.position, "Expected '>' after '-'"
-				)
 		return tk.Token(token_type, pos_start=pos_start, pos_end=self.position)
 
 	
