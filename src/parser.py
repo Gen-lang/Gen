@@ -64,7 +64,7 @@ class Parser:
 			return res.success(defunc)
 		else:
 			return res.failure(InvalidSyntaxError(
-				token.pos_start, token.pos_end, "Expected an INT, FLOAT, identifier, +, -, or '('"
+				token.pos_start, token.pos_end, "Expected an INT, FLOAT, identifier, +, -, '(', 'if', 'for', 'while', or 'defunc'"
 			))
 
 	def power(self):
@@ -106,7 +106,7 @@ class Parser:
 		node = res.register(self.bin_op(self.comp_expr, ((tk.TT_KEYWORD, "and"), (tk.TT_KEYWORD, "or"))))
 		if res.error:
 			return res.failure(InvalidSyntaxError(
-				self.current_token.pos_start, self.current_token.pos_end, "Expected int, float, identifier, +, -, or '('"
+				self.current_token.pos_start, self.current_token.pos_end, "Expected int, float, identifier, +, -, '(', 'if', 'for', 'while', or 'defunc'"
 			))
 		return res.success(node)
 	
