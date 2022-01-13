@@ -5,7 +5,7 @@
 
 **WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING CAN CHANGE AT ANY MOMENT.**
 
-Gen is supposed to be a general-purpose programming language. And almost everything (while to if) can be written in just one line. And it is pretty wordy, so it's also easy to learn.
+Gen is supposed to be a general-purpose programming language. And almost everything (while to if) can be written in just one line. But it is pretty wordy, so it's also easy to learn.
 
 
 *Note:* I created this PyGen repo initially to see how this language would look and feel as soon as possible, so I will rewrite the Gen interpreter in C++, Java, or, Perl in another Github repo in the future.
