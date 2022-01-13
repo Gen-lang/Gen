@@ -118,9 +118,9 @@ class Parser:
 		self.advance()
 		condition = res.register(self.expr())
 		if res.error: return res
-		if self.current_token.matches(tk.TT_KEYWORD, ":") is False:
+		if self.current_token.matches(tk.TT_KEYWORD, "then") is False:
 			return res.failure(InvalidSyntaxError(
-				self.current_token.pos_start, self.current_token.pos_end, "Expected ':'"
+				self.current_token.pos_start, self.current_token.pos_end, "Expected 'then'"
 			))
 		res.register_advance()
 		self.advance()
@@ -133,9 +133,9 @@ class Parser:
 			self.advance()
 			condition = res.register(self.expr())
 			if res.error: return res
-			if self.current_token.matches(tk.TT_KEYWORD, ":") is False:
+			if self.current_token.matches(tk.TT_KEYWORD, "then") is False:
 				return res.failure(InvalidSyntaxError(
-					self.current_token.pos_start, self.current_token.pos_end, "Expected ':'"
+					self.current_token.pos_start, self.current_token.pos_end, "Expected 'then'"
 				))
 			res.register_advance()
 			self.advance()
@@ -189,9 +189,9 @@ class Parser:
 			if res.error: return res
 		else:
 			step_value = None
-		if self.current_token.matches(tk.TT_KEYWORD, ":") is False:
+		if self.current_token.matches(tk.TT_KEYWORD, "then") is False:
 			return res.failure(InvalidSyntaxError(
-				self.current_token.pos_start, self.current_token.pos_end, "Expected ':'"
+				self.current_token.pos_start, self.current_token.pos_end, "Expected 'then'"
 			))
 		res.register_advance()
 		self.advance()
@@ -209,9 +209,9 @@ class Parser:
 		self.advance()
 		condition = res.register(self.expr())
 		if res.error: return res
-		if self.current_token.matches(tk.TT_KEYWORD, ":") is False:
+		if self.current_token.matches(tk.TT_KEYWORD, "then") is False:
 			return res.failure(InvalidSyntaxError(
-				self.current_token.pos_start, self.current_token.pos_end, "Expected ':'"
+				self.current_token.pos_start, self.current_token.pos_end, "Expected 'then'"
 			))
 		res.register_advance()
 		self.advance()

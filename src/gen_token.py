@@ -26,7 +26,7 @@ KEYWORDS = [
 	"not",
 	"if",
 	"elseif",
-	":",
+	"then",
 	"else",
 	"for",
 	"through",
