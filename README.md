@@ -15,7 +15,7 @@ Gen is supposed to be a general-purpose programming language. And almost everyth
  - [x] Basic arithmetic
  - [x] Variables
  - [x] If statement (logical operators)
- - [ ] String
+ - [x] String
  - [x] For and while statements
  - [x] Functions
  - [ ] Reading files with extention .gen
