@@ -194,6 +194,9 @@ class String(Value):
 		else:
 			return None, Value.invalid_operation(self.pos_start, other.pos_end)
 	
+	def is_true(self):
+		return len(self.value) > 0
+	
 	def copy(self):
 		copy = String(self.value)
 		copy.set_position(self.pos_start, self.pos_end)
