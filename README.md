@@ -99,5 +99,4 @@ gen>> a
 Contributions are welcome!
 
 ### Credits
-I learned a lot from this [series](https://ruslanspivak.com/lsbasi-part1/)
-
+I learned a lot from this [series](https://ruslanspivak.com/lsbasi-part1/) and [T# programming language](https://github.com/Tsharp-lang/Tsharp).
