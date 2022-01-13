@@ -190,7 +190,7 @@ class Function(Value):
 		res = RuntimeResult()
 		evaluator = Evaluator()
 		new_context = Context(self.name, self.context, self.pos_start)
-		new_context.symbol_table = SymbolTable(new_context.parent.symbol.table)
+		new_context.symbol_table = SymbolTable(new_context.parent.symbol_table)
 		# check the number of args are correct or not
 		if len(args) > len(self.arg_names):
 			return res.failure(RuntimeError(
@@ -384,7 +384,7 @@ class Evaluator:
 		called_value = called_value.copy().set_position(node.pos_start, node.pos_end)
 		for argnode in node.arg_nodes:
 			args.append(res.register(self.visit(argnode, context)))
-			if res.register: return res
+			if res.error: return res
 		
 		return_value = res.register(called_value.execute_func(args))
 		if res.error: return res
