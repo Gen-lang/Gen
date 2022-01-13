@@ -5,7 +5,11 @@
 
 **WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING CAN CHANGE AT ANY MOMENT.**
 
-Gen is supposed to be a general-purpose programming language. And almost everything (while to if) can be written in just one line.
+Gen is supposed to be a general-purpose programming language. And almost everything (while to if) can be written in just one line. But it is pretty wordy, so it's also easy to learn.
+
+
+*Note:* I created this PyGen repo initially to see how this language would look and feel as soon as possible (I'm better at Python than C++), so I will rewrite the Gen interpreter in C++ in another Github repo in the future.
+
 
 ### TODO List
  - [x] Basic arithmetic
