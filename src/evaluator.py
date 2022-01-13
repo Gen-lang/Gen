@@ -1,5 +1,5 @@
 import src.gen_token as tk
-from src.value import *
+import src.value as value
 
 class RuntimeResult:
 	def __init__(self):
@@ -62,7 +62,7 @@ class Evaluator:
 		return res.success(None)
 
 	def visit_NumberNode(self, node, context):
-		return RuntimeResult().success(Number(node.token.value).set_context(context).set_position(node.pos_start, node.pos_end))
+		return RuntimeResult().success(value.Number(node.token.value).set_context(context).set_position(node.pos_start, node.pos_end))
 	
 	def visit_BinOpNode(self, node, context):
 		res = RuntimeResult()
@@ -106,7 +106,7 @@ class Evaluator:
 		if res.error: return res
 		err = None
 		if node.op_token.type == tk.TT_MINUS:
-			num, err = num.multiplied_by(Number(-1))
+			num, err = num.multiplied_by(value.Number(-1))
 		elif node.op_token.matches(tk.TT_KEYWORD, "not"):
 			num, err = num.notted()
 
@@ -122,14 +122,14 @@ class Evaluator:
 			step_value = res.register(self.visit(node.step_value_node, context))
 			if res.error: return res
 		else:
-			step_value = Number(1)
+			step_value = value.Number(1)
 		sv = start_value.value
 		if step_value.value >= 0:
 			condition = lambda: sv < end_value.value
 		else:
 			condition = lambda: sv > end_value.value
 		while condition():
-			context.symbol_table.set(node.var_name_token.value, Number(sv))
+			context.symbol_table.set(node.var_name_token.value, value.Number(sv))
 			sv += step_value.value
 			res.register(self.visit(node.body_node, context))
 			if res.error: return res
@@ -170,4 +170,4 @@ class Evaluator:
 		return res.success(return_value)
 	
 	def visit_StringNode(self, node, context):
-		return RuntimeResult().success(String(node.token.value).set_context(context).set_position(node.pos_start, node.pos_end))
+		return RuntimeResult().success(value.String(node.token.value).set_context(context).set_position(node.pos_start, node.pos_end))
