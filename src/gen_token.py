@@ -1,6 +1,7 @@
 
 TT_INT	 		= "INT" # int
 TT_FLOAT 		= "FLOAT" # float
+TT_STRING		= "STRING" # string
 TT_PLUS			= "PLUS" # plus
 TT_MINUS		= "MINUS" # minus
 TT_MULT			= "MULT" # multiplication
