@@ -38,17 +38,17 @@ pygen
 *Note:* **Currently Gen only supports integers and floats**
 
 #### Variables
-Variable assignment is very simple.
+Variable assignment is just like Python
 ```
-gen>> var a = 10
+gen>> a = 10
 10
-gen>> var b = a
+gen>> b = a
 10
-gen>> 1 + (var c = 9)
+gen>> 1 + (c = 9)
 10
 ```
 #### Logical Operators
-Just like any other language.
+Just like any other languages.
 ```
 gen>> 1 > 10
 0
@@ -78,9 +78,9 @@ gen>> if age >= 18: 1 else 0
 ### For loop
 Maybe a bit wordy.
 ```
-gen>> var a = 0
+gen>> a = 0
 0
-gen>> for b = 0 through 10 step 2: var a = a + b
+gen>> for b = 0 through 10 step 2 then a = a + b
 gen>> a
 20
 ```
@@ -88,9 +88,9 @@ gen>> a
 ### While loop
 It's quite similar to Python.
 ```
-gen>> var a = 0
+gen>> a = 0
 0
-gen>> while a <= 10: var a = a + 1
+gen>> while a <= 10 then a = a + 1
 gen>> a 
 11
 ```
