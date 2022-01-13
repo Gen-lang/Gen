@@ -58,6 +58,10 @@ class Parser:
 			while_expression = res.register(self.while_expr())
 			if res.error: return res
 			return res.success(while_expression)
+		elif token.matches(tk.TT_KEYWORD, "defunc"):
+			defunc = res.register(self.defunc())
+			if res.error: return res
+			return res.success(defunc)
 		else:
 			return res.failure(InvalidSyntaxError(
 				token.pos_start, token.pos_end, "Expected an INT, FLOAT, identifier, +, -, or '('"
@@ -252,6 +256,74 @@ class Parser:
 	
 	def arithmatic_expr(self):
 		return self.bin_op(self.term, (tk.TT_PLUS, tk.TT_MINUS))
+	
+	def defunc(self):
+		res = ParseResult()
+		if self.current_token.matches(tk.TT_KEYWORD, "defunc") is False:
+			res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected 'defunc'"
+			))
+		else:
+			self.advance()
+			# get function name if possible
+			if self.current_token.type == tk.TT_IDENTIFIER:
+				func_var_name_token = self.current_token
+				self.advance()
+				# check for left paren
+				if self.current_token.type != tk.TT_L_PAREN:
+					return res.failure(InvalidSyntaxError(
+						self.current_token.pos_start, self.current_token.pos_end, "Expected '('"
+					))
+			else: # annonymous function
+				func_var_name_token = None
+				# check for left paren
+				if self.current_token.type != tk.TT_L_PAREN:
+					return res.failure(InvalidSyntaxError(
+						self.current_token.pos_start, self.current_token.pos_end, "Expected '(' or an identifier"
+					))
+			res.register_advance()
+			self.advance()
+			# get arguments if any is present
+			arg_name_tokens = []
+			if self.current_token.type == tk.TT_IDENTIFIER:
+				arg_name_tokens.append(self.current_token)
+				res.register_advance()
+				self.advance()
+				while self.current_token.type == tk.TT_COMMA:
+					res.register_advance()
+					self.advance()
+					if self.current_token.type != tk.TT_IDENTIFIER:
+						return res.failure(InvalidSyntaxError(
+							self.current_token.pos_start, self.current_token.pos_end, "Expected an identifier after ','"
+						))
+					else:
+						arg_name_tokens.append(self.current_token)
+						res.register_advance()
+						self.advance()
+				# check for right paren
+				if self.current_token.type != tk.TT_R_PAREN:
+					return res.failure(InvalidSyntaxError(
+						self.current_token.pos_start, self.current_token.pos_end, "Expected ',' or ')'"
+					))
+			else:
+				if self.current_token.type != tk.TT_R_PAREN:
+					return res.failure(InvalidSyntaxError(
+						self.current_token.pos_start, self.current_token.pos_end, "Expected ')'"
+					))
+			res.register_advance()
+			self.advance()
+			if self.current_token.type != tk.TT_ARROW:
+				return res.failure(InvalidSyntaxError(
+					self.current_token.pos_start, self.current_token.pos_end, "Expected '->'"
+				))
+			res.register_advance()
+			self.advance()
+			return_node = res.register(self.expr())
+			if res.error: return res
+			return res.success(FuncDefNode(
+				func_var_name_token, arg_name_tokens, return_node
+			))
+
 
 	
 	def parse(self):
