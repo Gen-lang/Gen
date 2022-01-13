@@ -148,7 +148,7 @@ class Evaluator:
 	
 	def visit_FuncDefNode(self, node, context):
 		res = RuntimeResult()
-		func_name = node.var_name_token.value
+		func_name = node.var_name_token.value if node.var_name_token.value is not None else None
 		body_node = node.body_node
 		arg_names = [arg.value for arg in node.arg_name_tokens]
 		func_value = Function(func_name, body_node, arg_names).set_context(context).set_position(node.pos_start, node.pos_end)
