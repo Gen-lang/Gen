@@ -28,6 +28,8 @@ class Lexer:
 				self.advance()
 			elif self.current_char in DIGITS:
 				tokens.append(self.make_number())
+			elif self.current_char == "\"": # string
+				tokens.append(self.make_string())
 			elif self.current_char == "+":
 				tokens.append(tk.Token(tk.TT_PLUS, pos_start=self.position))
 				self.advance()
@@ -86,6 +88,17 @@ class Lexer:
 			self.advance()
 		
 		return tk.Token(tk.TT_INT, int(number_str), pos_start, self.position) if dot is False else tk.Token(tk.TT_FLOAT, float(number_str), pos_start, self.position)
+
+	def make_string(self):
+		pos_start = self.position.copy()
+		escape_character = None
+		string_to_return = ""
+		self.advance()
+		while self.current_char != None and self.current_char != "\"":
+			string_to_return += self.current_char
+			self.advance()
+		self.advance()
+		return tk.Token(tk.TT_STRING, string_to_return, pos_start, self.position)
 	
 	def make_identifier(self):
 		string = ""
