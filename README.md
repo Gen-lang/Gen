@@ -5,10 +5,12 @@
 
 **WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING CAN CHANGE AT ANY MOMENT.**
 
-Gen is supposed to be a general-purpose programming language. And almost everything (while to if) can be written in just one line. But it is pretty wordy, so it's also easy to learn.
+Gen is a procedural programming language.
+
+Almost everything (for, if, and more) can be written in just one line. But it is pretty wordy, so it's also easy to learn.
 
 
-*Note:* I created this PyGen repo initially to see how this language would look and feel as soon as possible, so I will rewrite the Gen interpreter in Swift, C++, Java, or, Perl in another Github repo in the future.
+*Note:* I created the pygen directory initially to see how this language would look and feel as soon as possible, so I will rewrite the Gen interpreter in Swift, C++, or, Perl in another directory in the future.
 
 
 ### TODO List
