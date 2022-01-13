@@ -32,8 +32,7 @@ class Lexer:
 				tokens.append(tk.Token(tk.TT_PLUS, pos_start=self.position))
 				self.advance()
 			elif self.current_char == "-":
-				tokens.append(tk.Token(tk.TT_MINUS, pos_start=self.position))
-				self.advance()
+				tokens.append(self.make_minus_or_arrow())
 			elif self.current_char == "*":
 				tokens.append(tk.Token(tk.TT_MULT, pos_start=self.position))
 				self.advance()
@@ -48,6 +47,9 @@ class Lexer:
 				self.advance()
 			elif self.current_char == ")":
 				tokens.append(tk.Token(tk.TT_R_PAREN, pos_start=self.position))
+				self.advance()
+			elif self.current_char == ",":
+				tokens.append(tk.Token(tk.TT_COMMA, pos_start=self.position))
 				self.advance()
 			elif self.current_char == "!":
 				token, error = self.make_not_equals()
@@ -93,6 +95,22 @@ class Lexer:
 			self.advance()
 		token_type = tk.TT_KEYWORD if string in tk.KEYWORDS else tk.TT_IDENTIFIER
 		return tk.Token(token_type, string, pos_start, self.position)
+	
+	def make_minus_or_arrow(self):
+		token_type = tk.TT_MINUS
+		pos_start = self.position.copy()
+		self.advance()
+		if self.current_char == "-":
+			self.advance()
+			if self.current_char == ">":
+				self.advance()
+				token_type = tk.TT_ARROW
+			else:
+				return None, InvalidSyntaxError(
+					pos_start, self.position, "Expected '>' after '-'"
+				)
+		return tk.Token(token_type, pos_start=pos_start, pos_end=self.position)
+
 	
 	def make_not_equals(self):
 		pos_start = self.position.copy()
