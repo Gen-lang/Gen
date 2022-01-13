@@ -11,7 +11,19 @@ gen>> b = a
 10
 gen>> 1 + (c = 9)
 10
+gen>> d = "Hello World"
+Hello World
 ```
+
+### String
+Use "
+```
+gen>> str = "Hello World "
+Hello World
+gen>> str * 3
+Hello World Hello World Hello World
+```
+
 ### Logical Operators
 Just like any other languages.
 ```
@@ -71,5 +83,9 @@ gen>> test_func = defunc (a, b, c) -> a + b + c
 <func <unnamed>>
 gen>> test_func(1,2,3)
 6
+gen>> defunc greet(name) -> "Hello " + name
+<func greet>
+gen>> greet("bichanna")
+Hello bichanna
 ```
 
