@@ -1,6 +1,7 @@
 from src.lexer import Lexer
 from src.parser import Parser
-from src.evaluator import Evaluator, Number
+from src.value import Number
+from src.evaluator import Evaluator
 from src.context import Context
 from src.symbol_table import SymbolTable
 
