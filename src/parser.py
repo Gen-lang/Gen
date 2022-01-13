@@ -68,7 +68,7 @@ class Parser:
 			))
 
 	def power(self):
-		return self.bin_op(self.atom, (tk.TT_POWER,), self.factor)
+		return self.bin_op(self.call, (tk.TT_POWER,), self.factor)
 	
 	def factor(self):
 		res = ParseResult()
@@ -106,7 +106,7 @@ class Parser:
 		node = res.register(self.bin_op(self.comp_expr, ((tk.TT_KEYWORD, "and"), (tk.TT_KEYWORD, "or"))))
 		if res.error:
 			return res.failure(InvalidSyntaxError(
-				self.current_token.pos_start, self.current_token.pos_end, "Expected 'var', INT, FLOAT, identifier, +, -, or '('"
+				self.current_token.pos_start, self.current_token.pos_end, "Expected int, float, identifier, +, -, or '('"
 			))
 		return res.success(node)
 	
@@ -323,7 +323,37 @@ class Parser:
 			return res.success(FuncDefNode(
 				func_var_name_token, arg_name_tokens, return_node
 			))
-
+	
+	def call(self):
+		res = ParseResult()
+		atom = res.register(self.atom())
+		if res.error: return res
+		if self.current_token.type == tk.TT_L_PAREN:
+			res.register_advance()
+			self.advance()
+			arg_nodes = []
+			if self.current_token.type == tk.TT_R_PAREN: # mearning that no arguments are passed
+				res.register_advance()
+				self.advance()
+			else:
+				arg_nodes.append(res.register(self.expr()))
+				if res.error: return res.failure(InvalidSyntaxError(
+								self.current_token.pos_start, self.current_token.pos_end, "Expected ')', 'if', 'for', 'while', 'defunc', int, float, identifier"
+							))
+				while self.current_token.type == tk.TT_COMMA:
+					res.register_advance()
+					self.advance()
+					arg_nodes.append(res.register(self.expr()))
+					if res.error: return res
+				if self.current_token.type != tk.TT_R_PAREN:
+					return res.failure(InvalidSyntaxError(
+						self.current_token.pos_start, self.current_token.pos_end, "Expected ',' or ')'"
+					))
+				else:
+					res.register_advance()
+					self.advance()
+			return res.success(CallNode(atom, arg_nodes))
+		return res.success(atom)
 
 	
 	def parse(self):
