@@ -82,8 +82,6 @@ class Number(Value):
 		self.value = value
 	
 	def added_to(self, other):
-		# This language will have strings and arrays, so check
-		# if the other is Number or not is necessary later
 		if isinstance(other, Number):
 			return Number(self.value + other.value).set_context(self.context), None
 		else:
@@ -174,6 +172,30 @@ class Number(Value):
 	
 	def copy(self):
 		copy = Number(self.value)
+		copy.set_position(self.pos_start, self.pos_end)
+		copy.set_context(self.context)
+		return copy
+
+
+class String(Value):
+	def __init__(self, value):
+		super().__init__()
+		self.value = value
+	
+	def added_to(self, other):
+		if isinstance(other, String):
+			return String(self.value + other.value).set_context(self.context), None
+		else:
+			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+	
+	def multiplied_by(self, other): # allow "a" * 8
+		if isinstance(other, Number):
+			return String(self.value * other.value).set_context(self.context), None
+		else:
+			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+	
+	def copy(self):
+		copy = String(self.value)
 		copy.set_position(self.pos_start, self.pos_end)
 		copy.set_context(self.context)
 		return copy
@@ -389,3 +411,6 @@ class Evaluator:
 		return_value = res.register(called_value.execute_func(args))
 		if res.error: return res
 		return res.success(return_value)
+	
+	def visit_StringNode(self, node, context):
+		return RuntimeResult().success(String(node.token.value).set_context(context).set_position(node.pos_start, node.pos_end))
