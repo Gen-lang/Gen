@@ -55,3 +55,17 @@ gen>> while a <= 10 then a = a + 1
 gen>> a 
 11
 ```
+
+### 関数
+関数には、defuncを使ってください（def + func)
+
+```
+gen>> defunc a(b) -> b * 4
+<func a>
+gen>> a(2)
+8
+gen>> test_func = defunc (a, b, c) -> a + b + c
+<func <unnamed>>
+gen>> test_func(1,2,3)
+6
+```
