@@ -40,7 +40,7 @@ See the [documentation](https://github.com/Gen-lang/PyGen/tree/master/doc/doc_en
 日本語は[こっち](https://github.com/Gen-lang/PyGen/tree/master/doc/doc_jp.md)です
 
 ### Contributing
-Contributions are welcome!
+Contributions are welcome! Especially, I need an assist on Makefile to make PyGen available to Windows users.
 
 ### Credits
 I learned a lot from this [series](https://ruslanspivak.com/lsbasi-part1/) and [T# programming language](https://github.com/Tsharp-lang/Tsharp).
