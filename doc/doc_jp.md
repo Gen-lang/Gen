@@ -63,11 +63,10 @@ gen>> if age >= 18 then 1 else 0
 
 ### Forループ
 ```
-gen>> a = 0
-0
-gen>> for b = 0 through 10 step 2 then a = a + b
-gen>> a
-20
+gen>> for i = 1 through 12 step 2 then 2^i
+[2, 8, 32, 128, 512, 2048]
+gen>> for i = 1 through 12 then 2^i
+[2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
 ```
 
 ### Whileループ
@@ -75,12 +74,13 @@ gen>> a
 gen>> a = 0
 0
 gen>> while a <= 10 then a = a + 1
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 gen>> a 
 11
 ```
 
 ### 関数
-関数には、defuncを使ってください（def + func)
+関数には`defunc`を使ってください（def + func)
 ```
 gen>> defunc a(b) -> b * 4
 <func a>
