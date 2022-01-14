@@ -1,4 +1,3 @@
-from pygen.src.gen_token import TT_L_SQ, TT_R_SQ
 import src.gen_token as tk
 from src.error import InvalidSyntaxError
 from src.node import *
@@ -101,7 +100,7 @@ class Parser:
 		pos_start = self.current_token.pos_start.copy()
 		res.register_advance()
 		self.advance()
-		if self.current_token.type == TT_R_SQ:
+		if self.current_token.type == tk.TT_R_SQ:
 			res.register_advance()
 			self.advance()
 		else:
