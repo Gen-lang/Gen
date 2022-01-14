@@ -35,7 +35,8 @@ def main():
 		t = input("gen>> ")
 		result, err = run("<stdin>", t)
 		if err is not None:
-			print(err.as_string)
+			print(dir(err))
+			print(err)
 		elif result:
 			print(result)
 

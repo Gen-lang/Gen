@@ -92,7 +92,7 @@ class Parser:
 		return self.power()
 
 	def term(self):
-		return self.bin_op(self.factor, (tk.TT_MULT, tk.TT_DIV))
+		return self.bin_op(self.factor, (tk.TT_MULT, tk.TT_DIV, tk.TT_AT))
 
 	def array_expr(self):
 		res = ParseResult()
@@ -394,7 +394,7 @@ class Parser:
 	
 	def parse(self):
 		result = self.expr()
-		if not result.error and self.current_token.type != tk.TT_EOF:
+		if result.error and self.current_token.type != tk.TT_EOF:
 			return result.failure(InvalidSyntaxError(
 				self.current_token.pos_start, self.current_token.pos_end, "Expected +, -, *, or /"
 			))

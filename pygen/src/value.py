@@ -56,6 +56,9 @@ class Value:
 	
 	def or_by(self, other):
 		return None, self.invalid_operation(other)
+
+	def at(self, other):
+		return None, self.invalid_operation(other)
 	
 	def notted(self):
 		return None, self.invalid_operation()
@@ -286,6 +289,7 @@ class Array(Value):
 		copy = Array(self.elements[:])
 		copy.set_position(self.pos_start, self.pos_end)
 		copy.set_context(self.context)
+		return copy
 	
 	def __repr__(self):
 		string = "[" + ', '.join([str(i) for i in self.elements]) + "]"

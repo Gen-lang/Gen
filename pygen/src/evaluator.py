@@ -75,6 +75,8 @@ class Evaluator:
 			result, err = left.added_to(right)
 		elif node.op_token.type == tk.TT_MINUS:
 			result, err = left.subtracted_by(right)
+		elif node.op_token.type == tk.TT_AT:
+			result, err = left.at(right)
 		elif node.op_token.type == tk.TT_MULT:
 			result, err = left.multiplied_by(right)
 		elif node.op_token.type == tk.TT_DIV:
