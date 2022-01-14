@@ -253,7 +253,7 @@ class Array(Value):
 	def added_to(self, other):
 		new_array = self.copy()
 		if isinstance(other, Array):
-			new_array.elements.extend(other)
+			new_array.elements.extend(other.elements)
 		else:
 			new_array.elements.append(other)
 		return new_array, None
@@ -286,4 +286,8 @@ class Array(Value):
 		copy = Array(self.elements[:])
 		copy.set_position(self.pos_start, self.pos_end)
 		copy.set_context(self.context)
+	
+	def __repr__(self):
+		string = "[" + ', '.join([str(i) for i in self.elements]) + "]"
+		return string
 	
