@@ -7,7 +7,7 @@ class Error:
 		self.error_name = error_name
 		self.details = details
 
-	def __repr__(self):
+	def __str__(self):
 		string = f"File {self.pos_start.filename}, line {self.pos_start.lnum+1}\n"
 		string += f"Gen::{self.error_name}: {self.details}"
 		string += f"\n\n" + string_with_arrows(self.pos_start.filetext, self.pos_start, self.pos_end)
@@ -28,8 +28,8 @@ class RuntimeError(Error):
 	def __init__(self, pos_start, pos_end, details, context):
 		super().__init__(pos_start, pos_end, "RuntimeError", details)
 		self.context = context
-	
-	def __repr__(self):
+
+	def __str__(self):
 		string = self.generate_traceback()
 		string += f"Gen::{self.error_name}: {self.details}"
 		string += f"\n\n" + string_with_arrows(self.pos_start.filetext, self.pos_start, self.pos_end)

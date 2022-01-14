@@ -5,6 +5,7 @@ from src.value import *
 from src.evaluator import Evaluator
 from src.context import Context
 from src.symbol_table import SymbolTable
+import src.error
 
 global_symbol_table = SymbolTable()
 global_symbol_table.set("nothing", Number(0))
@@ -35,7 +36,6 @@ def main():
 		t = input("gen>> ")
 		result, err = run("<stdin>", t)
 		if err is not None:
-			print(dir(err))
 			print(err)
 		elif result:
 			print(result)

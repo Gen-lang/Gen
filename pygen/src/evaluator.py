@@ -1,5 +1,6 @@
 import src.gen_token as tk
 import src.value as value
+from src.error import RuntimeError
 
 class RuntimeResult:
 	def __init__(self):
