@@ -135,6 +135,14 @@ class Evaluator:
 			if res.error: return res
 		return res.success(None)
 	
+	def visit_ArrayNode(self, node, context):
+		res = RuntimeResult()
+		elements = []
+		for element in node.element_nodes:
+			elements.append(res.register(self.visit(element, context)))
+			if res.error: return res
+		return res.success(value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
+	
 	def visit_WhileNode(self, node, context):
 		res = RuntimeResult()
 		while True:
