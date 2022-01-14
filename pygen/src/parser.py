@@ -168,7 +168,7 @@ class Parser:
 		if res.error: return res
 		cases.append((condition, expression))
 		
-		while self.current_token.matches(tk.TT_KEYWORD, "elif") is True:
+		while self.current_token.matches(tk.TT_KEYWORD, "elseif") is True:
 			res.register_advance()
 			self.advance()
 			condition = res.register(self.expr())
