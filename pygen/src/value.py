@@ -269,7 +269,7 @@ class Array(Value):
 				return new_array, None
 			except IndexError:
 				return None, RuntimeError(
-					other.pos_start, other.pos_end, f"Element at index {other.value} does not exist"
+					other.pos_start, other.pos_end, f"Element at index {other.value} does not exist", self.context
 				)
 		else:
 			return Value.invalid_operation(self, other)
@@ -280,7 +280,7 @@ class Array(Value):
 				return self.elements[other.value], None
 			except:
 				return None, RuntimeError(
-					other.pos_start, other.pos_end, f"Element at index {other.value} does not exist"
+					other.pos_start, other.pos_end, f"Element at index {other.value} does not exist", self.context
 				)
 		else:
 			return Value.invalid_operation(self, other)
