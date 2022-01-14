@@ -2,6 +2,8 @@
 TT_INT	 		= "INT" # int
 TT_FLOAT 		= "FLOAT" # float
 TT_STRING		= "STRING" # string
+TT_L_SQ			= "L_SQ" # [
+TT_R_SQ			= "R_SQ" # ]
 TT_PLUS			= "PLUS" # plus
 TT_MINUS		= "MINUS" # minus
 TT_MULT			= "MULT" # multiplication
