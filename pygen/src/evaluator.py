@@ -150,7 +150,7 @@ class Evaluator:
 		func_name = node.var_name_token.value if node.var_name_token is not None else None
 		body_node = node.body_node
 		arg_names = [arg.value for arg in node.arg_name_tokens]
-		func_value = Function(func_name, body_node, arg_names).set_context(context).set_position(node.pos_start, node.pos_end)
+		func_value = value.Function(func_name, body_node, arg_names).set_context(context).set_position(node.pos_start, node.pos_end)
 		if node.var_name_token is not None:
 			context.symbol_table.set(func_name, func_value)
 		return res.success(func_value)
