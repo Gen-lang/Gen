@@ -21,7 +21,7 @@ Almost everything (for, if, and more) can be written in just one line. But it is
  - [x] Variables
  - [x] If statement (logical operators)
  - [x] String
- - [ ] Array
+ - [x] Array
  - [x] For and while statements
  - [x] Functions
  - [ ] Reading files with extention .gen
