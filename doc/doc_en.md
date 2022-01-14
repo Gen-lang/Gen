@@ -63,10 +63,10 @@ gen>> 2 != 4
 ### If statement
 It's simple.
 ```
-gen>> var age = 18
+gen>> age = 18
 18
-gen>> if age >= 18 then 1 else 0
-1
+gen>> if age >= 18 then "Over 18" elseif age < 5 then "Less than 5" else "??"
+"Over 18"
 ```
 
 ### For loop
