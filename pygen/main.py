@@ -1,7 +1,7 @@
 import readline # this is necessary: DO NOT REMOVE
 from src.lexer import Lexer
 from src.parser import Parser
-from src.value import *
+from src.value import Number
 from src.evaluator import Evaluator
 from src.context import Context
 from src.symbol_table import SymbolTable
