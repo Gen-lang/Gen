@@ -188,6 +188,8 @@ class String(Value):
 	def added_to(self, other):
 		if isinstance(other, String):
 			return String(self.value + other.value).set_context(self.context), None
+		elif isinstance(other, Number):
+			return String(self.value + str(other.value)).set_context(self.context), None
 		else:
 			return None, Value.invalid_operation(self.pos_start, other.pos_end)
 	
