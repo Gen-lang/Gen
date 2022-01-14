@@ -197,6 +197,33 @@ class String(Value):
 		else:
 			return None, Value.invalid_operation(self.pos_start, other.pos_end)
 	
+	def get_comparison_equal(self, other):
+		if isinstance(other, String):
+			return Number(int(self.value == other.value)).set_context(self.context), None
+		else:
+			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+	
+	def get_comparison_not_equal(self, other):
+		if isinstance(other, String):
+			return Number(int(self.value != other.value)).set_context(self.context), None
+		else:
+			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+
+	def and_by(self, other):
+		if isinstance(other, String):
+			return Number(int(self.value and other.value)).set_context(self.context), None
+		else:
+			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+	
+	def or_by(self, other):
+		if isinstance(other, String):
+			return Number(int(self.value or other.value)).set_context(self.context), None
+		else:
+			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+	
+	def notted(self):
+		return Number(1 if self.value == 0 else 0).set_context(self.context), None
+	
 	def is_true(self):
 		return len(self.value) > 0
 	
