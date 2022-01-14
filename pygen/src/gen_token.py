@@ -23,6 +23,7 @@ TT_GTEQUALS		= "GT_EQUALS" # >=
 TT_COMMA		= "COMMA" # ,
 TT_ARROW		= "ARROW" # ->
 TT_AT			= "AT" # @
+TT_NL			= "NEWLINE" # \n
 TT_EOF			= "EOF" # End Of File
 
 KEYWORDS = [
@@ -38,6 +39,7 @@ KEYWORDS = [
 	"step",
 	"while",
 	"defunc",
+	"end"
 ]
 
 class Token:
