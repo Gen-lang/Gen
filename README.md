@@ -13,7 +13,7 @@ See the [documentation](https://github.com/Gen-lang/Gen/tree/master/doc/doc_en.m
 Almost everything (for, if, and more) can be written in just one line. But it is pretty wordy, so it's also easy to learn.
 
 
-*Note:* I created the pygen directory initially to see how this language would look and feel as soon as possible, so I will rewrite the Gen interpreter in Perl in another directory in the future.
+*Note:* I created the pygen directory initially to see how this language would look and feel as soon as possible, so I will rewrite the Gen interpreter in another directory in the future using Perl because it's good at parsing.
 
 
 ### TODO List
