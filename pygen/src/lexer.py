@@ -30,6 +30,9 @@ class Lexer:
 				tokens.append(self.make_number())
 			elif self.current_char == "\"": # string
 				tokens.append(self.make_string())
+			elif self.current_char in ";\n":
+				tokens.append(tk.Token(tk.TT_NL, pos_start=self.position))
+				self.advance()
 			elif self.current_char == "+":
 				tokens.append(tk.Token(tk.TT_PLUS, pos_start=self.position))
 				self.advance()
