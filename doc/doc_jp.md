@@ -15,17 +15,17 @@ gen>> 1 + (c = 9)
 ### 文字列
 ```
 gen>> str = "Hello World "
-Hello World
-gen>> str * 3
-Hello World Hello World Hello World
+"Hello World "
+gen>> str * 3 
+"Hello World Hello World Hello World "
 ```
 
 ### Array（配列）
 ```
 gen>> arr = ["Hello", "World", 123, 3.1415, ["me", "gen"]]
-[Hello, World, 123, 3.1415, ["me", "gen"]]
+["Hello", "World", 123, 3.1415, ["me", "gen"]]
 gen>> arr + "bichanna"
-[Hello, World, 123, 3.1415, ["me", "gen"], bichanna]
+["Hello", "World", 123, 3.1415, ["me", "gen"], "bichanna"]
 ```
 `@`を使ってください。
 ```
@@ -93,5 +93,5 @@ gen>> test_func(1,2,3)
 gen>> defunc greet(name) -> "Hello " + name
 <func greet>
 gen>> greet("bichanna")
-Hello bichanna
+"Hello bichanna"
 ```
