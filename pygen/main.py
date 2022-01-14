@@ -1,4 +1,4 @@
-import readline
+import readline # this is necessary: DO NOT REMOVE
 from src.lexer import Lexer
 from src.parser import Parser
 from src.value import *

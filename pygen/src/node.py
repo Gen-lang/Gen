@@ -18,6 +18,13 @@ class StringNode:
 		return str(self.token)
 
 
+class ArrayNode:
+	def __init__(self, elements, pos_start, pos_end):
+		self.element_nodes = elements
+		self.pos_start = pos_start
+		self.pos_end = pos_end
+
+
 class BinOpNode:
 	def __init__(self, left_node, op_token, right_node):
 		self.left_node = left_node
