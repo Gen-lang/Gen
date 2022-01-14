@@ -23,6 +23,22 @@ gen>> str * 3
 Hello World Hello World Hello World
 ```
 
+### Array
+Gen array can store any type.
+```
+gen>> arr = ["Hello", "World", 123, 3.1415, ["me", "gen"]]
+[Hello, World, 123, 3.1415, ["me", "gen"]]
+gen>> arr + "bichanna"
+[Hello, World, 123, 3.1415, ["me", "gen"], bichanna]
+```
+Use `@` to retrieve specific value from an array:
+```
+gen>> a = [1, 2, 3, 4]
+[1, 2, 3, 4]
+gen>> a@0
+1
+```
+
 ### Logical Operators
 Just like any other languages.
 ```
