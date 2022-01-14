@@ -24,6 +24,7 @@ Almost everything (for, if, and more) can be written in just one line. But it is
  - [x] Array
  - [x] For and while statements
  - [x] Functions
+ - [ ] Built-in functions
  - [ ] Reading files with extention .gen
 
 ### Installation
