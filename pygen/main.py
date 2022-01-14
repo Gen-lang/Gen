@@ -1,3 +1,4 @@
+import readline
 from src.lexer import Lexer
 from src.parser import Parser
 from src.value import *
