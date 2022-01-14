@@ -114,6 +114,7 @@ class Evaluator:
 
 	def visit_ForNode(self, node, context):
 		res = RuntimeResult()
+		elements = []
 		start_value = res.register(self.visit(node.start_value_node, context))
 		if res.error: return res
 		end_value = res.register(self.visit(node.end_value_node, context))
@@ -131,9 +132,9 @@ class Evaluator:
 		while condition():
 			context.symbol_table.set(node.var_name_token.value, value.Number(sv))
 			sv += step_value.value
-			res.register(self.visit(node.body_node, context))
+			elements.append (res.register(self.visit(node.body_node, context)))
 			if res.error: return res
-		return res.success(None)
+		return res.success(value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
 	
 	def visit_ArrayNode(self, node, context):
 		res = RuntimeResult()
@@ -145,13 +146,14 @@ class Evaluator:
 	
 	def visit_WhileNode(self, node, context):
 		res = RuntimeResult()
+		elements = []
 		while True:
 			condition = res.register(self.visit(node.condition_node, context))
 			if res.error: return res
 			if condition.is_true() is False: break
-			res.register(self.visit(node.body_node, context))
+			elements.append(res.register(self.visit(node.body_node, context)))
 			if res.error: return res
-		return res.success(None)
+		return res.success(value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
 	
 	def visit_FuncDefNode(self, node, context):
 		res = RuntimeResult()
