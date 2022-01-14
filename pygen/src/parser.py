@@ -1,3 +1,4 @@
+from pygen.src.gen_token import TT_L_SQ, TT_R_SQ
 import src.gen_token as tk
 from src.error import InvalidSyntaxError
 from src.node import *
@@ -50,6 +51,10 @@ class Parser:
 				return res.failure(InvalidSyntaxError(
 					self.current_token.pos_start, self.current_token.pos_end, "Expected ')'"
 				))
+		elif token.type == tk.TT_L_SQ:
+			array_expression = res.register(self.array_expr())
+			if res.error: return res
+			return res.success(array_expression)
 		elif token.matches(tk.TT_KEYWORD, "if"):
 			if_expression = res.register(self.if_expr())
 			if res.error: return res
@@ -68,7 +73,7 @@ class Parser:
 			return res.success(defunc)
 		else:
 			return res.failure(InvalidSyntaxError(
-				token.pos_start, token.pos_end, "Expected an INT, FLOAT, identifier, +, -, '(', 'if', 'for', 'while', or 'defunc'"
+				token.pos_start, token.pos_end, "Expected int, float, identifier, +, -, '(', '[f', 'if', 'for', 'while', or 'defunc'"
 			))
 
 	def power(self):
@@ -89,6 +94,34 @@ class Parser:
 
 	def term(self):
 		return self.bin_op(self.factor, (tk.TT_MULT, tk.TT_DIV))
+
+	def array_expr(self):
+		res = ParseResult()
+		elements = []
+		pos_start = self.current_token.pos_start.copy()
+		res.register_advance()
+		self.advance()
+		if self.current_token.type == TT_R_SQ:
+			res.register_advance()
+			self.advance()
+		else:
+			elements.append(res.register(self.expr()))
+			if res.error: return res.failure(InvalidSyntaxError(
+								self.current_token.pos_start, self.current_token.pos_end, "Expected ']', '[', 'if', 'for', 'while', 'defunc', int, float, identifier"
+							))
+			while self.current_token.type == tk.TT_COMMA:
+				res.register_advance()
+				self.advance()
+				elements.append(res.register(self.expr()))
+				if res.error: return res
+			if self.current_token.type != tk.TT_R_SQ:
+				return res.failure(InvalidSyntaxError(
+					self.current_token.pos_start, self.current_token.pos_end, "Expected ',' or ']'"
+				))
+			else:
+				res.register_advance()
+				self.advance()
+		return res.success(ArrayNode(elements, pos_start, self.current_token.pos_end.copy()))
 	
 	def expr(self):
 		res = ParseResult()
@@ -110,7 +143,7 @@ class Parser:
 		node = res.register(self.bin_op(self.comp_expr, ((tk.TT_KEYWORD, "and"), (tk.TT_KEYWORD, "or"))))
 		if res.error:
 			return res.failure(InvalidSyntaxError(
-				self.current_token.pos_start, self.current_token.pos_end, "Expected int, float, identifier, +, -, '(', 'if', 'for', 'while', or 'defunc'"
+				self.current_token.pos_start, self.current_token.pos_end, "Expected int, float, identifier, +, -, '(', '[', 'if', 'for', 'while', or 'defunc'"
 			))
 		return res.success(node)
 	
@@ -254,7 +287,7 @@ class Parser:
 		else:
 			node = res.register(self.bin_op(self.arithmatic_expr, (tk.TT_DEQUALS, tk.TT_NEQUALS, tk.TT_LTHAN, tk.TT_GTHAN, tk.TT_LTEQUALS, tk.TT_GTEQUALS)))
 			if res.error: return res.failure(InvalidSyntaxError(
-				self.current_token.pos_start, self.current_token.pos_end, "Expected INT, FLOAT, not, identifier, +, -, or '('"
+				self.current_token.pos_start, self.current_token.pos_end, "Expected int, float, not, identifier, +, -, '[', or '('"
 			))
 			return res.success(node)
 	
@@ -342,7 +375,7 @@ class Parser:
 			else:
 				arg_nodes.append(res.register(self.expr()))
 				if res.error: return res.failure(InvalidSyntaxError(
-								self.current_token.pos_start, self.current_token.pos_end, "Expected ')', 'if', 'for', 'while', 'defunc', int, float, identifier"
+								self.current_token.pos_start, self.current_token.pos_end, "Expected ')', ']', 'if', 'for', 'while', 'defunc', int, float, identifier"
 							))
 				while self.current_token.type == tk.TT_COMMA:
 					res.register_advance()
