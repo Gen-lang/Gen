@@ -1,6 +1,5 @@
 
 ## Gen Syntax
-*Note:* **Currently Gen only supports integers and floats**
 
 ### Variables
 Variable assignment is similar to Python.
