@@ -87,7 +87,7 @@ class Number(Value):
 		else:
 			return None, Value.invalid_operation(self.pos_start, other.pos_end)
 	
-	# make these invalid operations unless overriden by Number class
+	# make these invalid operations unless overriden
 	def subtracted_by(self, other):
 		if isinstance(other, Number):
 			return Number(self.value - other.value).set_context(self.context), None
@@ -243,3 +243,47 @@ class Function(Value):
 	
 	def __repr__(self):
 		return f"<func {self.name}>"
+
+
+class Array(Value):
+	def __init__(self, elements):
+		super().__init__()
+		self.elements = elements
+	
+	def added_to(self, other):
+		new_array = self.copy()
+		if isinstance(other, Array):
+			new_array.elements.extend(other)
+		else:
+			new_array.elements.append(other)
+		return new_array, None
+	
+	def subtracted_by(self, other):
+		if isinstance(other, Number):
+			new_array = self.copy()
+			try:
+				new_array.elements.pop(other.value)
+				return new_array, None
+			except IndexError:
+				return None, RuntimeError(
+					other.pos_start, other.pos_end, f"Element at index {other.value} does not exist"
+				)
+		else:
+			return Value.invalid_operation(self, other)
+
+	def at(self, other):
+		if isinstance(other, Number):
+			try:
+				return self.elements[other.value], None
+			except:
+				return None, RuntimeError(
+					other.pos_start, other.pos_end, f"Element at index {other.value} does not exist"
+				)
+		else:
+			return Value.invalid_operation(self, other)
+
+	def copy(self):
+		copy = Array(self.elements[:])
+		copy.set_position(self.pos_start, self.pos_end)
+		copy.set_context(self.context)
+	
