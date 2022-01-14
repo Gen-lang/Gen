@@ -59,6 +59,9 @@ class Lexer:
 			elif self.current_char == ",":
 				tokens.append(tk.Token(tk.TT_COMMA, pos_start=self.position))
 				self.advance()
+			elif self.current_char == "@":
+				tokens.append(tk.Token(tk.TT_AT, pos_start=self.position))
+				self.advance()
 			elif self.current_char == "!":
 				token, error = self.make_not_equals()
 				if error: return [], error

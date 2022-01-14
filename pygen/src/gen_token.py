@@ -22,6 +22,7 @@ TT_LTEQUALS		= "LT_EQUALS" # <=
 TT_GTEQUALS		= "GT_EQUALS" # >=
 TT_COMMA		= "COMMA" # ,
 TT_ARROW		= "ARROW" # ->
+TT_AT			= "AT" # @
 TT_EOF			= "EOF" # End Of File
 
 KEYWORDS = [
