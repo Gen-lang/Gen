@@ -7,10 +7,13 @@
 
 Gen is a procedural programming language.
 
+See the [documentation](https://github.com/Gen-lang/Gen/tree/master/doc/doc_en.md)<br>
+日本語は[こっち](https://github.com/Gen-lang/Gen/tree/master/doc/doc_jp.md)です。
+
 Almost everything (for, if, and more) can be written in just one line. But it is pretty wordy, so it's also easy to learn.
 
 
-*Note:* I created the pygen directory initially to see how this language would look and feel as soon as possible, so I will rewrite the Gen interpreter in Swift, C++, or, Perl in another directory in the future.
+*Note:* I created the pygen directory initially to see how this language would look and feel as soon as possible, so I will rewrite the Gen interpreter in Perl in another directory in the future.
 
 
 ### TODO List
@@ -18,14 +21,15 @@ Almost everything (for, if, and more) can be written in just one line. But it is
  - [x] Variables
  - [x] If statement (logical operators)
  - [x] String
+ - [ ] Array
  - [x] For and while statements
  - [x] Functions
  - [ ] Reading files with extention .gen
 
 ### Installation
 ```
-git clone https://github.com/Gen-lang/PyGen.git
-cd PyGen
+git clone https://github.com/Gen-lang/Gen.git
+cd PyGen/pygen
 ```
 Then you can run Makefile:
 ```
@@ -36,13 +40,8 @@ Then you can use pygen:
 pygen
 ```
 
-*Note:* **Currently Gen only supports integers and floats**
-
-See the [documentation](https://github.com/Gen-lang/PyGen/tree/master/doc/doc_en.md)<br>
-日本語は[こっち](https://github.com/Gen-lang/PyGen/tree/master/doc/doc_jp.md)です
-
 ### Contributing
-Contributions are welcome! Especially, I need an assist on Makefile to make PyGen available to Windows users.
+Contributions are welcome! Especially, I need an assist on Makefile to make Gen available to Windows users.
 
 ### Credits
 I learned a lot from this [series](https://ruslanspivak.com/lsbasi-part1/) and [T# programming language](https://github.com/Tsharp-lang/Tsharp).
