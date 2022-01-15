@@ -15,7 +15,7 @@ class Parser:
 			self.current_token = self.tokens[self.token_index]
 		return self.current_token
 	
-	def deadvance(self):
+	def deadvance_one(self):
 		self.token_index -= 1
 		if self.token_index >= 0:
 			self.current_token = self.tokens[self.token_index]
@@ -137,7 +137,7 @@ class Parser:
 				return res.success(VarAssignNode(var_name, expression))
 			else:
 				res.deregister_advance()
-				self.deadvance()
+				self.deadvance_one()
 
 		node = res.register(self.bin_op(self.comp_expr, ((tk.TT_KEYWORD, "and"), (tk.TT_KEYWORD, "or"))))
 		if res.error:
@@ -390,7 +390,37 @@ class Parser:
 					self.advance()
 			return res.success(CallNode(atom, arg_nodes))
 		return res.success(atom)
-
+	
+	def statements(self):
+		res = ParseResult()
+		statements = []
+		pos_start = self.current_token.pos_start.copy()
+		while self.current_token.type == tk.TT_NL:
+			res.register_advance()
+			self.advance()
+		statement = res.register(self.expr())
+		if res.error: return res
+		statements.append(statement)
+		more = True
+		while True:
+			new_line = False
+			while self.current_token.type == tk.TT_NL:
+				res.register_advance()
+				self.advance()
+				new_line = True
+			if new_line is False: more = False
+			if more is False: break
+			statement = res.try_register(self.expr())
+			if statement is None:
+				self.deadvance(res.to_reverse_count)
+				more = False
+				continue
+			else:
+				statements.append(statement)
+		return res.success(ArrayNode(
+			statements, pos_start, 
+		))
+		
 	
 	def parse(self):
 		result = self.expr()
