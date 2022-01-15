@@ -49,7 +49,7 @@ def main():
 		if err is not None:
 			print(err)
 		elif result:
-			print(result)
+			print(result.__repr__())
 
 if __name__ == "__main__":
 	main()
