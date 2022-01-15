@@ -17,13 +17,6 @@ Almost everything (for, if, and more) can be written in just one line. But it is
 
 
 ### TODO List
- - [x] Basic arithmetic
- - [x] Variables
- - [x] If statement (logical operators)
- - [x] String
- - [x] Array
- - [x] For and while statements
- - [x] Functions
  - [x] Built-in functions
  - [ ] Reading files with extention .gen (meaning allowing multi-line statements)
 
