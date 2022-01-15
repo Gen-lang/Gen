@@ -187,7 +187,7 @@ class Parser:
 		res = ParseResult()
 		cases = []
 		else_case = None
-		if self.current_token.mathces(tk.TT_KEYWORD, "elseif"):
+		if self.current_token.matches(tk.TT_KEYWORD, "elseif"):
 			all_cases = res.register(self.if_expr_elseif())
 			if res.error: return res
 			cases, else_case = all_cases
@@ -200,7 +200,7 @@ class Parser:
 		res = ParseResult()
 		cases = []
 		else_case = None
-		if self.current_token.matches(tk.KEYWORDS, keyword) is False:
+		if self.current_token.matches(tk.TT_KEYWORD, keyword) is False:
 			return res.failure(InvalidSyntaxError(
 				self.current_token.pos_start, self.current_token.pos_end, f"Expected '{keyword}'"
 			))
@@ -208,7 +208,7 @@ class Parser:
 		self.advance()
 		condition = res.register(self.expr())
 		if res.error: return res
-		if self.current_token.matches(tk.KEYWORDS, "then") is False:
+		if self.current_token.matches(tk.TT_KEYWORD, "then") is False:
 			return res.failure(InvalidSyntaxError(
 				self.current_token.pos_start, self.current_token.pos_end, "Expected 'then'"
 			))
@@ -220,7 +220,7 @@ class Parser:
 			statements = res.register(self.statements())
 			if res.error: return res
 			else: cases.append((condition, statements, True))
-			if self.current_token.matches(tk.KEYWORDS, "end"):
+			if self.current_token.matches(tk.TT_KEYWORD, "end"):
 				res.register_advance()
 				self.advance()
 			else:
@@ -288,7 +288,7 @@ class Parser:
 			self.advance()
 			body = res.register(self.statements())
 			if res.error: return res
-			if self.current_token.matches(tk.KEYWORDS, "end") is False:
+			if self.current_token.matches(tk.TT_KEYWORD, "end") is False:
 				return res.failure(InvalidSyntaxError(
 					"Expected 'end'"
 				))
@@ -320,7 +320,7 @@ class Parser:
 			self.advance()
 			body = res.register(self.statements())
 			if res.error: return res
-			if self.current_token.matches(tk.KEYWORDS, "end") is False:
+			if self.current_token.matches(tk.TT_KEYWORD, "end") is False:
 				return res.failure(InvalidSyntaxError(
 					"Expected 'end'"
 				))
@@ -436,7 +436,7 @@ class Parser:
 			self.advance()
 			body = res.register(self.statements())
 			if res.error: return res
-			if self.current_token.matches(tk.KEYWORDS, "end") is False: 
+			if self.current_token.matches(tk.TT_KEYWORD, "end") is False: 
 				return res.failure(InvalidSyntaxError(
 					self.current_token.pos_start, self.current_token.pos_end, "Expected 'end'"
 				))
