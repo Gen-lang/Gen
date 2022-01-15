@@ -73,7 +73,7 @@ class IfNode:
 
 
 class ForNode:
-	def __init__(self, var_name_token, start_value_node, end_value_node, step_value_node, body_node, ought_return_null):
+	def __init__(self, var_name_token, start_value_node, end_value_node, step_value_node, body_node, should_return_null):
 		self.var_name_token = var_name_token
 		self.start_value_node = start_value_node
 		self.end_value_node = end_value_node
@@ -81,24 +81,24 @@ class ForNode:
 		self.body_node = body_node
 		self.pos_start = self.var_name_token.pos_start
 		self.pos_end = self.body_node.pos_end
-		self.ought_return_null = ought_return_null
+		self.should_return_null = should_return_null
 
 
 class WhileNode:
-	def __init__(self, condition, body_node, ought_return_null):
+	def __init__(self, condition, body_node, should_return_null):
 		self.condition_node = condition
 		self.body_node = body_node
 		self.pos_start = self.condition_node.pos_start
 		self.pos_end = self.body_node.pos_end
-		self.ought_return_null = ought_return_null
+		self.should_return_null = should_return_null
 
 
 class FuncDefNode:
-	def __init__(self, var_name_token, arg_name_tokens, body_node, ought_return_null):
+	def __init__(self, var_name_token, arg_name_tokens, body_node, should_return_null):
 		self.var_name_token = var_name_token
 		self.arg_name_tokens = arg_name_tokens
 		self.body_node = body_node
-		self.ought_return_null = ought_return_null
+		self.should_return_null = should_return_null
 		if self.var_name_token:
 			self.pos_start = self.var_name_token.pos_start
 		elif len(self.arg_name_tokens) > 0:

@@ -57,7 +57,8 @@ class Evaluator:
 				if res.error: return res
 				return res.success(value.Number.null if should_return_null else expr_value)
 		if node.else_case is not None:
-			else_value = res.register(self.visit(node.else_case, context))
+			expr, should_return_null = node.else_case
+			else_value = res.register(self.visit(expr, context))
 			if res.error: return res
 			return res.success(value.Number.null if should_return_null else else_value)
 		return res.success(value.Number.null)
@@ -163,7 +164,7 @@ class Evaluator:
 		func_name = node.var_name_token.value if node.var_name_token is not None else None
 		body_node = node.body_node
 		arg_names = [arg.value for arg in node.arg_name_tokens]
-		func_value = value.Function(func_name, body_node, arg_names).set_context(context).set_position(node.pos_start, node.pos_end)
+		func_value = value.Function(func_name, body_node, arg_names, node.should_return_null).set_context(context).set_position(node.pos_start, node.pos_end)
 		if node.var_name_token is not None:
 			context.symbol_table.set(func_name, func_value)
 		return res.success(func_value)

@@ -336,10 +336,11 @@ class BaseFunction(Value):
 
 
 class Function(BaseFunction):
-	def __init__(self, name, body_node, arg_names):
+	def __init__(self, name, body_node, arg_names, should_return_null):
 		super().__init__(name)
 		self.body_node = body_node
 		self.arg_names = arg_names
+		self.should_return_null = should_return_null
 	
 	def execute(self, args):
 		res = RuntimeResult()
@@ -349,10 +350,10 @@ class Function(BaseFunction):
 		if res.error: return res
 		value = res.register(evaluator.visit(self.body_node, context))
 		if res.error: return res
-		return res.success(value)
+		return res.success(Number.null if self.should_return_null else value)
 		
 	def copy(self):
-		copy = Function(self.name, self.body_node, self.arg_names)
+		copy = Function(self.name, self.body_node, self.arg_names, self.should_return_null)
 		copy.set_position(self.pos_start, self.pos_end)
 		copy.set_context(self.context)
 		return copy
