@@ -354,31 +354,4 @@ class Function(BaseFunction):
 	
 	def __repr__(self):
 		return f"<func {self.name}>"
-
-
-class BuiltinFunction(BaseFunction):
-	def __init__(self, name):
-		super().__init__(name)
-	
-	def execute(self, args):
-		res = RuntimeResult()
-		context = self.generate_new_context()
-		method = getattr(self, f"execute_{self.name}", self.no_visit_method)
-		res.register(self.check_and_fill_args(method.arg_names, args, context))
-		if res.error: return res
-		return_value = res.register(method(context))
-		if res.error: return res
-		return res.success(return_value)
-
-	def no_visit_method(self, node, context):
-		raise Exception(f"execute_{self.name} is not defined")
-
-	def copy(self):
-		copy = BuiltinFunction(self.name)
-		copy.set_context(self.context)
-		copy.set_position(self.pos_start, self.pos_end)
-		return copy
-	
-	def __repr__(self):
-		return f"<built-in func {self.name}>"
 	
