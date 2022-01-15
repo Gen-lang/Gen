@@ -5,7 +5,7 @@
 
 **WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING CAN CHANGE AT ANY MOMENT.**
 
-Gen is a dynamic, procedural programming language.
+Gen is a dynamic, interpreted, procedural programming language.
 
 See the [documentation](https://github.com/Gen-lang/Gen/tree/master/doc/doc_en.md)<br>
 日本語は[こっち](https://github.com/Gen-lang/Gen/tree/master/doc/doc_jp.md)です。
