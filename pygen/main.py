@@ -46,11 +46,15 @@ def run(filename, text):
 def main():
 	while True:
 		t = input("gen>> ")
+		if t.strip() == "": continue
 		result, err = run("<stdin>", t)
 		if err is not None:
 			print(err)
 		elif result:
-			print(result.__repr__())
+			if len(result.elements) == 1:
+				print(result.elements[0])
+			else:
+				print(result.__repr__())
 
 if __name__ == "__main__":
 	main()
