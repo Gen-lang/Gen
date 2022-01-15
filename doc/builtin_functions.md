@@ -1,5 +1,7 @@
 # Gen built-in functions
 
+I will add more built-in functions, but if you want something that's not listed here, please open an issue or contribute.
+
 | Name | Description | Example |
 |------| ----------- | ------- |
 | println | Print out the given value with a new line at the end | `println("Hello World")`
