@@ -70,20 +70,9 @@ class BuiltinFunction(BaseFunction):
 		"""
 			read a line from input, try to convert it to Number, and return it
 			example 1: value = int_input("Enter a value: ")
-			example 2: value = int_input("Enter something: ", "Please enter an integer.")
 		"""
-		text = ""
-		try:
-			text = str(context.symbol_table.get("text"))
-		except:
-			return RuntimeResult().RuntimeError(
-				self.pos_start, self.pos_end, "'int_input' needs at least one argument"
-			)
+		text = str(context.symbol_table.get("text"))
 		error_text = "Input value must be an integer."
-		try:
-			error_text = str(context.symbol_table.get("error_text"))
-		except:
-			pass
 		while True:
 			input_value = input(text)
 			try:
@@ -92,14 +81,13 @@ class BuiltinFunction(BaseFunction):
 			except ValueError:
 				print(error_text)
 		return RuntimeResult().success(Number(input_value))
-	execute_int_input.arg_names = ["text", "error_text"]
+	execute_int_input.arg_names = ["text"]
 
 	def execute_absolute_number_of(self, context):
 		"""
 			try to return the absolute number of the value passed in
 			example: abs_num = absolute_number_of(-9)
 		"""
-		# add try-except later
 		value = context.symbol_table.get("value")
 		try:
 			value = int(context.symbol_table.get("value"))
@@ -115,12 +103,7 @@ class BuiltinFunction(BaseFunction):
 			check if the value passed in is a number
 			example: is_number(3)
 		"""
-		try:
-			value = context.symbol_table.get("value")
-		except:
-			return RuntimeResult().failure(RuntimeError(
-				self.pos_start, self.pos_end, f"'is_number' needs at least one argument"
-			))
+		value = context.symbol_table.get("value")
 		is_number = isinstance(value, Number)
 		return RuntimeResult().success(Number.true if is_number is True else Number.false)
 	execute_is_number.arg_names = ["value"]
@@ -130,12 +113,7 @@ class BuiltinFunction(BaseFunction):
 			check if the value passed in is a string
 			example: is_string("Hello World")
 		"""
-		try:
-			value = context.symbol_table.get("value")
-		except:
-			return RuntimeResult().failure(RuntimeError(
-				self.pos_start, self.pos_end, f"'is_string' needs at least one argument"
-			))
+		value = context.symbol_table.get("value")
 		is_string = isinstance(value, String)
 		return RuntimeResult().success(Number.true if is_string is True else Number.false)
 	execute_is_number.arg_names = ["value"]
@@ -145,12 +123,7 @@ class BuiltinFunction(BaseFunction):
 			check if the value passed in is an array
 			example: is_array([1, 2, 3])
 		"""
-		try:
-			value = context.symbol_table.get("value")
-		except:
-			return RuntimeResult().failure(RuntimeError(
-				self.pos_start, self.pos_end, f"'is_array' needs at least one argument"
-			))
+		value = context.symbol_table.get("value")
 		is_array = isinstance(value, Array)
 		return RuntimeResult().success(Number.true if is_array is True else Number.false)
 	execute_is_number.arg_names = ["value"]
@@ -160,12 +133,7 @@ class BuiltinFunction(BaseFunction):
 			check if the value passed in is a function
 			example: is_function(some_func)
 		"""
-		try:
-			value = context.symbol_table.get("value")
-		except:
-			return RuntimeResult().failure(RuntimeError(
-				self.pos_start, self.pos_end, f"'is_function' needs at least one argument"
-			))
+		value = context.symbol_table.get("value")
 		is_function = isinstance(value, BaseFunction)
 		return RuntimeResult().success(Number.true if is_function is True else Number.false)
 	execute_is_number.arg_names = ["value"]
