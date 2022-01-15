@@ -54,8 +54,7 @@ class BuiltinFunction(BaseFunction):
 	def execute_input(self, context):
 		"""
 			read a line from input, convert it to String, and return it
-			example 1: value = input("Enter your name: ")
-			example 2: value = input()
+			example: value = input("Enter your name: ")
 		"""
 		text = ""
 		try:
