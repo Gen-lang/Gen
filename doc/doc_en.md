@@ -106,3 +106,5 @@ gen>> greet("bichanna")
 "Hello bichanna"
 ```
 
+For built-in functions see [this doc](https://github.com/Gen-lang/Gen/blob/master/doc/builtin_functions.md).
+
