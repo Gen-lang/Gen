@@ -173,7 +173,7 @@ class Evaluator:
 		args = []
 		called_value = res.register(self.visit(node.node_to_call, context))
 		if res.error: return res
-		called_value = called_value.copy().set_position(node.pos_start, node.pos_end)
+		called_value = called_value.copy().set_position(node.pos_start, node.pos_end).set_context(context)
 		for argnode in node.arg_nodes:
 			args.append(res.register(self.visit(argnode, context)))
 			if res.error: return res
