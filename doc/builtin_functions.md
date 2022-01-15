@@ -13,3 +13,4 @@ I will add more built-in functions, but if you want something that's not listed 
 | is_string | Check if the given value is a string | `println(is_string("some string"))`
 | is_array | Check if the given value is an array | `println(is_array([1, 2, 3]))`
 | is_function | Check if the given value is a function | `println(is_function(some_func))`
+| exit_program | Exit the program | `exit_program()`
