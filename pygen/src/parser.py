@@ -72,7 +72,7 @@ class Parser:
 			return res.success(defunc)
 		else:
 			return res.failure(InvalidSyntaxError(
-				token.pos_start, token.pos_end, "Expected int, float, identifier, +, -, '(', '[f', 'if', 'for', 'while', or 'defunc'"
+				token.pos_start, token.pos_end, "Expected int, float, identifier, +, -, '(', '[', 'if', 'for', 'while', or 'defunc'"
 			))
 
 	def power(self):

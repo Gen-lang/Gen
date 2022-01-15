@@ -179,6 +179,10 @@ class Number(Value):
 		copy.set_context(self.context)
 		return copy
 
+Number.null = Number(0)
+Number.true = Number(1)
+Number.false = Number(0)
+
 
 class String(Value):
 	def __init__(self, value):
