@@ -3,6 +3,8 @@ from src.context import Context
 from src.symbol_table import SymbolTable
 from src.evaluator import Evaluator, RuntimeResult
 
+import math
+
 class Value:
 	def __init__(self):
 		self.set_position()
@@ -88,20 +90,20 @@ class Number(Value):
 		if isinstance(other, Number):
 			return Number(self.value + other.value).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	# make these invalid operations unless overriden
 	def subtracted_by(self, other):
 		if isinstance(other, Number):
 			return Number(self.value - other.value).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def multiplied_by(self, other):
 		if isinstance(other, Number):
 			return Number(self.value * other.value).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def divided_by(self, other):
 		if isinstance(other, Number):
@@ -111,61 +113,60 @@ class Number(Value):
 			else:
 				return Number(self.value / other.value), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 
 	def powered_by(self, other):
 		if isinstance(other, Number):
 			return Number(self.value ** other.value).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def get_comparison_equal(self, other):
 		if isinstance(other, Number):
 			return Number(int(self.value == other.value)).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def get_comparison_not_equal(self, other):
 		if isinstance(other, Number):
 			return Number(int(self.value != other.value)).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def get_comparison_less_than(self, other):
 		if isinstance(other, Number):
 			return Number(int(self.value < other.value)).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def get_comparison_greater_than(self, other):
 		if isinstance(other, Number):
 			return Number(int(self.value > other.value)).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
-	
+			return None, self.invalid_operation(other)
 	def get_comparison_lt_equals(self, other):
 		if isinstance(other, Number):
 			return Number(int(self.value <= other.value)).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def get_comparison_gt_equals(self, other):
 		if isinstance(other, Number):
 			return Number(int(self.value >= other.value)).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def and_by(self, other):
 		if isinstance(other, Number):
 			return Number(int(self.value and other.value)).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def or_by(self, other):
 		if isinstance(other, Number):
 			return Number(int(self.value or other.value)).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def notted(self):
 		return Number(1 if self.value == 0 else 0).set_context(self.context), None
@@ -182,6 +183,7 @@ class Number(Value):
 Number.null = Number(0)
 Number.true = Number(1)
 Number.false = Number(0)
+Number.Pi = Number(math.pi)
 
 
 class String(Value):
@@ -195,37 +197,37 @@ class String(Value):
 		elif isinstance(other, Number):
 			return String(self.value + str(other.value)).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def multiplied_by(self, other): # allow "a" * 8
 		if isinstance(other, Number):
 			return String(self.value * other.value).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def get_comparison_equal(self, other):
 		if isinstance(other, String):
 			return Number(int(self.value == other.value)).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def get_comparison_not_equal(self, other):
 		if isinstance(other, String):
 			return Number(int(self.value != other.value)).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 
 	def and_by(self, other):
 		if isinstance(other, String):
 			return Number(int(self.value and other.value)).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def or_by(self, other):
 		if isinstance(other, String):
 			return Number(int(self.value or other.value)).set_context(self.context), None
 		else:
-			return None, Value.invalid_operation(self.pos_start, other.pos_end)
+			return None, self.invalid_operation(other)
 	
 	def notted(self):
 		return Number(1 if self.value == 0 else 0).set_context(self.context), None

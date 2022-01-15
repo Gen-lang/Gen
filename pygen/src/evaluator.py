@@ -180,6 +180,7 @@ class Evaluator:
 		
 		return_value = res.register(called_value.execute(args))
 		if res.error: return res
+		return_value = return_value.copy().set_position(node.pos_start, node.pos_end).set_context(context)
 		return res.success(return_value)
 	
 	def visit_StringNode(self, node, context):
