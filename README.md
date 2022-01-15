@@ -44,5 +44,8 @@ pygen
 ### Contributing
 Contributions are welcome! Especially, I need an assist on Makefile to make Gen available to Windows users.
 
+### Reports
+If you found a bug or bugs, please open a new issue and paste the error message and your code that caused the bug.
+
 ### Credits
 I learned a lot from this [series](https://ruslanspivak.com/lsbasi-part1/) and [T# programming language](https://github.com/Tsharp-lang/Tsharp).
