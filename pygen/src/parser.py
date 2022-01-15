@@ -11,14 +11,16 @@ class Parser:
 	
 	def advance(self):
 		self.token_index += 1
-		if self.token_index < len(self.tokens):
-			self.current_token = self.tokens[self.token_index]
+		self.update_current_token()
 		return self.current_token
 	
-	def deadvance_one(self):
-		self.token_index -= 1
-		if self.token_index >= 0:
+	def update_current_token(self):
+		if self.token_index < len(self.tokens) and self.token_index >= 0:
 			self.current_token = self.tokens[self.token_index]
+	
+	def reverse(self, amount=1):
+		self.token_index -= amount
+		self.update_current_token()
 		return self.current_token
 
 	def atom(self):
@@ -137,7 +139,7 @@ class Parser:
 				return res.success(VarAssignNode(var_name, expression))
 			else:
 				res.deregister_advance()
-				self.deadvance_one()
+				self.reverse(amount=1)
 
 		node = res.register(self.bin_op(self.comp_expr, ((tk.TT_KEYWORD, "and"), (tk.TT_KEYWORD, "or"))))
 		if res.error:
@@ -403,27 +405,26 @@ class Parser:
 		statements.append(statement)
 		more = True
 		while True:
-			new_line = False
+			new_line_count = 0
 			while self.current_token.type == tk.TT_NL:
 				res.register_advance()
 				self.advance()
-				new_line = True
-			if new_line is False: more = False
+				new_line_count += 1
+			if new_line_count == 0: more = False
 			if more is False: break
 			statement = res.try_register(self.expr())
 			if statement is None:
-				self.deadvance(res.to_reverse_count)
+				self.reverse(res.to_reverse_count)
 				more = False
 				continue
-			else:
-				statements.append(statement)
+			statements.append(statement)
 		return res.success(ArrayNode(
-			statements, pos_start, 
+			statements, pos_start, self.current_token.pos_end.copy()
 		))
 		
 	
 	def parse(self):
-		result = self.expr()
+		result = self.statements()
 		if result.error and self.current_token.type != tk.TT_EOF:
 			return result.failure(InvalidSyntaxError(
 				self.current_token.pos_start, self.current_token.pos_end, "Expected +, -, *, or /"
@@ -436,12 +437,20 @@ class ParseResult:
 		self.error = None
 		self.node = None
 		self.count_advanced = 0
+		self.to_reverse_count = 0
 
 	def register_advance(self):
 		self.count_advanced += 1
 	
 	def deregister_advance(self):
 		self.count_advanced -= 1
+	
+	def try_register(self, res):
+		if res.error is not None:
+			self.to_reverse_count = res.count_advanced
+			return None
+		else:
+			return self.register(res)
 	
 	def register(self, result):
 		self.count_advanced += result.count_advanced
