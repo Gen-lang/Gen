@@ -288,7 +288,7 @@ class Parser:
 			self.advance()
 			body = res.register(self.statements())
 			if res.error: return res
-			if self.current_token.matches(tk.KEYWORDS, "end"):
+			if self.current_token.matches(tk.KEYWORDS, "end") is False:
 				return res.failure(InvalidSyntaxError(
 					"Expected 'end'"
 				))
@@ -320,7 +320,7 @@ class Parser:
 			self.advance()
 			body = res.register(self.statements())
 			if res.error: return res
-			if self.current_token.matches(tk.KEYWORDS, "end"):
+			if self.current_token.matches(tk.KEYWORDS, "end") is False:
 				return res.failure(InvalidSyntaxError(
 					"Expected 'end'"
 				))
@@ -420,17 +420,32 @@ class Parser:
 					))
 			res.register_advance()
 			self.advance()
-			if self.current_token.type != tk.TT_ARROW:
+			if self.current_token.type == tk.TT_ARROW:
+				res.register_advance()
+				self.advance()
+				return_node = res.register(self.expr())
+				if res.error: return res
+				return res.success(FuncDefNode(
+					func_var_name_token, arg_name_tokens, return_node, False
+				))
+			if self.current_token.type != tk.TT_NL:
 				return res.failure(InvalidSyntaxError(
-					self.current_token.pos_start, self.current_token.pos_end, "Expected '->'"
+					self.current_token.pos_start, self.current_token.pos_end, "Expected '->' or a new line"
 				))
 			res.register_advance()
 			self.advance()
-			return_node = res.register(self.expr())
+			body = res.register(self.statements())
 			if res.error: return res
+			if self.current_token.matches(tk.KEYWORDS, "end") is False: 
+				return res.failure(InvalidSyntaxError(
+					self.current_token.pos_start, self.current_token.pos_end, "Expected 'end'"
+				))
+			res.register_advance()
+			self.advance()
 			return res.success(FuncDefNode(
-				func_var_name_token, arg_name_tokens, return_node
+				func_var_name_token, arg_name_tokens, body, True
 			))
+
 	
 	def call(self):
 		res = ParseResult()
