@@ -36,6 +36,7 @@ class BuiltinFunction(BaseFunction):
 			print the value passed in with a new line at the end
 			example: println("Hello World")
 		"""
+		# add try-except later
 		print(str(context.symbol_table.get("value")))
 		return RuntimeResult().success(Number.null)
 	execute_println.arg_names = ["value"]
@@ -45,6 +46,7 @@ class BuiltinFunction(BaseFunction):
 			print the value passed in without a new line at the end
 			example: print("Hello World!")
 		"""
+		# add try-except later
 		print(str(context.symbol_table.get("value")), end="")
 		return RuntimeResult().success(Number.null)
 	execute_print.arg_names = ["value"]
@@ -70,7 +72,13 @@ class BuiltinFunction(BaseFunction):
 			example 1: value = int_input("Enter a value: ")
 			example 2: value = int_input("Enter something: ", "Please enter an integer.")
 		"""
-		text = str(context.symbol_table.get("text"))
+		text = ""
+		try:
+			text = str(context.symbol_table.get("text"))
+		except:
+			return RuntimeResult().RuntimeError(
+				self.pos_start, self.pos_end, "'int_input' needs at least one argument"
+			)
 		error_text = "Input value must be an integer."
 		try:
 			error_text = str(context.symbol_table.get("error_text"))
@@ -91,6 +99,7 @@ class BuiltinFunction(BaseFunction):
 			try to return the absolute number of the value passed in
 			example: abs_num = absolute_number_of(-9)
 		"""
+		# add try-except later
 		value = context.symbol_table.get("value")
 		try:
 			value = int(context.symbol_table.get("value"))
@@ -98,5 +107,21 @@ class BuiltinFunction(BaseFunction):
 			return RuntimeResult().failure(RuntimeError(
 				self.pos_start, self.pos_end, f"{value} does not have an absolute number"
 			))
-			
+		return RuntimeResult().success(Number(abs(value)))
+	execute_absolute_number_of.arg_names = ["value"]
+
+	def execute_is_number(self, context):
+		"""
+			check if the value passed in is a number
+		"""
+		try:
+			value = context.symbol_table.get("value")
+		except:
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, f"'is_number' needs at least one argument"
+			))
+		is_number = int(isinstance(value, Number))
+		return RuntimeResult().success(Number(is_number))
+	execute_is_number.arg_names = ["value"]
+
 		
