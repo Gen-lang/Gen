@@ -283,7 +283,7 @@ class Parser:
 			))
 		res.register_advance()
 		self.advance()
-		if self.current_token.type == tk.NL:
+		if self.current_token.type == tk.TT_NL:
 			res.register_advance()
 			self.advance()
 			body = res.register(self.statements())
@@ -315,7 +315,7 @@ class Parser:
 			))
 		res.register_advance()
 		self.advance()
-		if self.current_token.type == tk.NL:
+		if self.current_token.type == tk.TT_NL:
 			res.register_advance()
 			self.advance()
 			body = res.register(self.statements())
