@@ -7,9 +7,9 @@ from src.context import Context
 from src.symbol_table import SymbolTable
 
 global_symbol_table = SymbolTable()
-global_symbol_table.set("nothing", Number(0))
-global_symbol_table.set("true", Number(1))
-global_symbol_table.set("false", Number(0))
+global_symbol_table.set("nothing", Number.null)
+global_symbol_table.set("true", Number.true)
+global_symbol_table.set("false", Number.false)
 
 def run(filename, text):
 	# generate tokens
