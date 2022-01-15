@@ -1,5 +1,5 @@
 
-## Gen Syntax
+# Gen Syntax
 
 ### Variables
 Variable assignment is similar to Python.
