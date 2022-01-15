@@ -41,6 +41,13 @@ Then you can use pygen:
 pygen
 ```
 
+### Hello World
+```
+gen>> println("Hello World")
+Hello World
+0
+```
+
 ### Contributing
 Contributions are welcome! Especially, I need an assist on Makefile to make Gen available to Windows users.
 
