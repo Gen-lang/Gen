@@ -90,7 +90,7 @@ class BuiltinFunction(BaseFunction):
 		"""
 		value = context.symbol_table.get("value")
 		try:
-			value = int(context.symbol_table.get("value"))
+			value = int(context.symbol_table.get("value").value)
 		except ValueError:
 			return RuntimeResult().failure(RuntimeError(
 				self.pos_start, self.pos_end, f"{value} does not have an absolute number"
@@ -116,7 +116,7 @@ class BuiltinFunction(BaseFunction):
 		value = context.symbol_table.get("value")
 		is_string = isinstance(value, String)
 		return RuntimeResult().success(Number.true if is_string is True else Number.false)
-	execute_is_number.arg_names = ["value"]
+	execute_is_string.arg_names = ["value"]
 
 	def execute_is_array(self, context):
 		"""
@@ -126,7 +126,7 @@ class BuiltinFunction(BaseFunction):
 		value = context.symbol_table.get("value")
 		is_array = isinstance(value, Array)
 		return RuntimeResult().success(Number.true if is_array is True else Number.false)
-	execute_is_number.arg_names = ["value"]
+	execute_is_array.arg_names = ["value"]
 
 	def execute_is_function(self, context):
 		"""
@@ -136,7 +136,7 @@ class BuiltinFunction(BaseFunction):
 		value = context.symbol_table.get("value")
 		is_function = isinstance(value, BaseFunction)
 		return RuntimeResult().success(Number.true if is_function is True else Number.false)
-	execute_is_number.arg_names = ["value"]
+	execute_is_function.arg_names = ["value"]
 
 
 
