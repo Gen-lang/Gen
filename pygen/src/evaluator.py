@@ -34,7 +34,7 @@ class Evaluator:
 		var_name = node.var_name_token.value
 		value = context.symbol_table.get(var_name)
 		if value is None: return res.failure(RuntimeError(
-			node.pos_start, node.pos_end, f"var '{var_name}' is not defined", context
+			node.pos_start, node.pos_end, f"'{var_name}' is not defined", context
 		))
 		value = value.copy().set_position(node.pos_start, node.pos_end)
 		return res.success(value)
