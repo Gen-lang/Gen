@@ -25,7 +25,7 @@ Almost everything (for, if, and more) can be written in just one line. But it is
  - [x] For and while statements
  - [x] Functions
  - [x] Built-in functions
- - [ ] Reading files with extention .gen
+ - [ ] Reading files with extention .gen (meaning allowing multi-line statements)
 
 ### Installation
 ```
