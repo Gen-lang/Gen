@@ -95,3 +95,6 @@ gen>> defunc greet(name) -> "Hello " + name
 gen>> greet("bichanna")
 "Hello bichanna"
 ```
+
+
+[組み込み関数](https://github.com/Gen-lang/Gen/blob/master/doc/builtin_functions.md)
