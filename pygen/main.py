@@ -8,7 +8,7 @@ from src.context import Context
 from src.symbol_table import SymbolTable
 
 global_symbol_table = SymbolTable()
-global_symbol_table.set("nothing", Number.null)
+global_symbol_table.set("null", Number.null)
 global_symbol_table.set("true", Number.true)
 global_symbol_table.set("false", Number.false)
 global_symbol_table.set("Pi", Number.Pi)

@@ -49,18 +49,18 @@ class Evaluator:
 	
 	def visit_IfNode(self, node, context):
 		res = RuntimeResult()
-		for condition, expression in node.cases:
+		for condition, expression, should_return_null in node.cases:
 			condition_value = res.register(self.visit(condition, context))
 			if res.error: return res
 			if condition_value.is_true():
 				expr_value = res.register(self.visit(expression, context))
 				if res.error: return res
-				return res.success(expr_value)
+				return res.success(value.Number.null if should_return_null else expr_value)
 		if node.else_case is not None:
 			else_value = res.register(self.visit(node.else_case, context))
 			if res.error: return res
-			return res.success(else_value)
-		return res.success(None)
+			return res.success(value.Number.null if should_return_null else else_value)
+		return res.success(value.Number.null)
 
 	def visit_NumberNode(self, node, context):
 		return RuntimeResult().success(value.Number(node.token.value).set_context(context).set_position(node.pos_start, node.pos_end))
@@ -137,7 +137,7 @@ class Evaluator:
 			sv += step_value.value
 			elements.append (res.register(self.visit(node.body_node, context)))
 			if res.error: return res
-		return res.success(value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
+		return res.success(value.Number.null if node.should_return_null else value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
 	
 	def visit_ArrayNode(self, node, context):
 		res = RuntimeResult()
@@ -156,7 +156,7 @@ class Evaluator:
 			if condition.is_true() is False: break
 			elements.append(res.register(self.visit(node.body_node, context)))
 			if res.error: return res
-		return res.success(value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
+		return res.success(value.Number.null if node.should_return_null else value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
 	
 	def visit_FuncDefNode(self, node, context):
 		res = RuntimeResult()
