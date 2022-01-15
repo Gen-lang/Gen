@@ -178,7 +178,7 @@ class Evaluator:
 			args.append(res.register(self.visit(argnode, context)))
 			if res.error: return res
 		
-		return_value = res.register(called_value.execute_func(args))
+		return_value = res.register(called_value.execute(args))
 		if res.error: return res
 		return res.success(return_value)
 	

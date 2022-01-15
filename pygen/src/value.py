@@ -243,47 +243,6 @@ class String(Value):
 		return f'"{self.value}"'
 
 
-class Function(Value):
-	def __init__(self, name, body_node, arg_names):
-		super().__init__()
-		self.name = name if name is not None else "<unnamed>"
-		self.body_node = body_node
-		self.arg_names = arg_names
-	
-	def execute_func(self, args):
-		res = RuntimeResult()
-		evaluator = Evaluator()
-		new_context = Context(self.name, self.context, self.pos_start)
-		new_context.symbol_table = SymbolTable(new_context.parent.symbol_table)
-		# check the number of args are correct or not
-		if len(args) > len(self.arg_names):
-			return res.failure(RuntimeError(
-				self.pos_start, self.pos_end, f"Too many arguments are passed to {self.name}", self.context
-			))
-		elif len(args) < len(self.arg_names):
-			return res.failure(RuntimeError(
-				self.pos_start, self.pos_end, f"Too few arguments are passed to {self.name}", self.context
-			))
-		else:
-			for i in range(len(args)):
-				arg_name = self.arg_names[i]
-				arg_value = args[i]
-				arg_value.set_context(new_context)
-				new_context.symbol_table.set(arg_name, arg_value)
-			value = res.register(evaluator.visit(self.body_node, new_context))
-			if res.error: return res
-			return res.success(value)
-		
-	def copy(self):
-		copy = Function(self.name, self.body_node, self.arg_names)
-		copy.set_position(self.pos_start, self.pos_end)
-		copy.set_context(self.context)
-		return copy
-	
-	def __repr__(self):
-		return f"<func {self.name}>"
-
-
 class Array(Value):
 	def __init__(self, elements):
 		super().__init__()
@@ -330,4 +289,96 @@ class Array(Value):
 	def __repr__(self):
 		string = "[" + ', '.join([str(i) for i in self.elements]) + "]"
 		return string
+
+
+class BaseFunction(Value):
+	def __init__(self, name):
+		super().__init__()
+		self.name = name if name is not None else "<unnamed>"
+	
+	def generate_new_context(self):
+		new_context = Context(self.name, self.context, self.pos_start)
+		new_context.symbol_table = SymbolTable(new_context.parent.symbol_table)
+		return new_context
+
+	def check_arguments(self, argument_names, arguments):
+		res = RuntimeResult()
+		# check the number of args are correct or not
+		if len(arguments) > len(argument_names):
+			return res.failure(RuntimeError(
+				self.pos_start, self.pos_end, f"Too many arguments are passed to {self.name}", self.context
+			))
+		elif len(arguments) < len(argument_names):
+			return res.failure(RuntimeError(
+				self.pos_start, self.pos_end, f"Too few arguments are passed to {self.name}", self.context
+			))
+		else:
+			return res.success(None)
+	
+	def fill_args(self, argument_names, arguments, context):
+		for i in range(len(arguments)):
+			arg_name = argument_names[i]
+			arg_value = arguments[i]
+			arg_value.set_context(context)
+			context.symbol_table.set(arg_name, arg_value)
+	
+	def check_and_fill_args(self, arg_names, args, context):
+		res = RuntimeResult()
+		res.register(self.check_arguments(arg_names, args))
+		if res.error: return res
+		self.fill_args(arg_names, args, context)
+		return res.success(None)
+
+
+class Function(BaseFunction):
+	def __init__(self, name, body_node, arg_names):
+		super().__init__(name)
+		self.body_node = body_node
+		self.arg_names = arg_names
+	
+	def execute(self, args):
+		res = RuntimeResult()
+		evaluator = Evaluator()
+		context = self.generate_new_context()
+		res.register(self.check_and_fill_args(self.arg_names, args, context))
+		if res.error: return res
+		value = res.register(evaluator.visit(self.body_node, context))
+		if res.error: return res
+		return res.success(value)
+		
+	def copy(self):
+		copy = Function(self.name, self.body_node, self.arg_names)
+		copy.set_position(self.pos_start, self.pos_end)
+		copy.set_context(self.context)
+		return copy
+	
+	def __repr__(self):
+		return f"<func {self.name}>"
+
+
+class BuiltinFunction(BaseFunction):
+	def __init__(self, name):
+		super().__init__(name)
+	
+	def execute(self, args):
+		res = RuntimeResult()
+		context = self.generate_new_context()
+		method = getattr(self, f"execute_{self.name}", self.no_visit_method)
+		res.register(self.check_and_fill_args(method.arg_names, args, context))
+		if res.error: return res
+		return_value = res.register(method(context))
+		if res.error: return res
+		return res.success(return_value)
+
+	def no_visit_method(self, node, context):
+		raise Exception(f"execute_{self.name} is not defined")
+
+	def copy(self):
+		copy = BuiltinFunction(self.name)
+		copy.set_context(self.context)
+		copy.set_position(self.pos_start, self.pos_end)
+		return copy
+	
+	def __repr__(self):
+		return f"<built-in func {self.name}>"
 	
