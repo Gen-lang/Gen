@@ -22,6 +22,7 @@ global_symbol_table.set("is_number", BuiltinFunction.is_number)
 global_symbol_table.set("is_string", BuiltinFunction.is_string)
 global_symbol_table.set("is_array", BuiltinFunction.is_array)
 global_symbol_table.set("is_function", BuiltinFunction.is_function)
+global_symbol_table.set("exit_program", BuiltinFunction.exit_program)
 
 def run(filename, text):
 	# generate tokens

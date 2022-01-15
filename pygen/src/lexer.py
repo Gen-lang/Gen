@@ -29,7 +29,7 @@ class Lexer:
 			elif self.current_char in DIGITS:
 				tokens.append(self.make_number())
 			elif self.current_char == "\"": # string
-				tokens.append(self.make_string())
+				tokens.append(self.make_string()) # check for new line or ;
 			elif self.current_char in ";\n":
 				tokens.append(tk.Token(tk.TT_NL, pos_start=self.position))
 				self.advance()

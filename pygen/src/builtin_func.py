@@ -46,7 +46,6 @@ class BuiltinFunction(BaseFunction):
 			print the value passed in without a new line at the end
 			example: print("Hello World!")
 		"""
-		# add try-except later
 		print(str(context.symbol_table.get("value")), end="")
 		return RuntimeResult().success(Number.null)
 	execute_print.arg_names = ["value"]
@@ -137,6 +136,15 @@ class BuiltinFunction(BaseFunction):
 		return RuntimeResult().success(Number.true if is_function is True else Number.false)
 	execute_is_function.arg_names = ["value"]
 
+	def execute_exit_program(self, context):
+		"""
+			exit the program
+			example: exit_program()
+		"""
+		print("Bye bye!")
+		exit()
+	execute_exit_program.arg_names = []
+
 
 
 
@@ -150,3 +158,4 @@ BuiltinFunction.Pi					= BuiltinFunction("Pi")
 BuiltinFunction.is_string			= BuiltinFunction("is_string")
 BuiltinFunction.is_array			= BuiltinFunction("is_array")
 BuiltinFunction.is_function			= BuiltinFunction("is_function")
+BuiltinFunction.exit_program		= BuiltinFunction("exit_program")
