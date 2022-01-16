@@ -217,18 +217,18 @@ class BuiltinFunction(BaseFunction):
 		return RuntimeResult().success(String(new_value))
 	execute_string.arg_names = ["value"]
 
-	def execute_to_letter(self, context):
+	def execute_chars(self, context):
 		"""
 			convert the given value to array
-			example 1: to_letter("some string")
-			example 2: to_letter(123)
+			example 1: chars("some string")
+			example 2: chars(123)
 		"""
 		value = context.symbol_table.get("value")
 		lst = []
 		for i in str(value.value):
 			lst.append(String(i))
 		return RuntimeResult().success(Array(lst))
-	execute_to_letter.arg_names = ["value"]
+	execute_chars.arg_names = ["value"]
 
 
 
@@ -248,4 +248,4 @@ BuiltinFunction.typeof				= BuiltinFunction("typeof")
 BuiltinFunction.int					= BuiltinFunction("int")
 BuiltinFunction.float				= BuiltinFunction("float")
 BuiltinFunction.string				= BuiltinFunction("string")
-BuiltinFunction.to_letter			= BuiltinFunction("to_letter")
+BuiltinFunction.chars				= BuiltinFunction("chars")

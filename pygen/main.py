@@ -29,7 +29,7 @@ global_symbol_table.set("typeof", BuiltinFunction.typeof)
 global_symbol_table.set("int", BuiltinFunction.int)
 global_symbol_table.set("float", BuiltinFunction.float)
 global_symbol_table.set("string", BuiltinFunction.string)
-global_symbol_table.set("to_letter", BuiltinFunction.to_letter)
+global_symbol_table.set("chars", BuiltinFunction.chars)
 
 def run(filename, text):
 	# generate tokens
@@ -75,7 +75,7 @@ def file(filename):
 	
 
 if __name__ == "__main__":
-	if len(sys.argv) < 1 or sys.argv[-1].endswith(".py"):
+	if len(sys.argv) < 2 or sys.argv[-1].endswith(".py"):
 		shell()
 	else:
 		filename = sys.argv[-1]
