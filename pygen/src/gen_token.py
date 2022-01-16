@@ -6,6 +6,7 @@ TT_L_SQ			= "L_SQ" # [
 TT_R_SQ			= "R_SQ" # ]
 TT_L_BRACE		= "L_BRACE" # {
 TT_R_BRACE		= "R_BRACE" # }
+TT_RIGHT		= "RIGHT>" # >
 TT_PLUS			= "PLUS" # plus
 TT_MINUS		= "MINUS" # minus
 TT_MULT			= "MULT" # multiplication
