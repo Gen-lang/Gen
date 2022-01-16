@@ -227,3 +227,18 @@ class Evaluator:
 	
 	def visit_StringNode(self, node, context):
 		return RuntimeResult().success(value.String(node.token.value).set_context(context).set_position(node.pos_start, node.pos_end))
+
+	def visit_ReturnNode(self, node, context):
+		res = RuntimeResult()
+		if node.node_to_return:
+			val = res.register(self.visit(node.node_to_return, context))
+			if self.should_return(): return res
+		else:
+			val = value.Number.null
+		return res.success_return(val)
+	
+	def visit_ContinueNode(self, node, context):
+		return RuntimeResult().success_continue()
+	
+	def visit_BreakNode(self, node, context):
+		return RuntimeResult().success_break()
