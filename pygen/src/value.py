@@ -238,6 +238,18 @@ class String(Value):
 		else:
 			return None, self.invalid_operation(other)
 	
+	def at(self, other):
+		if isinstance(other, Number):
+			try:
+				value = str(self.value[int(other.value)])
+				return String(value), None
+			except:
+				return None, RuntimeError(
+					other.pos_start, other.pos_end, f"Element at index {other.value} does not exist", self.context
+				)
+		else:
+			return Value.invalid_operation(self, other)
+	
 	def notted(self):
 		return Number(1 if self.value == 0 else 0).set_context(self.context), None
 	
