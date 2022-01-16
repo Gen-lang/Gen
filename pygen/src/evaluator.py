@@ -4,18 +4,47 @@ from src.error import RuntimeError
 
 class RuntimeResult:
 	def __init__(self):
+		self.reset()
+	
+	def reset(self):
 		self.value = None
 		self.error = None
+		self.func_return_value = None
+		self.loop_continue = False
+		self.loop_break = False
 	
 	def register(self, result):
-		if result.error: self.error = result.error
+		self.error = result.error
+		self.func_return_value = result.func_return_value
+		self.loop_continue = result.loop_continue
+		self.loop_break = result.loop_break
 		return result.value
 	
 	def success(self, value):
+		self.reset()
 		self.value = value
 		return self
+	
+	def success_return(self, value):
+		self.reset()
+		self.func_return_value = value
+		return self
+	
+	def success_continue(self):
+		self.reset()
+		self.loop_continue = True
+		return self
+	
+	def success_break(self):
+		self.reset()
+		self.loop_break = True
+		return self
+	
+	def should_return(self):
+		return (self.error or self.func_return_value or self.loop_continue or self.loop_break)
 
 	def failure(self, error):
+		self.reset()
 		self.error = error
 		return self
 
@@ -43,7 +72,7 @@ class Evaluator:
 		res = RuntimeResult()
 		var_name = node.var_name_token.value
 		value = res.register(self.visit(node.value_node, context))
-		if res.error: return res
+		if res.should_return(): return res
 		context.symbol_table.set(var_name, value)
 		return res.success(value)
 	
@@ -51,15 +80,15 @@ class Evaluator:
 		res = RuntimeResult()
 		for condition, expression, should_return_null in node.cases:
 			condition_value = res.register(self.visit(condition, context))
-			if res.error: return res
+			if res.should_return(): return res
 			if condition_value.is_true():
 				expr_value = res.register(self.visit(expression, context))
-				if res.error: return res
+				if res.should_return(): return res
 				return res.success(value.Number.null if should_return_null else expr_value)
 		if node.else_case is not None:
 			expr, should_return_null = node.else_case
 			else_value = res.register(self.visit(expr, context))
-			if res.error: return res
+			if res.should_return(): return res
 			return res.success(value.Number.null if should_return_null else else_value)
 		return res.success(value.Number.null)
 
@@ -69,9 +98,9 @@ class Evaluator:
 	def visit_BinOpNode(self, node, context):
 		res = RuntimeResult()
 		left = res.register(self.visit(node.left_node, context))
-		if res.error: return res
+		if res.should_return(): return res
 		right = res.register(self.visit(node.right_node, context))
-		if res.error: return res
+		if res.should_return(): return res
 		# check the operator type
 		if node.op_token.type == tk.TT_PLUS:
 			result, err = left.added_to(right)
@@ -107,7 +136,7 @@ class Evaluator:
 	def visit_UnaryOpNode(self, node, context):
 		res = RuntimeResult()
 		num = res.register(self.visit(node.node, context))
-		if res.error: return res
+		if res.should_return(): return res
 		err = None
 		if node.op_token.type == tk.TT_MINUS:
 			num, err = num.multiplied_by(value.Number(-1))
@@ -120,12 +149,12 @@ class Evaluator:
 		res = RuntimeResult()
 		elements = []
 		start_value = res.register(self.visit(node.start_value_node, context))
-		if res.error: return res
+		if res.should_return(): return res
 		end_value = res.register(self.visit(node.end_value_node, context))
-		if res.error: return res
+		if res.should_return(): return res
 		if node.step_value_node:
 			step_value = res.register(self.visit(node.step_value_node, context))
-			if res.error: return res
+			if res.should_return(): return res
 		else:
 			step_value = value.Number(1)
 		sv = start_value.value
@@ -137,7 +166,7 @@ class Evaluator:
 			context.symbol_table.set(node.var_name_token.value, value.Number(sv))
 			sv += step_value.value
 			elements.append (res.register(self.visit(node.body_node, context)))
-			if res.error: return res
+			if res.should_return(): return res
 		return res.success(value.Number.null if node.should_return_null else value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
 	
 	def visit_ArrayNode(self, node, context):
@@ -145,7 +174,7 @@ class Evaluator:
 		elements = []
 		for element in node.element_nodes:
 			elements.append(res.register(self.visit(element, context)))
-			if res.error: return res
+			if res.should_return(): return res
 		return res.success(value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
 	
 	def visit_WhileNode(self, node, context):
@@ -153,10 +182,10 @@ class Evaluator:
 		elements = []
 		while True:
 			condition = res.register(self.visit(node.condition_node, context))
-			if res.error: return res
+			if res.should_return(): return res
 			if condition.is_true() is False: break
 			elements.append(res.register(self.visit(node.body_node, context)))
-			if res.error: return res
+			if res.should_return(): return res
 		return res.success(value.Number.null if node.should_return_null else value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
 	
 	def visit_FuncDefNode(self, node, context):
@@ -173,14 +202,14 @@ class Evaluator:
 		res = RuntimeResult()
 		args = []
 		called_value = res.register(self.visit(node.node_to_call, context))
-		if res.error: return res
+		if res.should_return(): return res
 		called_value = called_value.copy().set_position(node.pos_start, node.pos_end).set_context(context)
 		for argnode in node.arg_nodes:
 			args.append(res.register(self.visit(argnode, context)))
-			if res.error: return res
+			if res.should_return(): return res
 		
 		return_value = res.register(called_value.execute(args))
-		if res.error: return res
+		if res.should_return(): return res
 		return_value = return_value.copy().set_position(node.pos_start, node.pos_end).set_context(context)
 		return res.success(return_value)
 	
