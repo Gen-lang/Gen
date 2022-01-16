@@ -1,6 +1,8 @@
 
 # Gen Syntax
 
+*Note:* **Some of the examples in this document may be outdated.**
+
 ### Variables
 Variable assignment is similar to Python.
 ```
