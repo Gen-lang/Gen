@@ -153,7 +153,7 @@ class BuiltinFunction(BaseFunction):
 		value = context.symbol_table.get("value")
 		if isinstance(value, Number):
 			return RuntimeResult().failure(RuntimeError(
-				self.pos_start, self.pos_end, "The argument should be string or array"
+				self.pos_start, self.pos_end, "The argument should be string or array", context
 			))
 		else:
 			return RuntimeResult().success(Number(len(value.elements) if isinstance(value, Array) else len(value.value)))
