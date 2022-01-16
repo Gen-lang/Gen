@@ -178,7 +178,7 @@ class Parser:
 						self.current_token.pos_start, self.current_token.pos_end, "Expected 'end'"
 					))
 			else:
-				expr = res.register(self.expr())
+				expr = res.register(self.statement())
 				if res.error: return res
 				else_case = (expr, False)
 		return res.success(else_case)
@@ -229,7 +229,7 @@ class Parser:
 				new_cases, else_case = all_cases
 				cases.extend(new_cases)
 		else:
-			expr = res.register(self.expr())
+			expr = res.register(self.statement())
 			if res.error: return res
 			cases.append((condition, expr, False))
 			all_cases = res.register(self.if_expr_elseif_or_else())
@@ -295,7 +295,7 @@ class Parser:
 			res.register_advance()
 			self.advance()
 			return res.success(ForNode(var_name, start_value, end_value, step_value, body, True))
-		body = res.register(self.expr())
+		body = res.register(self.statement())
 		if res.error: return res
 		return res.success(ForNode(var_name, start_value, end_value, step_value, body, False))
 	
@@ -327,7 +327,7 @@ class Parser:
 			res.register_advance()
 			self.advance()
 			return res.success(WhileNode(condition, body, True))
-		body = res.register(self.expr())
+		body = res.register(self.statement())
 		if res.error: return res
 		return res.success(WhileNode(condition, body, False))
 
