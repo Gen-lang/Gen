@@ -165,8 +165,14 @@ class Evaluator:
 		while condition():
 			context.symbol_table.set(node.var_name_token.value, value.Number(sv))
 			sv += step_value.value
-			elements.append (res.register(self.visit(node.body_node, context)))
-			if res.should_return(): return res
+			val = res.register(self.visit(node.body_node, context))
+			if res.should_return() and res.loop_continue is False and res.loop_break is False: return res
+			if res.loop_continue is True:
+				continue
+			elif res.loop_break is True:
+				break
+			else:
+				elements.append(val)
 		return res.success(value.Number.null if node.should_return_null else value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
 	
 	def visit_ArrayNode(self, node, context):
@@ -184,8 +190,14 @@ class Evaluator:
 			condition = res.register(self.visit(node.condition_node, context))
 			if res.should_return(): return res
 			if condition.is_true() is False: break
-			elements.append(res.register(self.visit(node.body_node, context)))
-			if res.should_return(): return res
+			val = res.register(self.visit(node.body_node, context))
+			if res.should_return() and res.loop_continue is False and res.loop_break is False: return res
+			if res.loop_continue is True:
+				continue
+			elif res.loop_break is True:
+				break
+			else:
+				elements.append(val)
 		return res.success(value.Number.null if node.should_return_null else value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
 	
 	def visit_FuncDefNode(self, node, context):
@@ -193,7 +205,7 @@ class Evaluator:
 		func_name = node.var_name_token.value if node.var_name_token is not None else None
 		body_node = node.body_node
 		arg_names = [arg.value for arg in node.arg_name_tokens]
-		func_value = value.Function(func_name, body_node, arg_names, node.should_return_null).set_context(context).set_position(node.pos_start, node.pos_end)
+		func_value = value.Function(func_name, body_node, arg_names, node.should_auto_return).set_context(context).set_position(node.pos_start, node.pos_end)
 		if node.var_name_token is not None:
 			context.symbol_table.set(func_name, func_value)
 		return res.success(func_value)
