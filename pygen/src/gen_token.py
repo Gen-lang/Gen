@@ -39,7 +39,10 @@ KEYWORDS = [
 	"step",
 	"while",
 	"defunc",
-	"end"
+	"end",
+	"return",
+	"continue",
+	"break"
 ]
 
 class Token:

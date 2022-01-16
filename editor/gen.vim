@@ -15,7 +15,7 @@ endif
 syntax keyword genKeywords and or not if elseif else for through step while then defunc
 
 " Type keywords
-syntax keyword genType int float nothing
+syntax keyword genType int float null
 
 " Boolean
 syntax keyword genBool true false
