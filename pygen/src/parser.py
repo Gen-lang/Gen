@@ -529,6 +529,7 @@ class Parser:
 			if res.error: return res.failure(InvalidSyntaxError(
 				self.current_token.pos_start, self.current_token.pos_end, "Expected int, float, identifier, +, -, '(', '[', 'if', 'for', 'return', 'continue', 'break', 'while', or 'defunc'"
 			))
+			return res.success(expr)
 		
 	
 	def parse(self):
