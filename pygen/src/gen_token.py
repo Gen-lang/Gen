@@ -57,6 +57,8 @@ class Token:
 			self.pos_start = pos_start.copy()
 			self.pos_end = pos_start.copy()
 			self.pos_end.advance()
+		if pos_end:
+			self.pos_end = pos_end.copy()
 	
 	def __repr__(self):
 		return f"{self.type}:{self.value}" if self.value is not None else f"{self.type}"
