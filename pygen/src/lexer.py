@@ -28,6 +28,8 @@ class Lexer:
 				self.advance()
 			elif self.current_char in DIGITS:
 				tokens.append(self.make_number())
+			elif self.current_char == "#": # comment
+				self.skip_comment()
 			elif self.current_char == "\"": # string
 				tokens.append(self.make_string()) # check for new line or ;
 			elif self.current_char in ";\n":
@@ -180,5 +182,11 @@ class Lexer:
 			self.advance()
 			token_type = tk.TT_GTEQUALS
 		return tk.Token(token_type, pos_start=pos_start, pos_end=self.position)
+	
+	def skip_comment(self): # for commenting
+		self.advance()
+		while self.current_char not in "\n;":
+			self.advance()
+		self.advance()
 
 		
