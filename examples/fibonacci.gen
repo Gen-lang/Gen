@@ -1,0 +1,19 @@
+# the Fibonacci sequence
+
+n = int_input("How many terms: ")
+
+n1 = 0; n2 = 1; count = 0
+
+if n <= 0 then
+	println("Please enter a positive interger.")
+elseif n == 1 then
+	println(n)
+else
+	while count < n then
+		println(n1)
+		nth = n1 + n2
+		n1 = n2
+		n2 = nth
+		count = count + 1
+	end
+end

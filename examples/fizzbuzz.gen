@@ -1,0 +1,14 @@
+# Fizzbuzz
+
+for fizzbuzz = 0 through 51 then
+	if fizzbuzz % 3 == 0 and fizzbuzz % 5 == 0 then
+		println("fizzbuzz")
+		continue
+	elseif fizzbuzz % 3 == 0 then
+		println("fizz")
+		continue
+	elseif fizzbuzz % 5 == 0 then
+		println("buzz")
+		continue
+	end
+end

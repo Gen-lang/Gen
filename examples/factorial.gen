@@ -1,0 +1,16 @@
+# Factorial
+
+number = int_input("Enter an interger: ")
+
+factorial = 1
+
+if number < 0 then
+	println("Please enter a positive interger")
+elseif number == 0 then
+	println(1)
+else
+	for i = 1 through (number + 1) then
+		factorial = factorial * i
+	end
+	println("The factorial of " + number + " is " + factorial)
+end
