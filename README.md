@@ -41,7 +41,8 @@ pygen
 println("Hello World in Gen")
 ```
 
-### Fizzbuzz
+### Example
+For examples, see [examples directory](https://github.com/Gen-lang/Gen/tree/main/examples).
 ```
 # Fizzbuzz
 
