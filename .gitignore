@@ -208,3 +208,8 @@ replay_pid*
 *.exe
 *.out
 *.app
+
+#VSCode
+.vscode
+main.dSYM
+main.exe.dSYM
