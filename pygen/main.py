@@ -1,4 +1,5 @@
 import readline # this is necessary: DO NOT REMOVE
+import sys
 from src.lexer import Lexer
 from src.parser import Parser
 from src.value import Number
@@ -23,6 +24,7 @@ global_symbol_table.set("is_string", BuiltinFunction.is_string)
 global_symbol_table.set("is_array", BuiltinFunction.is_array)
 global_symbol_table.set("is_function", BuiltinFunction.is_function)
 global_symbol_table.set("exit_program", BuiltinFunction.exit_program)
+global_symbol_table.set("size", BuiltinFunction.size)
 
 def run(filename, text):
 	# generate tokens
@@ -43,7 +45,7 @@ def run(filename, text):
 
 	return result.value, result.error
 
-def main():
+def shell():
 	while True:
 		t = input("gen>> ")
 		if t.strip() == "": continue
@@ -56,5 +58,23 @@ def main():
 			else:
 				print(result.__repr__())
 
+def file(filename):
+	try:
+		with open(filename, "r") as fobj:
+			code = fobj.read()
+			_, error = run(filename, code)
+			if error: print(error)
+	except Exception:
+		print(f"Could not open file '{filename}'.")
+		exit()
+	
+
 if __name__ == "__main__":
-	main()
+	if len(sys.argv) < 1 or sys.argv[-1].endswith(".py"):
+		shell()
+	else:
+		filename = sys.argv[-1]
+		if filename.endswith(".gen"):
+			file(filename)
+		else:
+			print("Specify a file with .gen extension.")

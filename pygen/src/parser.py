@@ -290,7 +290,7 @@ class Parser:
 			if res.error: return res
 			if self.current_token.matches(tk.TT_KEYWORD, "end") is False:
 				return res.failure(InvalidSyntaxError(
-					"Expected 'end'"
+					self.current_token.pos_start, self.current_token.pos_end, "Expected 'end'"
 				))
 			res.register_advance()
 			self.advance()
