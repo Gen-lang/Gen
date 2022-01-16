@@ -159,6 +159,77 @@ class BuiltinFunction(BaseFunction):
 			return RuntimeResult().success(Number(len(value.elements) if isinstance(value, Array) else len(value.value)))
 	execute_size.arg_names = ["value"]
 
+	def execute_typeof(self, context):
+		"""
+			return the type of the given value
+			example: typeof("string")
+		"""
+		value = context.symbol_table.get("value")
+		if isinstance(value, Number):
+			return RuntimeResult().success(String("integer or float"))
+		elif isinstance(value, String):
+			return RuntimeResult().success(String("string"))
+		elif isinstance(value, Array):
+			return RuntimeResult().success(String("array"))
+		else:
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, f"{value} has no Gen type"
+			))
+	execute_typeof.arg_names = ["value"]
+	
+	def execute_int(self, context):
+		"""
+			convert the given value to integer type
+			example: int("3")
+		"""
+		value = context.symbol_table.get("value")
+		try:
+			int_value = int(value.value)
+		except:
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, f"{value.value} cannot be converted to integer"
+			))
+		return RuntimeResult().success(Number(int_value))
+	execute_int.arg_names = ["value"]
+
+	def execute_float(self, context):
+		"""
+			convert the given value to float
+			example: float(4)
+		"""
+		value = context.symbol_table.get("value")
+		try:
+			float_value = float(value.value)
+		except:
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, f"{value.value} cannot be converted to float"
+			))
+		return RuntimeResult().success(Number(float_value))
+	execute_float.arg_names = ["value"]
+
+	def execute_string(self, context):
+		"""
+			convert the given value to string
+			example: string(344.3)
+		"""
+		value = context.symbol_table.get("value")
+		new_value = str(value.value)
+		return RuntimeResult().success(String(new_value))
+	execute_string.arg_names = ["value"]
+
+	def execute_to_letter(self, context):
+		"""
+			convert the given value to array
+			example 1: to_letter("some string")
+			example 2: to_letter(123)
+		"""
+		value = context.symbol_table.get("value")
+		lst = []
+		for i in str(value.value):
+			lst.append(String(i))
+		return RuntimeResult().success(Array(lst))
+	execute_to_letter.arg_names = ["value"]
+
 
 
 BuiltinFunction.println 			= BuiltinFunction("println")
@@ -173,3 +244,8 @@ BuiltinFunction.is_array			= BuiltinFunction("is_array")
 BuiltinFunction.is_function			= BuiltinFunction("is_function")
 BuiltinFunction.exit_program		= BuiltinFunction("exit_program")
 BuiltinFunction.size				= BuiltinFunction("size")
+BuiltinFunction.typeof				= BuiltinFunction("typeof")
+BuiltinFunction.int					= BuiltinFunction("int")
+BuiltinFunction.float				= BuiltinFunction("float")
+BuiltinFunction.string				= BuiltinFunction("string")
+BuiltinFunction.to_letter			= BuiltinFunction("to_letter")

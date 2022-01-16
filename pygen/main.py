@@ -25,6 +25,11 @@ global_symbol_table.set("is_array", BuiltinFunction.is_array)
 global_symbol_table.set("is_function", BuiltinFunction.is_function)
 global_symbol_table.set("exit_program", BuiltinFunction.exit_program)
 global_symbol_table.set("size", BuiltinFunction.size)
+global_symbol_table.set("typeof", BuiltinFunction.typeof)
+global_symbol_table.set("int", BuiltinFunction.int)
+global_symbol_table.set("float", BuiltinFunction.float)
+global_symbol_table.set("string", BuiltinFunction.string)
+global_symbol_table.set("to_letter", BuiltinFunction.to_letter)
 
 def run(filename, text):
 	# generate tokens
