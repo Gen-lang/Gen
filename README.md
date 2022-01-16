@@ -19,7 +19,8 @@ Almost everything (for, if, and more) can be written in just one line. But it is
 ### TODO List
  - [x] Built-in functions
  - [ ] Map (dictionary in Python)
- - [ ] Reading files with extention .gen (meaning allowing multi-line statements)
+ - [ ] Import other files
+ - [x] Reading files with extention .gen (meaning allowing multi-line statements)
 
 ### Installation
 ```
@@ -37,16 +38,32 @@ pygen
 
 ### Hello World
 ```
-gen>> println("Hello World")
-Hello World
-0
+println("Hello World in Gen")
+```
+
+### Fizzbuzz
+```
+# Fizzbuzz
+
+for fizzbuzz = 0 through 51 then
+	if fizzbuzz % 3 == 0 and fizzbuzz % 5 == 0 then
+		println("fizzbuzz")
+		continue
+	elseif fizzbuzz % 3 == 0 then
+		println("fizz")
+		continue
+	elseif fizzbuzz % 5 == 0 then
+		println("buzz")
+		continue
+	end
+end
 ```
 
 ### Contributing
 Contributions are welcome! Especially, I need an assist on Makefile to make Gen available to Windows users.
 
 ### Reports
-If you found a bug or bugs, please open a new issue and paste the error message and your code that caused the bug.
+If you found a bug, please open a new issue and paste the error message and your code that caused the bug.
 
 ### Credits
 I learned a lot from this [series](https://ruslanspivak.com/lsbasi-part1/) and [T# programming language](https://github.com/Tsharp-lang/Tsharp).
