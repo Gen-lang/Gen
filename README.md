@@ -42,7 +42,7 @@ println("Hello World in Gen")
 ```
 
 ### Example
-For examples, see [examples directory](https://github.com/Gen-lang/Gen/tree/main/examples).
+For examples, see [examples directory](https://github.com/Gen-lang/Gen/tree/master/examples).
 ```
 # Fizzbuzz
 
