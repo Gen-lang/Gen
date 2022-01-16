@@ -1,40 +1,30 @@
+# Gen文法
 
-# Gen ドキュメント
-
-*Note:* **このドキュメントの例のいくつかは古いです。**
-
-### バリアブル（変数）
-Pythonそっくり。
+### 変数
 ```
-gen>> a = 10
-10
-gen>> b = a
-10
-gen>> 1 + (c = 9)
-10
+a = "some string"
+b = 28 + (c = 38)
+println(c)
 ```
 
 ### 文字列
 ```
-gen>> str = "Hello World "
-"Hello World "
-gen>> str * 3 
-"Hello World Hello World Hello World "
+str = "Hello 世界 "
+println(str * 3)
+# output:
+# Hello 世界 Hello 世界 Hello 世界
 ```
 
-### Array（配列）
+### Array
 ```
-gen>> arr = ["Hello", "World", 123, 3.1415, ["me", "gen"]]
-["Hello", "World", 123, 3.1415, ["me", "gen"]]
-gen>> arr + "bichanna"
-["Hello", "World", 123, 3.1415, ["me", "gen"], "bichanna"]
-```
-`@`を使ってください。
-```
-gen>> a = [1, 2, 3, 4]
-[1, 2, 3, 4]
-gen>> a@0
-1
+arr = ["Hello", "World", 123, 3.1415, ["me", "gen"]]
+# to add a new value, just use '+'
+arr + "bichanna"
+
+a = [1, 2, 3, 4]
+# use '@' to retrieve specific value from an array
+println(a@0) # the first element
+println(a@-1) # the last element
 ```
 
 ### 論理演算子
@@ -57,46 +47,59 @@ gen>> 2 != 4
 
 ### If文
 ```
-gen>> age = 18
-18
-gen>> if age >= 18 then "Over 18" elseif age < 5 then "Less than 5" else "??"
-"Over 18"
+age = 15
+if age > 18 then
+  println("over 18")
+elseif age == 15 then
+  println("15")
+else # notice you don't need 'then' keyword for 'else'
+  println("??")
+end
 ```
 
 ### Forループ
+Maybe a bit wordy.
 ```
-gen>> for i = 1 through 12 step 2 then 2^i
-[2, 8, 32, 128, 512, 2048]
-gen>> for i = 1 through 12 then 2^i
-[2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
+arr = []
+for i = 1 through 12 step 2 then
+  arr = arr + 2^i
+end
+println(arr)
+# output
+# [2, 8, 32, 128, 512, 2048]
 ```
 
-### Whileループ
+### While文
 ```
-gen>> a = 0
-0
-gen>> while a <= 10 then a = a + 1
-[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-gen>> a 
-11
+arr = []
+a = 0
+while a <= 10 then
+	arr = arr + a
+	a = a + 1
+end
+println(arr)
 ```
 
 ### 関数
-関数には`defunc`を使ってください（def + func)
 ```
-gen>> defunc a(b) -> b * 4
-<func a>
-gen>> a(2)
-8
-gen>> test_func = defunc (a, b, c) -> a + b + c
-<func <unnamed>>
-gen>> test_func(1,2,3)
-6
-gen>> defunc greet(name) -> "Hello " + name
-<func greet>
-gen>> greet("bichanna")
-"Hello bichanna"
+# 一行
+defunc greet(name) -> println("Hello " + name)
+
+# multi-line function
+defunc greet(name)
+	println("Hello " + name)
+end
+
+# you can return from some value from function
+defunc return_greet(name)
+	return_value = "Hello " + name
+	return return_value
+end
+
+greet("bichanna")
+
+println(return_greet("bichanna"))
 ```
 
+[組み込み関数。](https://github.com/Gen-lang/Gen/blob/master/doc/builtin_functions.md)
 
-[組み込み関数](https://github.com/Gen-lang/Gen/blob/master/doc/builtin_functions.md)
