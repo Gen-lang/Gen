@@ -426,7 +426,7 @@ class Parser:
 				return_node = res.register(self.expr())
 				if res.error: return res
 				return res.success(FuncDefNode(
-					func_var_name_token, arg_name_tokens, return_node, False
+					func_var_name_token, arg_name_tokens, return_node, True
 				))
 			if self.current_token.type != tk.TT_NL:
 				return res.failure(InvalidSyntaxError(
@@ -443,7 +443,7 @@ class Parser:
 			res.register_advance()
 			self.advance()
 			return res.success(FuncDefNode(
-				func_var_name_token, arg_name_tokens, body, True
+				func_var_name_token, arg_name_tokens, body, False
 			))
 
 	
