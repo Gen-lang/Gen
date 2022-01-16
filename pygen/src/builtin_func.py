@@ -145,6 +145,19 @@ class BuiltinFunction(BaseFunction):
 		exit()
 	execute_exit_program.arg_names = []
 
+	def execute_size(self, context):
+		"""
+			return the size of the value
+			example: size([1, 2, 3])
+		"""
+		value = context.symbol_table.get("value")
+		if isinstance(value, Number):
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, "The argument should be string or array"
+			))
+		else:
+			return RuntimeResult().success(Number(len(value.elements) if isinstance(value, Array) else len(value.value)))
+	execute_size.arg_names = ["value"]
 
 
 
@@ -159,3 +172,4 @@ BuiltinFunction.is_string			= BuiltinFunction("is_string")
 BuiltinFunction.is_array			= BuiltinFunction("is_array")
 BuiltinFunction.is_function			= BuiltinFunction("is_function")
 BuiltinFunction.exit_program		= BuiltinFunction("exit_program")
+BuiltinFunction.size				= BuiltinFunction("size")
