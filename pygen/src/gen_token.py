@@ -9,6 +9,7 @@ TT_MINUS		= "MINUS" # minus
 TT_MULT			= "MULT" # multiplication
 TT_DIV			= "DIV" # division
 TT_POWER		= "POWER" # power
+TT_MODULO		= "MODULO" # modulo %
 TT_L_PAREN		= "L_PAREN" # left parenthesis
 TT_R_PAREN		= "R_PAREN" # right parenthesis
 TT_IDENTIFIER	= "IDENTIFIER" # identifier

@@ -35,6 +35,9 @@ class Value:
 	def powered_by(self, other):
 		return None, self.invalid_operation(other)
 	
+	def modulo(self, other):
+		return None, self.invalid_operation(other)
+	
 	def get_comparison_equal(self, other):
 		return None, self.invalid_operation(other)
 	
@@ -118,6 +121,12 @@ class Number(Value):
 	def powered_by(self, other):
 		if isinstance(other, Number):
 			return Number(self.value ** other.value).set_context(self.context), None
+		else:
+			return None, self.invalid_operation(other)
+	
+	def modulo(self, other):
+		if isinstance(other, Number):
+			return Number(self.value % other.value).set_context(self.context), None
 		else:
 			return None, self.invalid_operation(other)
 	

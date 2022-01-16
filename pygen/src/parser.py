@@ -94,7 +94,7 @@ class Parser:
 		return self.power()
 
 	def term(self):
-		return self.bin_op(self.factor, (tk.TT_MULT, tk.TT_DIV, tk.TT_AT))
+		return self.bin_op(self.factor, (tk.TT_MULT, tk.TT_DIV, tk.TT_AT, tk.TT_MODULO))
 
 	def array_expr(self):
 		res = ParseResult()

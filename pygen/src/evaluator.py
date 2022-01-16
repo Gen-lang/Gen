@@ -114,6 +114,8 @@ class Evaluator:
 			result, err = left.divided_by(right)
 		elif node.op_token.type == tk.TT_POWER:
 			result, err = left.powered_by(right)
+		elif node.op_token.type == tk.TT_MODULO:
+			result, err = left.modulo(right)
 		elif node.op_token.type == tk.TT_DEQUALS:
 			result, err = left.get_comparison_equal(right)
 		elif node.op_token.type == tk.TT_NEQUALS:
