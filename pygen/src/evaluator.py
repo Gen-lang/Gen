@@ -232,7 +232,7 @@ class Evaluator:
 		res = RuntimeResult()
 		if node.node_to_return:
 			val = res.register(self.visit(node.node_to_return, context))
-			if self.should_return(): return res
+			if res.should_return(): return res
 		else:
 			val = value.Number.null
 		return res.success_return(val)
