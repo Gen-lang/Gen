@@ -18,6 +18,7 @@ Almost everything (for, if, and more) can be written in just one line. But it is
 
 ### TODO List
  - [x] Built-in functions
+ - [ ] Map (dictionary in Python)
  - [ ] Reading files with extention .gen (meaning allowing multi-line statements)
 
 ### Installation
