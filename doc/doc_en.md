@@ -4,43 +4,33 @@
 *Note:* **Some of the examples in this document may be outdated.**
 
 ### Variables
-Variable assignment is similar to Python.
+Variable assignment is quite similar to Python.
 ```
-gen>> a = 10
-10
-gen>> b = a
-10
-gen>> 1 + (c = 9)
-10
-gen>> d = "Hello World"
-"Hello World"
+a = "some string"
+b = 28 + (c = 38)
+println(c)
 ```
 
 ### String
 Use "
 ```
-gen>> str = "Hello World "
-"Hello World "
-gen>> str * 3
-"Hello World Hello World Hello World "
+str = "Hello World "
+println(str * 3)
+# output:
+# Hello World Hello World Hello World 
 ```
 
 ### Array
 Gen array can store any type.
 ```
-gen>> arr = ["Hello", "World", 123, 3.1415, ["me", "gen"]]
-["Hello", "World", 123, 3.1415, ["me", "gen"]]
-gen>> arr + "bichanna"
-["Hello", "World", 123, 3.1415, ["me", "gen"], "bichanna"]
-```
-Use `@` to retrieve specific value from an array:
-```
-gen>> a = [1, 2, 3, 4]
-[1, 2, 3, 4]
-gen>> a@0
-1
-gen>> a@-1
-4
+arr = ["Hello", "World", 123, 3.1415, ["me", "gen"]]
+# to add a new value, just use '+'
+arr + "bichanna"
+
+a = [1, 2, 3, 4]
+# use '@' to retrieve specific value from an array
+println(a@0) # the first element
+println(a@-1) # the last element
 ```
 
 ### Logical Operators
@@ -63,49 +53,61 @@ gen>> 2 != 4
 ```
 
 ### If statement
-It's simple.
 ```
-gen>> age = 18
-18
-gen>> if age >= 18 then "Over 18" elseif age < 5 then "Less than 5" else "??"
-"Over 18"
+age = 15
+if age > 18 then
+  println("over 18")
+elseif age == 15 then
+  println("15")
+else # notice you don't need 'then' keyword for 'else'
+  println("??")
+end
 ```
 
 ### For loop
 Maybe a bit wordy.
 ```
-gen>> for i = 1 through 12 step 2 then 2^i
-[2, 8, 32, 128, 512, 2048]
-gen>> for i = 1 through 12 then 2^i
-[2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
+arr = []
+for i = 1 through 12 step 2 then
+  arr = arr + 2^i
+end
+println(arr)
+# output
+# [2, 8, 32, 128, 512, 2048]
 ```
 
 ### While loop
 It's quite similar to Python.
 ```
-gen>> a = 0
-0
-gen>> while a <= 10 then a = a + 1
-[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-gen>> a 
-11
+arr = []
+a = 0
+while a <= 10 then
+	arr = arr + a
+	a = a + 1
+end
+println(arr)
 ```
 
 ### Function
-It's a bit unique with the keyword 'defunc.' (def + func)
+It's a bit unique with the keyword 'defunc' (def + func)
 ```
-gen>> defunc a(b) -> b * 4
-<func a>
-gen>> a(2)
-8
-gen>> test_func = defunc (a, b, c) -> a + b + c
-<func <unnamed>>
-gen>> test_func(1,2,3)
-6
-gen>> defunc greet(name) -> "Hello " + name
-<func greet>
-gen>> greet("bichanna")
-"Hello bichanna"
+# one-line function
+defunc greet(name) -> println("Hello " + name)
+
+# multi-line function
+defunc greet(name)
+	println("Hello " + name)
+end
+
+# you can return from some value from function
+defunc return_greet(name)
+	return_value = "Hello " + name
+	return return_value
+end
+
+greet("bichanna")
+
+println(return_greet("bichanna"))
 ```
 
 For built-in functions see [this doc](https://github.com/Gen-lang/Gen/blob/master/doc/builtin_functions.md).
