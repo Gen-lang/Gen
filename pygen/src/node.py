@@ -72,6 +72,25 @@ class IfNode:
 		self.pos_end = (self.else_case or self.cases[len(self.cases)-1])[0].pos_end
 
 
+class ReturnNode:
+	def __init__(self, node_to_return, pos_start, pos_end):
+		self.node_to_return = node_to_return
+		self.pos_start = pos_start
+		self.pos_end = pos_end
+
+
+class ContinueNode:
+	def __init__(self, pos_start, pos_end):
+		self.pos_start = pos_start
+		self.pos_end = pos_end
+
+
+class BreakNode:
+	def __init__(self, pos_start, pos_end):
+		self.pos_start = pos_start
+		self.pos_end = pos_end
+
+
 class ForNode:
 	def __init__(self, var_name_token, start_value_node, end_value_node, step_value_node, body_node, should_return_null):
 		self.var_name_token = var_name_token
