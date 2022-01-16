@@ -62,11 +62,11 @@ def file(filename):
 	try:
 		with open(filename, "r") as fobj:
 			code = fobj.read()
-			_, error = run(filename, code)
-			if error: print(error)
 	except Exception:
 		print(f"Could not open file '{filename}'.")
 		exit()
+	_, error = run(filename, code)
+	if error is not None: print(error)
 	
 
 if __name__ == "__main__":
