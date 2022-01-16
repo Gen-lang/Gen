@@ -485,7 +485,7 @@ class Parser:
 		while self.current_token.type == tk.TT_NL:
 			res.register_advance()
 			self.advance()
-		statement = res.register(self.expr())
+		statement = res.register(self.statement())
 		if res.error: return res
 		statements.append(statement)
 		more = True
@@ -497,7 +497,7 @@ class Parser:
 				new_line_count += 1
 			if new_line_count == 0: more = False
 			if more is False: break
-			statement = res.try_register(self.expr())
+			statement = res.try_register(self.statement())
 			if statement is None:
 				self.reverse(res.to_reverse_count)
 				more = False
@@ -506,6 +506,29 @@ class Parser:
 		return res.success(ArrayNode(
 			statements, pos_start, self.current_token.pos_end.copy()
 		))
+	
+	def statement(self):
+		res = ParseResult()
+		pos_start = self.current_token.pos_start.copy()
+		if self.current_token.matches(tk.TT_KEYWORD, "return"):
+			res.register_advance()
+			self.advance()
+			expr = res.try_register(self.expr())
+			if expr is None: self.reverse(res.to_reverse_count)
+			return res.success(ReturnNode(expr, pos_start, self.current_token.pos_end))
+		elif self.current_token.matches(tk.TT_KEYWORD, "continue"):
+			res.register_advance()
+			self.advance()
+			return res.success(ContinueNode(pos_start, self.current_token.pos_end))
+		elif self.current_token.matches(tk.TT_KEYWORD, "break"):
+			res.register_advance()
+			self.advance()
+			return res.success(BreakNode(pos_start, self.current_token.pos_end))
+		else:
+			expr = res.register(self.expr())
+			if res.error: return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected int, float, identifier, +, -, '(', '[', 'if', 'for', 'return', 'continue', 'break', 'while', or 'defunc'"
+			))
 		
 	
 	def parse(self):
