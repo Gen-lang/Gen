@@ -330,30 +330,31 @@ class BaseFunction(Value):
 	def check_and_fill_args(self, arg_names, args, context):
 		res = RuntimeResult()
 		res.register(self.check_arguments(arg_names, args))
-		if res.error: return res
+		if res.should_return(): return res
 		self.fill_args(arg_names, args, context)
 		return res.success(None)
 
 
 class Function(BaseFunction):
-	def __init__(self, name, body_node, arg_names, should_return_null):
+	def __init__(self, name, body_node, arg_names, should_auto_return):
 		super().__init__(name)
 		self.body_node = body_node
 		self.arg_names = arg_names
-		self.should_return_null = should_return_null
+		self.should_auto_return = should_auto_return
 	
 	def execute(self, args):
 		res = RuntimeResult()
 		evaluator = Evaluator()
 		context = self.generate_new_context()
 		res.register(self.check_and_fill_args(self.arg_names, args, context))
-		if res.error: return res
+		if res.should_return(): return res
 		value = res.register(evaluator.visit(self.body_node, context))
-		if res.error: return res
-		return res.success(Number.null if self.should_return_null else value)
+		if res.should_return() and res.func_return_value is None: return res
+		return_value = (value if self.should_auto_return else None) or res.func_return_value or Number.null
+		return res.success(return_value)
 		
 	def copy(self):
-		copy = Function(self.name, self.body_node, self.arg_names, self.should_return_null)
+		copy = Function(self.name, self.body_node, self.arg_names, self.should_auto_return)
 		copy.set_position(self.pos_start, self.pos_end)
 		copy.set_context(self.context)
 		return copy
