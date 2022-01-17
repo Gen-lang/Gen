@@ -13,8 +13,6 @@ See the [documentation](https://github.com/Gen-lang/Gen/tree/master/doc/doc_en.m
 Almost everything (for, if, and more) can be written in just one line. But it is pretty wordy, so it's also easy to learn.
 
 
-*Note:* I will convert my current Python source code to many languages I know, because Python is quite slow.
-
 
 ### TODO List
  - [x] Built-in functions
@@ -31,14 +29,14 @@ Then you can run Makefile:
 ```
 make install
 ```
-Then you can use pygen:
+Then you can use gen:
 ```
-pygen
+gen some_file.gen
 ```
 
 ### Hello World
 ```
-println("Hello World in Gen")
+println("Hello World")
 ```
 
 ### Example
