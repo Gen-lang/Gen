@@ -1,6 +1,6 @@
 # Factorial
 
-number = int_input("Enter an interger: ")
+number = int_input("Enter an integer: ")
 
 factorial = 1
 
