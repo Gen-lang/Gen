@@ -14,4 +14,9 @@ I will add more built-in functions, but if you want something that's not listed 
 | is_array | Check if the given value is an array | `println(is_array([1, 2, 3]))`
 | size  | Return the number of elements in an array or a string | `println(size([1, 2, 3, 4, 5]))`
 | is_function | Check if the given value is a function | `println(is_function(some_func))`
+| typeof | Return the type of the given value | `typeof("something")`
+| int | Convert the given value to an integer | `int("48")`
+| float | Convert the given value to a float | `float("83")`
+| string | Convert the given value to a string | `string(383.2)`
+| chars | Split the given value to characters and store it in an array | `chars("bichanna")`
 | exit_program | Exit the program | `exit_program()`
