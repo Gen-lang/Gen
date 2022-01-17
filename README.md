@@ -5,7 +5,7 @@
 
 **WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING CAN CHANGE AT ANY MOMENT.**
 
-Gen is a dynamic, interpreted, procedural programming language.
+Gen is an easy-to-learn, dynamic, interpreted, procedural programming language.
 
 See the [documentation](https://github.com/Gen-lang/Gen/tree/master/doc/doc_en.md)<br>
 日本語は[こっち](https://github.com/Gen-lang/Gen/tree/master/doc/doc_jp.md)です。
@@ -23,7 +23,7 @@ Almost everything (for, if, and more) can be written in just one line. But it is
 ### Installation
 ```
 git clone https://github.com/Gen-lang/Gen.git
-cd PyGen/pygen
+cd Gen/pygen
 ```
 Then you can run Makefile:
 ```
@@ -59,7 +59,7 @@ end
 ```
 
 ### Contributing
-Contributions are welcome! Especially, I need an assist on Makefile to make Gen available to Windows users.
+Contributions are welcome! Especially, I need a help on Makefile and Map (dictionary).
 
 ### Reports
 If you found a bug, please open a new issue and paste the error message and your code that caused the bug.
