@@ -166,7 +166,10 @@ class BuiltinFunction(BaseFunction):
 		"""
 		value = context.symbol_table.get("value")
 		if isinstance(value, Number):
-			return RuntimeResult().success(String("integer or float"))
+			if isinstance(value.value, int):
+				return RuntimeResult().success(String("integer"))
+			elif isinstance(value.value, float):
+				return RuntimeResult().success(String("float"))
 		elif isinstance(value, String):
 			return RuntimeResult().success(String("string"))
 		elif isinstance(value, Array):
