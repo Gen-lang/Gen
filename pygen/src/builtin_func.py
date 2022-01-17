@@ -233,6 +233,16 @@ class BuiltinFunction(BaseFunction):
 		return RuntimeResult().success(Array(lst))
 	execute_chars.arg_names = ["value"]
 
+	def execute_split(self, context):
+		"""
+			split the given string
+			example: split("Bob,Sue,John", ",")
+		"""
+		value = context.symbol_table.get("value").value
+		delimiter = context.symbol_table.get("delimiter").value
+		lst = value.split(delimiter)
+		return RuntimeResult().success(Array(lst))
+	execute_split.arg_names = ["value", "delimiter"]
 
 
 BuiltinFunction.println 			= BuiltinFunction("println")
@@ -252,3 +262,4 @@ BuiltinFunction.int					= BuiltinFunction("int")
 BuiltinFunction.float				= BuiltinFunction("float")
 BuiltinFunction.string				= BuiltinFunction("string")
 BuiltinFunction.chars				= BuiltinFunction("chars")
+BuiltinFunction.split				= BuiltinFunction("split")
