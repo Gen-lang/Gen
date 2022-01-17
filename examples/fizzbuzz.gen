@@ -1,6 +1,6 @@
 # Fizzbuzz
 
-for fizzbuzz = 0 through 51 then
+for fizzbuzz = 0 through 15000 then
 	if fizzbuzz % 3 == 0 and fizzbuzz % 5 == 0 then
 		println("fizzbuzz")
 		continue
