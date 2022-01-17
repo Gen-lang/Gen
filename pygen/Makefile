@@ -10,7 +10,7 @@ ifeq ($(OS),Windows_NT)
 else
 	@pip install pyinstaller
 	@pyinstaller ./main.py --onefile
-	@cp ./dist/main /usr/local/bin/pygen
+	@cp ./dist/main /usr/local/bin/gen
 	@cp ../editor/gen.vim ~/.vim/syntax
 	@echo "autocmd BufRead,BufNewFile *.gen set filetype=gen" >> ~/.vimrc
 	@echo "\033[0;32mPyGen Compilation Succeeded"
