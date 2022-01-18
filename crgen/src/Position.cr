@@ -7,7 +7,7 @@ class Position
 		@filetext = filetext
 	end
 
-	def advance(current_char=nil)
+	def advance(current_char : String = nil)
 		@index += 1
 		@col += 1
 		if current_char == "\n"
