@@ -9,7 +9,6 @@
 </div>
 
 **WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING CAN CHANGE AT ANY MOMENT.**
-> *Note:* **Python source code is being converted to Crystal.**
 
 Gen is an easy-to-learn, dynamic, interpreted, procedural programming language. Gen's syntax is inspired by Ruby and Python.
 
