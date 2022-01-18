@@ -1,5 +1,5 @@
 class SymbolTable
-	def initialize(parent=Nil)
+	def initialize(parent=nil)
 		@symbols = {} of String => String
 		@parent = parent
 	end
@@ -8,10 +8,10 @@ class SymbolTable
 		begin
 			value = @symbols[var_name]
 		rescue
-			value = Nil
+			value = nil
 		end
 		
-		if value == Nil && @parent != Nil
+		if value == nil && @parent != nil
 			return @parent[var_name]
 		else
 			return value

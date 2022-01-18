@@ -1,5 +1,5 @@
 class Context
-	def initialize(display_name, parent=Nil, parent_entry_pos=Nil)
+	def initialize(display_name, parent=nil, parent_entry_pos=nil)
 		@display_name = display_name
 		@parent = parent
 		@parent_entry_pos = parent_entry_pos
