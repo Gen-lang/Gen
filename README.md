@@ -21,11 +21,7 @@ Gen is an easy-to-learn, dynamic, interpreted, procedural programming language. 
 
 ### Installation
 ```
-git clone https://github.com/Gen-lang/Gen.git
 cd Gen/pygen
-```
-Then you can run Makefile:
-```
 make install
 ```
 Then you can use gen:
