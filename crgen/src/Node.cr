@@ -1,7 +1,10 @@
 require "./Token"
 require "./Position"
 
-class NumberNode
+class Node
+end
+
+class NumberNode < Node
 	def initialize(token : Token)
 		@token = token
 		@pos_start = @token.pos_start
@@ -10,7 +13,7 @@ class NumberNode
 end
 
 
-class StringNode
+class StringNode < Node
 	def initialize(token : Token)
 		@token = token
 		@pos_start = @token.pos_start
@@ -19,7 +22,7 @@ class StringNode
 end
 
 
-class ArrayNode
+class ArrayNode < Node
 	def initialize(elements, pos_start : Position, pos_end : Position)
 		@element_nodes = elements
 		@pos_start = pos_start
@@ -28,7 +31,7 @@ class ArrayNode
 end
 
 
-class BinOpNode
+class BinOpNode < Node
 	def initialize(left_node, op_token, right_node)
 		@left_node = left_node
 		@op_token = op_token
@@ -39,7 +42,7 @@ class BinOpNode
 end
 
 
-class UnaryOpNode
+class UnaryOpNode < Node
 	def initialize(op_token : Token, node)
 		@op_token = op_token
 		@node = node
@@ -49,7 +52,7 @@ class UnaryOpNode
 end
 
 
-class VarAccessNode
+class VarAccessNode < Node
 	def initialize(var_name_token : Token)
 		@var_name_token = var_name_token
 		@pos_start = @var_name_token.pos_start
@@ -57,7 +60,7 @@ class VarAccessNode
 	end
 end
 
-class VarAssignNode
+class VarAssignNode < Node
 	def initialize(var_name_token, value_node)
 		@var_name_token = var_name_token
 		@value_node = value_node
@@ -67,7 +70,7 @@ class VarAssignNode
 end
 
 
-class IfNode
+class IfNode < Node
 	def initialize(cases, else_case)
 		@cases = cases
 		@else_case = else_case
@@ -81,7 +84,7 @@ class IfNode
 end
 
 
-class ReturnNode
+class ReturnNode < Node
 	def initialize(node_to_return, pos_start : Position, pos_end : Position)
 		@node_to_return = node_to_return
 		@pos_start = pos_start
@@ -90,7 +93,7 @@ class ReturnNode
 end
 
 
-class ContinueNode
+class ContinueNode < Node
 	def initialize(pos_start : Position, pos_end : Position)
 		@pos_start = pos_start
 		@pos_end = pos_end
@@ -98,7 +101,7 @@ class ContinueNode
 end
 
 
-class BreakNode
+class BreakNode < Node
 	def initialize(pos_start : Position, pos_end : Position)
 		@pos_start = pos_start
 		@pos_end = pos_end
@@ -106,7 +109,7 @@ class BreakNode
 end
 
 
-class ForNode
+class ForNode < Node
 	def initialize(var_name_token : Token, start_value_node, end_value_node, step_value_node, body_node, should_return_null)
 		@var_name_token = var_name_token
 		@start_value_node = start_value_node
@@ -120,7 +123,7 @@ class ForNode
 end
 
 
-class WhileNode
+class WhileNode < Node
 	def initialize(condition, body_node, should_return_null)
 		@condition = condition
 		@body_node = body_node
@@ -131,7 +134,7 @@ class WhileNode
 end
 
 
-class FuncDefNode
+class FuncDefNode < Node
 	def initialize(var_name_token, arg_name_tokens, body_node, should_auto_return)
 		@var_name_token = var_name_token
 		@arg_name_tokens = arg_name_tokens
@@ -149,7 +152,7 @@ class FuncDefNode
 end
 
 
-class CallNode
+class CallNode < Node
 	def initialize(node_to_call, arg_nodes)
 		@node_to_call = node_to_call
 		@arg_nodes = arg_nodes
