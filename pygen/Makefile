@@ -5,10 +5,10 @@ install:
 ifeq ($(OS),Windows_NT)
 	@pip install pyinstaller
 	@pyinstaller ./main.py --onefile
-	@COPY ./dist/main.exe ./pygen.exe
+	@COPY ./dist/main.exe ./gen.exe
 	# Set environment variable stuff here.
 	@echo "PyGen Compilation Succeeded"
-	@echo "Type 'pygen'"
+	@echo "Type 'gen'"
 else
 	@pip install pyinstaller
 	@pyinstaller ./main.py --onefile
@@ -16,5 +16,5 @@ else
 	@cp ../editor/gen.vim ~/.vim/syntax
 	@echo "autocmd BufRead,BufNewFile *.gen set filetype=gen" >> ~/.vimrc
 	@echo "\033[0;32mPyGen Compilation Succeeded"
-	@echo "\033[0;32mType 'pygen'"
+	@echo "\033[0;32mType 'gen'"
 endif
