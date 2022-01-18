@@ -1,3 +1,5 @@
+require "./Position"
+
 
 TT_INT	 		= "INT" # int
 TT_FLOAT 		= "FLOAT" # float
@@ -51,7 +53,7 @@ KEYWORDS = [
 
 
 class Token
-	def initialize(type : String, value : String = nil, pos_start=nil, pos_end=nil)
+	def initialize(type : String, value : String = nil, pos_start : Position = nil, pos_end : Position = nil)
 		@type = type
 		@value = value
 		if pos_start != nil

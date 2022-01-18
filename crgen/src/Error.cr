@@ -1,8 +1,9 @@
 require "./utils"
 require "./Context"
+require "./Position"
 
 class Error
-	def initialize(pos_start, pos_end, error_name : String, details : String)
+	def initialize(pos_start : Position, pos_end : Position, error_name : String, details : String)
 		@pos_start = pos_start
 		@pos_end = pos_end
 		@error_name = error_name
@@ -19,14 +20,14 @@ end
 
 
 class TypeCharError < Error
-	def initialize(pos_start, pos_end, details : String)
+	def initialize(pos_start : Position, pos_end : Position, details : String)
 		super(pos_start, pos_end, "TypeCharError", details)
 	end
 end
 
 
 class InvalidSyntaxError < Error
-	def initialize(pos_start, pos_end, details : String, context : Context)
+	def initialize(pos_start : Position, pos_end : Position, details : String, context : Context)
 		super(pos_start, pos_end, "InvalidSyntaxError", details)
 		@context = context
 	end
@@ -34,7 +35,7 @@ end
 
 
 class GenRuntimeError < Error
-	def initialize(pos_star,t pos_end, details : String)
+	def initialize(pos_start : Position, pos_end : Position, details : String)
 		super(pos_start, pos_end, "RuntimeError", details)
 	end
 

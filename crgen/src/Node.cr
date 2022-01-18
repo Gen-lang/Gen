@@ -1,4 +1,5 @@
 require "./Token"
+require "./Position"
 
 class NumberNode
 	def initialize(token : Token)
@@ -19,7 +20,7 @@ end
 
 
 class ArrayNode
-	def initialize(elements, pos_start, pos_end)
+	def initialize(elements, pos_start : Position, pos_end : Position)
 		@element_nodes = elements
 		@pos_start = pos_start
 		@pos_end = pos_end
@@ -81,7 +82,7 @@ end
 
 
 class ReturnNode
-	def initialize(node_to_return, pos_start, pos_end)
+	def initialize(node_to_return, pos_start : Position, pos_end : Position)
 		@node_to_return = node_to_return
 		@pos_start = pos_start
 		@pos_end = pos_end
@@ -90,7 +91,7 @@ end
 
 
 class ContinueNode
-	def initialize(pos_start, pos_end)
+	def initialize(pos_start : Position, pos_end : Position)
 		@pos_start = pos_start
 		@pos_end = pos_end
 	end
@@ -98,7 +99,7 @@ end
 
 
 class BreakNode
-	def initialize(pos_start, pos_end)
+	def initialize(pos_start : Position, pos_end : Position)
 		@pos_start = pos_start
 		@pos_end = pos_end
 	end

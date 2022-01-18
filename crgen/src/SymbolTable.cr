@@ -1,6 +1,9 @@
+require "Token"
+
+
 class SymbolTable
 	def initialize(parent=nil)
-		@symbols = {} of String => String
+		@symbols = {} of String => Token
 		@parent = parent
 	end
 
