@@ -1,5 +1,6 @@
 from src.value import *
 from src.evaluator import RuntimeResult, RuntimeError
+import sys
 
 class BuiltinFunction(BaseFunction):
 	def __init__(self, name):
@@ -244,6 +245,23 @@ class BuiltinFunction(BaseFunction):
 		return RuntimeResult().success(Array(lst))
 	execute_split.arg_names = ["value", "delimiter"]
 
+	def execute_import(self, context):
+		"""
+			import the specified file
+		"""
+		filename = context.symbol_table.get("filename").value
+		try:
+			with open(filename+".gen", "r") as fobj:
+				code = fobj.read()
+		except Exception:
+			print(f"Could not open file '{filename}.gen'.")
+			sys.exit()
+		import main
+		_, error = main.run(filename, code)
+		if error is not None: print(error)
+		return RuntimeResult().success(Number.null)
+	execute_import.arg_names = ["filename"]
+
 
 BuiltinFunction.println 			= BuiltinFunction("println")
 BuiltinFunction.print	 			= BuiltinFunction("print")
@@ -263,3 +281,4 @@ BuiltinFunction.float				= BuiltinFunction("float")
 BuiltinFunction.string				= BuiltinFunction("string")
 BuiltinFunction.chars				= BuiltinFunction("chars")
 BuiltinFunction.split				= BuiltinFunction("split")
+BuiltinFunction.import_				= BuiltinFunction("import")

@@ -31,6 +31,7 @@ global_symbol_table.set("float", BuiltinFunction.float)
 global_symbol_table.set("string", BuiltinFunction.string)
 global_symbol_table.set("chars", BuiltinFunction.chars)
 global_symbol_table.set("split", BuiltinFunction.split)
+global_symbol_table.set("import", BuiltinFunction.import_)
 
 def run(filename, text, show_tokens=False):
 	# generate tokens
