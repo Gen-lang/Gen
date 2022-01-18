@@ -1,18 +1,17 @@
 <div align="center">
     <img width="115px" src="https://user-images.githubusercontent.com/60306074/148671204-b759cf4b-dada-483b-80f5-7bc24efc49e5.png">
     <h1>Gen Programming Language</h1>
+	|
+	<a href="https://github.com/Gen-lang/Gen/tree/master/doc/doc_en.md">Doc(English)</a>
+	|
+	<a href="https://github.com/Gen-lang/Gen/tree/master/doc/doc_jp.md">Doc(日本語)</a>
+	|
 </div>
 
 **WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING CAN CHANGE AT ANY MOMENT.**
+> *Note:* **Python source code is being converted to Crystal.**
 
-Gen is an easy-to-learn, dynamic, interpreted, procedural programming language.
-
-See the [documentation](https://github.com/Gen-lang/Gen/tree/master/doc/doc_en.md)<br>
-日本語は[こっち](https://github.com/Gen-lang/Gen/tree/master/doc/doc_jp.md)です。
-
-Almost everything (for, if, and more) can be written in just one line. But it is pretty wordy, so it's also easy to learn.
-
-
+Gen is an easy-to-learn, dynamic, interpreted, procedural programming language. Gen's syntax is inspired by Ruby and Python.
 
 ### TODO List
  - [x] Built-in functions
