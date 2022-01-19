@@ -185,6 +185,14 @@ class Evaluator:
 			if res.should_return(): return res
 		return res.success(value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
 	
+	def visit_MapNode(self, node, context):
+		res = RuntimeResult()
+		map = {}
+		for key, value in node.map.items():
+			map[key] = res.register(self.visit(value, context))
+			if res.should_return(): return res
+		return res.success(value)
+	
 	def visit_WhileNode(self, node, context):
 		res = RuntimeResult()
 		elements = []
