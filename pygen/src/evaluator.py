@@ -191,7 +191,7 @@ class Evaluator:
 		for key, value in node.map.items():
 			map[key] = res.register(self.visit(value, context))
 			if res.should_return(): return res
-		return res.success(value)
+		return res.success(map)
 	
 	def visit_WhileNode(self, node, context):
 		res = RuntimeResult()

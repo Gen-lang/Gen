@@ -150,14 +150,14 @@ class Parser:
 				res.register_advance()
 				self.advance()
 				elements[prev_token] = res.register(self.expr())
-				if res.erorr: return res
+				if res.error: return res
 				res.register_advance()
 				self.advance()
 				if self.current_token.type != tk.TT_COMMA:
 					return res.failure(InvalidSyntaxError(
 						self.current_token.pos_start, self.current_token.pos_end, "Expected ','"
 					))
-			return res.success(MapNode(elements, pos_start, self.current_token.pos_end.copy()))
+		return res.success(MapNode(elements, pos_start, self.current_token.pos_end.copy()))
 	
 	def expr(self):
 		res = ParseResult()
