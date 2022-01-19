@@ -139,17 +139,16 @@ class Parser:
 			self.advance()
 		else:
 			while True:
-				prev_token = self.current_token
-				elements[prev_token] = ""
-				res.register_advance()
-				self.advance()
+				key = res.register(self.expr())
+				if res.error: return res
+				elements[key] = ""
 				if self.current_token.type != tk.TT_MAP_COLON:
 					return res.failure(InvalidSyntaxError(
 						self.current_token.pos_start, self.current_token.pos_end, "Expected ':'"
 					))
 				res.register_advance()
 				self.advance()
-				elements[prev_token] = res.register(self.expr())
+				elements[key] = res.register(self.expr())
 				if res.error: return res
 				if self.current_token.type == tk.TT_R_BRACE:
 					break
