@@ -1,0 +1,4 @@
+foo = {"a": "B"}
+# employees = [{"name": "John Doe"}, {"name": "bichanna"}]
+
+# println(employees)

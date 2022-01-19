@@ -121,11 +121,10 @@ class Parser:
 				if res.error: return res
 			if self.current_token.type != tk.TT_R_SQ:
 				return res.failure(InvalidSyntaxError(
-					self.current_token.pos_start, self.current_token.pos_end, "Expected ',' or ']'"
+					self.current_token.pos_start, self.current_token.pos_end, "Expected ',', '}', or ']'"
 				))
-			else:
-				res.register_advance()
-				self.advance()
+			res.register_advance()
+			self.advance()
 		return res.success(ArrayNode(elements, pos_start, self.current_token.pos_end.copy()))
 
 	def map_expr(self):
