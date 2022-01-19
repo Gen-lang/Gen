@@ -139,8 +139,8 @@ class Parser:
 			self.advance()
 		else:
 			while self.current_token.type != tk.TT_R_BRACE:
-				prev_token = self.current_token
-				elements[self.current_token.value] = ""
+				prev_token = self.current_token.value
+				elements[prev_token] = ""
 				res.register_advance()
 				self.advance()
 				if self.current_token.type != tk.TT_MAP_COLON:
