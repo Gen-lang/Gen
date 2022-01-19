@@ -56,6 +56,10 @@ class Parser:
 			array_expression = res.register(self.array_expr())
 			if res.error: return res
 			return res.success(array_expression)
+		elif token.type == tk.TT_L_BRACE:
+			map_expression = res.register(self.map_expr())
+			if res.error: return res
+			return res.success(map_expression)
 		elif token.matches(tk.TT_KEYWORD, "if"):
 			if_expression = res.register(self.if_expr())
 			if res.error: return res
@@ -123,6 +127,37 @@ class Parser:
 				res.register_advance()
 				self.advance()
 		return res.success(ArrayNode(elements, pos_start, self.current_token.pos_end.copy()))
+
+	def map_expr(self):
+		res = ParseResult()
+		elements = {}
+		pos_start = self.current_token.pos_start.copy()
+		res.register_advance()
+		self.advance()
+		if self.current_token.type == tk.TT_R_BRACE:
+			res.register_advance()
+			self.advance()
+		else:
+			while self.current_token.type != tk.TT_R_BRACE:
+				prev_token = self.current_token
+				elements[self.current_token.value] = ""
+				res.register_advance()
+				self.advance()
+				if self.current_token.type != tk.TT_MAP_COLON:
+					return res.failure(InvalidSyntaxError(
+						self.current_token.pos_start, self.current_token.pos_end, "Expected ':'"
+					))
+				res.register_advance()
+				self.advance()
+				elements[prev_token] = res.register(self.expr())
+				if res.erorr: return res
+				res.register_advance()
+				self.advance()
+				if self.current_token.type != tk.TT_COMMA:
+					return res.failure(InvalidSyntaxError(
+						self.current_token.pos_start, self.current_token.pos_end, "Expected ','"
+					))
+			return res.success(MapNode(elements, pos_start, self.current_token.pos_end.copy()))
 	
 	def expr(self):
 		res = ParseResult()
