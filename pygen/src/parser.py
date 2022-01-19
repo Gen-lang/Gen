@@ -138,8 +138,8 @@ class Parser:
 			res.register_advance()
 			self.advance()
 		else:
-			while self.current_token.type != tk.TT_R_BRACE:
-				prev_token = self.current_token.value
+			while True:
+				prev_token = self.current_token
 				elements[prev_token] = ""
 				res.register_advance()
 				self.advance()
@@ -157,6 +157,8 @@ class Parser:
 					return res.failure(InvalidSyntaxError(
 						self.current_token.pos_start, self.current_token.pos_end, "Expected ','"
 					))
+				res.register_advance()
+				self.advance()
 		return res.success(MapNode(elements, pos_start, self.current_token.pos_end.copy()))
 	
 	def expr(self):
