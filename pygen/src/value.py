@@ -343,9 +343,8 @@ class Map(Value):
 		string = "{"
 		for key, value in self.map.items():
 			string += f"{key}: {value}, "
-		if string[-2] == " ":
-			if string[-3] == ",":
-				string = string[0:-3]
+		if string[-1] == " " and string[-2] == ",":
+			string = string[:-2] + "}"
 		return string
 
 
