@@ -151,8 +151,8 @@ class Parser:
 				self.advance()
 				elements[prev_token] = res.register(self.expr())
 				if res.error: return res
-				res.register_advance()
-				self.advance()
+				if self.current_token.type == tk.TT_R_BRACE:
+					break
 				if self.current_token.type != tk.TT_COMMA:
 					return res.failure(InvalidSyntaxError(
 						self.current_token.pos_start, self.current_token.pos_end, "Expected ','"
