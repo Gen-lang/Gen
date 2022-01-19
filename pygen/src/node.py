@@ -25,6 +25,13 @@ class ArrayNode:
 		self.pos_end = pos_end
 
 
+class MapNode:
+	def __init__(self, map, pos_start, pos_end):
+		self.map = map
+		self.pos_start = pos_start
+		self.pos_end = pos_end
+
+
 class BinOpNode:
 	def __init__(self, left_node, op_token, right_node):
 		self.left_node = left_node
