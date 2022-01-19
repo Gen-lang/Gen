@@ -307,13 +307,45 @@ class Array(Value):
 			return Value.invalid_operation(self, other)
 
 	def copy(self):
-		copy = Array(self.elements[:])
+		copy = Array(self.elements)
 		copy.set_position(self.pos_start, self.pos_end)
 		copy.set_context(self.context)
 		return copy
 	
 	def __repr__(self):
 		string = "[" + ', '.join([str(i) for i in self.elements]) + "]"
+		return string
+
+
+class Map(Value):
+	def __init__(self, map):
+		super().__init__()
+		self.map = map
+
+	def at(self, other):
+		if isinstance(other, Number) or isinstance(other, String):
+			try:
+				return self.map[other.value], None
+			except:
+				return None, RuntimeError(
+					other.pos_start, other.pos_end, f"Element at key '{other.value}' does not exist", self.context
+				)
+		else:
+			return Value.invalid_operation(self, other)
+
+	def copy(self):
+		copy = Map(self.map)
+		copy.set_position(self.pos_start, self.pos_end)
+		copy.set_context(self.context)
+		return copy
+	
+	def __repr__(self):
+		string = "{"
+		for key, value in self.map.items():
+			string += f"{key}: {value}, "
+		if string[-2] == " ":
+			if string[-3] == ",":
+				string = string[0:-3]
 		return string
 
 
