@@ -70,6 +70,9 @@ class Lexer:
 			elif self.current_char == "}":
 				tokens.append(tk.Token(tk.TT_R_BRACE, pos_start=self.position))
 				self.advance()
+			elif self.current_char == ":":
+				tokens.append(tk.Token(tk.TT_MAP_COLON, pos_start=self.position))
+				self.advance()
 			elif self.current_char == ",":
 				tokens.append(tk.Token(tk.TT_COMMA, pos_start=self.position))
 				self.advance()
