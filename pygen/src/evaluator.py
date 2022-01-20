@@ -79,9 +79,15 @@ class Evaluator:
 	def visit_ReassignNode(self, node, context):
 		res = RuntimeResult()
 		if isinstance(node.var_name_token, list):
-			pass
+			print(node.var_name_token)
 		else:
-			pass
+			var_name = node.var_name_token.value
+			index_or_key = res.register(self.visit(node.index_or_key, context))
+			if res.should_return(): return res
+			value = res.register(self.visit(node.value_node, context))
+			if res.should_return(): return res
+			context.symbol_table.set_arr_or_map(var_name, index_or_key, value)
+		return res.success(value)
 	
 	def visit_IfNode(self, node, context):
 		res = RuntimeResult()
