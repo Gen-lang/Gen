@@ -136,6 +136,14 @@ class BuiltinFunction(BaseFunction):
 		return RuntimeResult().success(Number.true if is_function is True else Number.false)
 	execute_is_function.arg_names = ["value"]
 
+	def execute_is_map(self, context):
+		"""
+			check if the given value is a map or not
+		"""
+		value = context.symbol_table.get("value")
+		is_map = isinstance(value, Map)
+		return RuntimeResult().success(Number.true if is_map is True else Number.false)
+
 	def execute_exit_program(self, context):
 		"""
 			exit the program
@@ -174,9 +182,11 @@ class BuiltinFunction(BaseFunction):
 			return RuntimeResult().success(String("string"))
 		elif isinstance(value, Array):
 			return RuntimeResult().success(String("array"))
+		elif isinstance(value, Map):
+			return RuntimeResult().success(String("map"))
 		else:
 			return RuntimeResult().failure(RuntimeError(
-				self.pos_start, self.pos_end, f"{value} has no Gen type"
+				self.pos_start, self.pos_end, f"{value} has no type"
 			))
 	execute_typeof.arg_names = ["value"]
 	
