@@ -401,7 +401,11 @@ class Parser:
 				new_left = left.left_node.element_nodes
 				is_direct = True
 			else:
-				new_left = left.left_node.map
+				if isinstance(left.left_node, MapNode):
+					return res.failure(InvalidSyntaxError(
+						self.current_token.pos_start, self.current_token.pos_end, "Map cannot be modified directly"
+					))
+				new_left = left.left_node.var_name_token
 				is_direct = False
 			return res.success(ReassignNode(new_left, index_or_key, new_value, is_direct))
 		return res.success(left)
