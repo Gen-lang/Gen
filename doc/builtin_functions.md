@@ -2,7 +2,7 @@
 
 I will add more built-in functions, but if you want something that's not listed here, please open an issue or contribute.
 
-> *Note: * This may be a bit outdated.
+> *Note:* This may be a bit outdated.
 
 | Name | Description | Example |
 |------| ----------- | ------- |
