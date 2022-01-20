@@ -81,7 +81,8 @@ class ReassignNode:
 		if isinstance(self.var_name_token, list):
 			self.pos_start = self.var_name_token[0].pos_start
 		else:
-			self.pos_start = self.var_name_token.pos_start
+			key = list(self.var_name_token.keys())[0]
+			self.pos_start = self.var_name_token[key].pos_start
 		self.pos_end = self.value_node.pos_end
 
 class IfNode:
