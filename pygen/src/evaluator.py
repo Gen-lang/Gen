@@ -76,6 +76,13 @@ class Evaluator:
 		context.symbol_table.set(var_name, value)
 		return res.success(value)
 	
+	def visit_ReassignNode(self, node, context):
+		res = RuntimeResult()
+		if isinstance(node.var_name_token, list):
+			pass
+		else:
+			pass
+	
 	def visit_IfNode(self, node, context):
 		res = RuntimeResult()
 		for condition, expression, should_return_null in node.cases:
