@@ -32,6 +32,12 @@ println(a@0) # the first element
 println(a@-1) # the last element
 ```
 
+### Map
+```
+map = {"foo": "bee"}
+println(map@"a")
+```
+
 ### Logical Operators
 Just like any other languages.
 ```

@@ -27,6 +27,12 @@ println(a@0) # the first element
 println(a@-1) # the last element
 ```
 
+### Map
+```
+map = {"foo": "bee"}
+println(map@"a")
+```
+
 ### 論理演算子
 ```
 gen>> 1 > 10
