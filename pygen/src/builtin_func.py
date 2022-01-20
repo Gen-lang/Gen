@@ -37,7 +37,6 @@ class BuiltinFunction(BaseFunction):
 			print the value passed in with a new line at the end
 			example: println("Hello World")
 		"""
-		# add try-except later
 		print(str(context.symbol_table.get("value")))
 		return RuntimeResult().success(Number.null)
 	execute_println.arg_names = ["value"]

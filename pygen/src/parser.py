@@ -138,9 +138,11 @@ class Parser:
 			self.advance()
 		else:
 			while True:
+				# key = res.success(StringNode(self.current_token))
+				# res.register_advance()
+				# self.advance()
 				key = res.register(self.expr())
 				if res.error: return res
-				elements[key] = ""
 				if self.current_token.type != tk.TT_MAP_COLON:
 					return res.failure(InvalidSyntaxError(
 						self.current_token.pos_start, self.current_token.pos_end, "Expected ':'"
@@ -157,6 +159,8 @@ class Parser:
 					))
 				res.register_advance()
 				self.advance()
+		res.register_advance()
+		self.advance()
 		return res.success(MapNode(elements, pos_start, self.current_token.pos_end.copy()))
 	
 	def expr(self):
