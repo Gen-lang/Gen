@@ -78,8 +78,11 @@ class ReassignNode:
 		self.index_or_key = index_or_key
 		self.value_node = value_node
 		self.is_direct = is_direct
+		from src.gen_token import Token
 		if isinstance(self.var_name_token, list):
 			self.pos_start = self.var_name_token[0].pos_start
+		elif isinstance(self.var_name_token, Token):
+			self.pos_start = self.var_name_token.pos_start
 		else:
 			key = list(self.var_name_token.keys())[0]
 			self.pos_start = self.var_name_token[key].pos_start
