@@ -79,7 +79,13 @@ class Evaluator:
 	def visit_ReassignNode(self, node, context):
 		res = RuntimeResult()
 		if isinstance(node.var_name_token, list):
-			print(node.var_name_token)
+			return res.failure(RuntimeError(
+				node.pos_start, node.pos_end, "Modifying an array directly is not allowed", context
+			))
+		elif isinstance(node.var_name_token, dict):
+			return res.failure(RuntimeError(
+				node.pos_start, node.pos_end, "Modifying a map directly is not allowed", context
+			))
 		else:
 			var_name = node.var_name_token.value
 			index_or_key = res.register(self.visit(node.index_or_key, context))
