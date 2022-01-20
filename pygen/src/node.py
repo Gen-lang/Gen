@@ -78,7 +78,10 @@ class ReassignNode:
 		self.index_or_key = index_or_key
 		self.value_node = value_node
 		self.is_direct = is_direct
-		self.pos_start = self.var_name_token.pos_start
+		if isinstance(self.var_name_token, list):
+			self.pos_start = self.var_name_token[0].pos_start
+		else:
+			self.pos_start = self.var_name_token.pos_start
 		self.pos_end = self.value_node.pos_end
 
 class IfNode:
