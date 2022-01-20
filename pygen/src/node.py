@@ -73,6 +73,7 @@ class VarAssignNode:
 
 class ReassignNode:
 	def __init__(self, var_name_token, index_or_key, value_node, is_direct):
+		# var_name_token is either an IDENTIFIER or a Python list
 		self.var_name_token = var_name_token
 		self.index_or_key = index_or_key
 		self.value_node = value_node

@@ -376,13 +376,34 @@ class Parser:
 		res = ParseResult()
 		left = res.register(func_a())
 		if res.error: return res
+		is_arr_or_map_assign = False
 		while self.current_token.type in ops or (self.current_token.type, self.current_token.value) in ops:
+			if self.current_token.type == tk.TT_AT:
+				is_arr_or_map_assign = True
 			op_token = self.current_token
 			res.register_advance()
 			self.advance()
 			right = res.register(func_b())
 			if res.error: return res
 			left = BinOpNode(left, op_token, right)
+		# check for array or map assignment
+		if is_arr_or_map_assign:
+			res.deregister_advance()
+			self.reverse(amount=1)
+			index_or_key = res.register(self.expr())
+			if self.current_token.type != tk.TT_EQUALS:
+				return res.success(left)
+			res.register_advance()
+			self.advance()
+			new_value = res.register(self.expr())
+			if res.error: return res
+			if isinstance(left.left_node, ArrayNode):
+				new_left = left.left_node.element_nodes
+				is_direct = True
+			else:
+				new_left = left.left_node.var_name_token
+				is_direct = False
+			return res.success(ReassignNode(new_left, index_or_key, new_value, is_direct))
 		return res.success(left)
 	
 	def comp_expr(self):

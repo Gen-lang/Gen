@@ -1,3 +1,3 @@
-foo = {"a": "B", "c": "D"}
+foo = [{"a": "B", "c": "D"}, {"e": "F", "g": "H"}]
 
-println(foo@"a")
+println(foo@0@"a")
