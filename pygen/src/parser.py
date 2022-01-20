@@ -401,7 +401,7 @@ class Parser:
 				new_left = left.left_node.element_nodes
 				is_direct = True
 			else:
-				new_left = left.left_node.var_name_token
+				new_left = left.left_node.map
 				is_direct = False
 			return res.success(ReassignNode(new_left, index_or_key, new_value, is_direct))
 		return res.success(left)
