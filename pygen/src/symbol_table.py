@@ -10,5 +10,8 @@ class SymbolTable:
 	def set(self, var_name, value):
 		self.symbols[var_name] = value
 	
+	def set_arr_or_map(self, var_name, key_or_index, value):
+		self.symbols[var_name][key_or_index] = value
+	
 	def remove(self, var_name):
 		del self.symbols[var_name]
