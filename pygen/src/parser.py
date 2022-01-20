@@ -190,7 +190,7 @@ class Parser:
 	def if_expr(self):
 		res = ParseResult()
 		all_cases = res.register(self.if_expr_cases("if"))
-		if res.error: res
+		if res.error: return res
 		cases, else_case = all_cases
 		return res.success(IfNode(cases, else_case))
 	
