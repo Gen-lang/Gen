@@ -405,7 +405,10 @@ class Parser:
 					return res.failure(InvalidSyntaxError(
 						self.current_token.pos_start, self.current_token.pos_end, "Map cannot be modified directly"
 					))
-				new_left = left.left_node.var_name_token
+				elif isinstance(left.left_node, BinOpNode):
+					new_left = left.left_node.left_node.var_name_token
+				else:
+					new_left = left.left_node.var_name_token
 				is_direct = False
 			return res.success(ReassignNode(new_left, index_or_key, new_value, is_direct))
 		return res.success(left)

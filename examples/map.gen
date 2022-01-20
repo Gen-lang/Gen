@@ -1,3 +1,5 @@
 foo = [{"a": "B", "c": "D"}, {"e": "F", "g": "H"}]
 
-println(foo@0@"a")
+foo@0 = "Hello World"
+
+println(foo)
