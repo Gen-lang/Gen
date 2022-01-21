@@ -165,12 +165,22 @@ class Parser:
 	
 	def expr(self):
 		res = ParseResult()
+		# checking map or array var reassignment
+		res.deregister_advance()
+		self.reverse(1)
+		has_at = False
+		if self.current_token.type == tk.TT_AT:
+			has_at = True
+		res.register_advance()
+		self.advance()
 		# checking variable assignment
 		if self.current_token.type == tk.TT_IDENTIFIER:
 			var_name = self.current_token
 			res.register_advance()
 			self.advance()
 			if self.current_token.type == tk.TT_EQUALS:
+				if has_at:
+					return res.success(VarAccessNode(var_name))
 				res.register_advance()
 				self.advance()
 				expression = res.register(self.expr())
