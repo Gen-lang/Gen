@@ -76,7 +76,7 @@ def file(filename, show_tokens):
 		sys.exit()
 	_, error = run(filename, code, show_tokens)
 	if error is not None: print(error)
-j
+
 def ctrl_c_handler(*_):
 	print("\nBye bye!")
 	sys.exit()
