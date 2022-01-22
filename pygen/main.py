@@ -1,6 +1,5 @@
 import readline # this is necessary: DO NOT REMOVE
 import sys
-import time
 import signal
 from src.lexer import Lexer
 from src.parser import Parser
