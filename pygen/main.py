@@ -73,13 +73,13 @@ def file(filename, show_tokens):
 			code = fobj.read()
 	except Exception:
 		print(f"Could not open file '{filename}'.")
-		exit()
+		sys.exit()
 	_, error = run(filename, code, show_tokens)
 	if error is not None: print(error)
-
+j
 def ctrl_c_handler(*_):
 	print("\nBye bye!")
-	exit()
+	sys.exit()
 
 if __name__ == "__main__":
 	# for catching Ctrl-C
