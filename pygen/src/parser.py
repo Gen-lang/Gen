@@ -416,7 +416,7 @@ class Parser:
 						self.current_token.pos_start, self.current_token.pos_end, "Map cannot be modified directly"
 					))
 				elif isinstance(left.left_node, BinOpNode):
-					new_left = left.left_node.left_node.var_name_token
+					new_left = res.register(self.expr())
 				else:
 					new_left = left.left_node.var_name_token
 				is_direct = False
