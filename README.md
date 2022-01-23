@@ -57,7 +57,7 @@ println(array)
 ```
 
 ### Contributing
-Contributions are welcome! Especially, I need a help on Makefile and importing.
+Contributions are welcome! Especially, I need a help on Makefile and bug fixing.
 
 ### Reports
 If you found a bug, please open a new issue and paste the error message and your code that caused the bug.
