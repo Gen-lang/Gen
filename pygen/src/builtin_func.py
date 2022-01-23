@@ -288,6 +288,8 @@ class BuiltinFunction(BaseFunction):
 		
 		evaluator = Evaluator()
 		# I don't know what to do next...
+		# I'm planning to evaluate the imported file
+		# and add the generated symbol table to the importing file.
 
 		return RuntimeResult().success(Number.null)
 	execute_import.arg_names = ["filename"]
