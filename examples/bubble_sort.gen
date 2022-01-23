@@ -1,3 +1,5 @@
+# Bubble sort
+
 defunc bubble_sort(arr)
     for i=0 through size(arr) then
         for j=0 through size(arr)-i-1 then
