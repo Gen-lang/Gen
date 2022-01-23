@@ -398,6 +398,7 @@ class Parser:
 			left = BinOpNode(left, op_token, right)
 		# check for array or map assignment
 		if is_arr_or_map_assign:
+			# go back until self.current_token is TT_AT so that the index can be parsed again
 			while True:
 				res.deregister_advance()
 				self.reverse(amount=1)
