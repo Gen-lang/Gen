@@ -1,3 +1,6 @@
+from src.lexer import Lexer
+from src.parser import Parser
+from src.symbol_table import SymbolTable
 from src.value import *
 from src.evaluator import RuntimeResult, RuntimeError
 import sys
@@ -257,6 +260,8 @@ class BuiltinFunction(BaseFunction):
 	def execute_import(self, context):
 		"""
 			import the specified file
+			example: some_file = import("some_file")
+					 some_file@some_function()
 		"""
 		filename = context.symbol_table.get("filename").value
 		try:
@@ -265,9 +270,25 @@ class BuiltinFunction(BaseFunction):
 		except Exception:
 			print(f"Could not open file '{filename}.gen'.")
 			sys.exit()
-		import main
-		_, error = main.run(filename, code)
-		if error is not None: print(error)
+		
+		# create a new symbol_table for the importing file
+		from main import set_default_symbol_table
+		new_symbol_table = SymbolTable()
+		new_symbol_table = set_default_symbol_table(new_symbol_table)
+
+		# generate tokens
+		lexer = Lexer(filename, code)
+		tokens, err = lexer.make_tokens()
+		if err is not None: return None, err
+
+		# generate AST
+		parser = Parser(tokens)
+		ast = parser.parse()
+		if ast.error: return None, ast.error
+		
+		evaluator = Evaluator()
+		# I don't know what to do next...
+
 		return RuntimeResult().success(Number.null)
 	execute_import.arg_names = ["filename"]
 
