@@ -90,10 +90,18 @@ class Evaluator:
 			var_name = node.var_name_token.value
 			index_or_key = res.register(self.visit(node.index_or_key, context))
 			if res.should_return(): return res
-			value = res.register(self.visit(node.value_node, context))
+			new_value = res.register(self.visit(node.value_node, context))
 			if res.should_return(): return res
-			context.symbol_table.set_arr_or_map(var_name, index_or_key, value)
-		return res.success(value)
+			if isinstance(context.symbol_table.symbols[var_name], value.Array):
+				if len(context.symbol_table.symbols[var_name].elements) > index_or_key.value:
+					context.symbol_table.set_arr(var_name, index_or_key, new_value)
+				else:
+					return res.failure(RuntimeError(
+						node.pos_start, node.pos_end, f"Element at index {index_or_key.value} does not exist", context
+					))
+			else:
+				context.symbol_table.set_map(var_name, index_or_key, new_value)
+		return res.success(new_value)
 	
 	def visit_IfNode(self, node, context):
 		res = RuntimeResult()
