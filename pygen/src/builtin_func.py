@@ -260,7 +260,7 @@ class BuiltinFunction(BaseFunction):
 	def execute_import(self, context):
 		"""
 			import the specified file
-			example: some_file = import("some_file.gen")
+			example: import("some_file.gen")
 					 some_function()
 		"""
 		filename = context.symbol_table.get("filename").value
@@ -268,7 +268,7 @@ class BuiltinFunction(BaseFunction):
 			with open(filename, "r") as fobj:
 				code = fobj.read()
 		except Exception:
-			print(f"Could not open file '{filename}.gen'.")
+			print(f"Could not open file '{filename}'.")
 			sys.exit()
 
 		# generate tokens
