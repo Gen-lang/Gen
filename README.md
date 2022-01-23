@@ -13,11 +13,6 @@
 Gen is an easy-to-learn, dynamic, interpreted, procedural programming language. Gen's syntax is inspired by Ruby and Python. <br>
 You also have a simple REPL (but you need to write for loops, if statements, and functions in one line, which is possible but hard to read).
 
-### TODO List
- - [x] Built-in functions
- - [x] Map
- - [ ] Import other files
- - [x] Reading files with extention .gen (meaning allowing multi-line statements)
 
 ### Installation
 ```
