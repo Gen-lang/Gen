@@ -45,6 +45,7 @@ def run(filename, text, show_tokens=False):
 	parser = Parser(tokens)
 	ast = parser.parse()
 	if ast.error: return None, ast.error
+	# print(ast.node.element_nodes)
 
 	# call evaluator
 	evaluator = Evaluator()

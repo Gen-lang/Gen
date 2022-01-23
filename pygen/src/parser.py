@@ -398,8 +398,13 @@ class Parser:
 			left = BinOpNode(left, op_token, right)
 		# check for array or map assignment
 		if is_arr_or_map_assign:
-			res.deregister_advance()
-			self.reverse(amount=1)
+			while True:
+				res.deregister_advance()
+				self.reverse(amount=1)
+				if self.current_token.type == tk.TT_AT:
+					res.register_advance()
+					self.advance()
+					break
 			index_or_key = res.register(self.expr())
 			if self.current_token.type != tk.TT_EQUALS:
 				return res.success(left)
