@@ -260,21 +260,16 @@ class BuiltinFunction(BaseFunction):
 	def execute_import(self, context):
 		"""
 			import the specified file
-			example: some_file = import("some_file")
-					 some_file@some_function()
+			example: some_file = import("some_file.gen")
+					 some_function()
 		"""
 		filename = context.symbol_table.get("filename").value
 		try:
-			with open(filename+".gen", "r") as fobj:
+			with open(filename, "r") as fobj:
 				code = fobj.read()
 		except Exception:
 			print(f"Could not open file '{filename}.gen'.")
 			sys.exit()
-		
-		# create a new symbol_table for the importing file
-		from main import set_default_symbol_table
-		new_symbol_table = SymbolTable()
-		new_symbol_table = set_default_symbol_table(new_symbol_table)
 
 		# generate tokens
 		lexer = Lexer(filename, code)
@@ -287,10 +282,10 @@ class BuiltinFunction(BaseFunction):
 		if ast.error: return None, ast.error
 		
 		evaluator = Evaluator()
-		# I don't know what to do next...
-		# I'm planning to evaluate the imported file
-		# and add the generated symbol table to the importing file.
-
+		new_symbol_table = evaluator.visit(ast.node, context, only_return_symtable=True)
+		
+		for k, v in new_symbol_table.symbols.items():
+			self.context.symbol_table.set(k, v)
 		return RuntimeResult().success(Number.null)
 	execute_import.arg_names = ["filename"]
 

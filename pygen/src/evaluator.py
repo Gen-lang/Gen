@@ -50,10 +50,13 @@ class RuntimeResult:
 
 
 class Evaluator:
-	def visit(self, node, context):
+	def visit(self, node, context, only_return_symtable=False):
 		method_to_be_called = f"visit_{type(node).__name__}"
 		method = getattr(self, method_to_be_called, self.no_visit_method)
-		return method(node, context)
+		if only_return_symtable is False: return method(node, context)
+		else:
+			method(node, context)
+			return context.symbol_table
 	
 	def no_visit_method(self, node, context):
 		raise Exception(f"No visit_{type(node).__name__} method defined.")
