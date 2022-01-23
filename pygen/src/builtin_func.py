@@ -1,9 +1,7 @@
 from src.lexer import Lexer
 from src.parser import Parser
-from src.symbol_table import SymbolTable
 from src.value import *
 from src.evaluator import RuntimeResult, RuntimeError
-import sys
 
 class BuiltinFunction(BaseFunction):
 	def __init__(self, name):
