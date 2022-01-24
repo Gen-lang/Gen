@@ -56,7 +56,8 @@ def run(filename, text, show_tokens=False):
 	context = Context("<module>")
 	context.symbol_table = global_symbol_table
 	result = evaluator.visit(ast.node, context)
-
+	if result is None:
+		exit()
 	return result.value, result.error
 
 def shell():

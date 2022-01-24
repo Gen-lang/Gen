@@ -140,7 +140,6 @@ class Lexer:
 	def make_identifier(self):
 		string = ""
 		pos_start = self.position.copy()
-		print("calld")
 		while self.current_char is not None and self.current_char in LETTERS_AND_DIGITS+"_":
 			string += self.current_char
 			self.advance()
