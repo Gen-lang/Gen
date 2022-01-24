@@ -1,3 +1,5 @@
+import os
+import platform
 from src.lexer import Lexer
 from src.parser import Parser
 from src.value import *
@@ -288,6 +290,18 @@ class BuiltinFunction(BaseFunction):
 		return RuntimeResult().success(Number.null)
 	execute_import.arg_names = ["filename"]
 
+	def execute_clear(self, context):
+		"""
+			clear the terminal (console)
+			example: clear()
+		"""
+		if platform.system() == "Darwin" or platform.system() == "Linux":
+			os.system("clear")
+		elif platform.system() == "Windows":
+			os.system("cls")
+		return RuntimeResult().success(Number.null)
+	execute_clear.arg_names = []
+
 
 BuiltinFunction.println 			= BuiltinFunction("println")
 BuiltinFunction.print	 			= BuiltinFunction("print")
@@ -308,3 +322,4 @@ BuiltinFunction.string				= BuiltinFunction("string")
 BuiltinFunction.chars				= BuiltinFunction("chars")
 BuiltinFunction.split				= BuiltinFunction("split")
 BuiltinFunction.import_				= BuiltinFunction("import")
+BuiltinFunction.clear				= BuiltinFunction("clear")
