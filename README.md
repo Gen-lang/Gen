@@ -10,7 +10,7 @@
 
 **WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING CAN CHANGE AT ANY MOMENT.**
 
-Gen is an easy-to-learn, dynamic, interpreted, procedural language. Gen's syntax is inspired by Ruby and Python. <br>
+Gen is an easy-to-learn, dynamic, interpreted, procedural scripting language. Gen's syntax is inspired by Ruby and Python. <br>
 Gen also has a simple REPL (but you need to write for loops, if statements, and functions in one line, which is possible but hard to write).<br>
 And in Gen, a semicolon is the same as a new line, so you can ultimately write everthing in one line.
 
