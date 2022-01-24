@@ -617,9 +617,13 @@ class Parser:
 	
 	def parse(self):
 		# check if there's anything to do at all
+		not_empty = True
 		for token in self.tokens:
-			if token.type != tk.TT_NL or token.type != tk.TT_EOF:
-				return ParseResult()
+			if token.type != tk.TT_NL and token.type != tk.TT_EOF:
+				not_empty = False
+				break
+		if not_empty is True:
+			return ParseResult()
 		result = self.statements()
 		if result.error and self.current_token.type != tk.TT_EOF:
 			return result.failure(InvalidSyntaxError(
