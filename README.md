@@ -16,6 +16,7 @@ And in Gen, a semicolon is the same as a new line, so you can ultimately write e
 
 
 ### TODO
+ - [x] Built-in functions
  - [ ] I/O Operation
 
 
