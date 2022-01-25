@@ -214,6 +214,10 @@ class BuiltinFunction(BaseFunction):
 			example: float(4)
 		"""
 		value = context.symbol_table.get("value")
+		if isinstance(value, Array) or isinstance(value, Map):
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, "Arguement should not be an array or a map", context
+			))
 		try:
 			float_value = float(value.value)
 		except:
