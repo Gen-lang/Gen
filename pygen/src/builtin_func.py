@@ -244,6 +244,10 @@ class BuiltinFunction(BaseFunction):
 			example 2: chars(123)
 		"""
 		value = context.symbol_table.get("value")
+		if isinstance(value, Array) or isinstance(value, Map):
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, "Argument should not be an array or a map", context
+			))
 		lst = []
 		for i in str(value.value):
 			lst.append(String(i))
@@ -255,9 +259,13 @@ class BuiltinFunction(BaseFunction):
 			split the given string
 			example: split("Bob,Sue,John", ",")
 		"""
-		value = context.symbol_table.get("value").value
-		delimiter = context.symbol_table.get("delimiter").value
-		lst = value.split(delimiter)
+		value = context.symbol_table.get("value")
+		delimiter = context.symbol_table.get("delimiter")
+		if isinstance(value, Array) or isinstance(value, Map) or not isinstance(value, String) or isinstance(delimiter, Array) or isinstance(delimiter, Map) or not isinstance(delimiter, String):
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, "Both arguments should be the type of string", context
+			))
+		lst = value.value.split(delimiter.value)
 		return RuntimeResult().success(Array(lst))
 	execute_split.arg_names = ["value", "delimiter"]
 
