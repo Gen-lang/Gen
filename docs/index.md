@@ -12,6 +12,12 @@ Gen's syntax is greatly inspired by Ruby and Python. But one unique thing in Gen
 The language is created from scratch using Python (working on an implementation in C).
 
 
+## Hello World
+It's just one line without any entry function.
+```
+println("Hello World")
+```
+
 ## Example
 ```
 # Fizzbuzz
