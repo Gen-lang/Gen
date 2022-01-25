@@ -162,7 +162,7 @@ class BuiltinFunction(BaseFunction):
 			example: size([1, 2, 3])
 		"""
 		value = context.symbol_table.get("value")
-		if isinstance(value, Number):
+		if isinstance(value, Number) or isinstance(value, Map):
 			return RuntimeResult().failure(RuntimeError(
 				self.pos_start, self.pos_end, "The argument should be string or array", context
 			))
