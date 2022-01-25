@@ -22,7 +22,7 @@ And in Gen, a semicolon is the same as a new line, so you can ultimately write e
 
 
 ### Installation
-> *Note:* Do not use `git clone` command to clone the repository. Please download the source code from the releases page
+> *Note:* Using `git clone` to clone the repository is discouraged. Please download the source code from the releases page
 ```
 cd Gen/pygen
 make install
