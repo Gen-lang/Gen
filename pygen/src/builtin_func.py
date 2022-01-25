@@ -229,6 +229,10 @@ class BuiltinFunction(BaseFunction):
 			example: string(344.3)
 		"""
 		value = context.symbol_table.get("value")
+		if isinstance(value, Map) or isinstance(value, Array):
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, "Argument should not be an array or a map", context
+			))
 		new_value = str(value.value)
 		return RuntimeResult().success(String(new_value))
 	execute_string.arg_names = ["value"]
