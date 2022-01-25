@@ -187,6 +187,8 @@ class BuiltinFunction(BaseFunction):
 			return RuntimeResult().success(String("array"))
 		elif isinstance(value, Map):
 			return RuntimeResult().success(String("map"))
+		elif isinstance(value, Function):
+			return RuntimeResult().success(String("function"))
 		else:
 			return RuntimeResult().failure(RuntimeError(
 				self.pos_start, self.pos_end, f"{value} has no type", context
