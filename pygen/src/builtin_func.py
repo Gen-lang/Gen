@@ -199,6 +199,10 @@ class BuiltinFunction(BaseFunction):
 			example: int("3")
 		"""
 		value = context.symbol_table.get("value")
+		if isinstance(value, Array) or isinstance(value, Map):
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, "Argument should not be an array or a map", context
+			))
 		try:
 			int_value = int(value.value)
 		except:
