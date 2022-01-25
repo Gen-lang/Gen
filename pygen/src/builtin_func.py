@@ -275,7 +275,12 @@ class BuiltinFunction(BaseFunction):
 			example: import("some_file.gen")
 					 some_function()
 		"""
-		filename = context.symbol_table.get("filename").value
+		filename = context.symbol_table.get("filename")
+		if not isinstance(filename, String):
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, "Argument should be the type of string", context
+			))
+		filename = filename.value
 		try:
 			with open(filename, "r") as fobj:
 				code = fobj.read()
