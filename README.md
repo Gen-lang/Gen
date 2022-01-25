@@ -65,7 +65,7 @@ println(array)
 ```
 
 ### Contributing
-Contributions are welcome! Especially, I need help bug fixing and the official website.
+Contributions are welcome! Especially, I need help bug fixing.
 
 ### Reports
 If you found a bug, please open a new issue and paste the error message and your code that caused the bug.
