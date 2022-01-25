@@ -1,0 +1,28 @@
+
+defunc whiteblock()
+    print("■ ")
+end
+
+defunc blackblock()
+    print("□ ")
+end
+
+defunc natural()
+    i = 0
+    while i < 10 then
+        j = 0
+        while j < 10 then
+            if i < j then
+                whiteblock()
+            else
+                blackblock()
+            end
+            j = j + 1
+        end
+        println(" ")
+        i = i + 1
+    end
+end
+
+natural()
+
