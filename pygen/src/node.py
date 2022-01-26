@@ -127,6 +127,16 @@ class ForNode:
 		self.should_return_null = should_return_null
 
 
+class ForInNode:
+	def __init__(self, var_name_token, array_elements, body_node, should_return_null):
+		self.var_name = var_name_token
+		self.array_elements = array_elements
+		self.body_node = body_node
+		self.pos_start = self.var_name_token.pos_start
+		self.pos_end = self.body_node.pos_end
+		self.should_return_null = should_return_null
+
+
 class WhileNode:
 	def __init__(self, condition, body_node, should_return_null):
 		self.condition_node = condition
