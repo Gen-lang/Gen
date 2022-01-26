@@ -34,6 +34,7 @@ def set_default_symbol_table(symbol_table):
 	symbol_table.set("split", BuiltinFunction.split)
 	symbol_table.set("import", BuiltinFunction.import_)
 	symbol_table.set("clear", BuiltinFunction.clear)
+	symbol_table.set("keys", BuiltinFunction.keys)
 	return symbol_table
 
 global_symbol_table = SymbolTable()

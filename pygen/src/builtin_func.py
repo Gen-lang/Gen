@@ -315,6 +315,12 @@ class BuiltinFunction(BaseFunction):
 		for k, v in new_symbol_table.symbols.items():
 			self.context.symbol_table.set(k, v)
 		return RuntimeResult().success(Number.null)
+		
+		# create keys and values
+
+		# Another way
+		# new_map = Map(new_symbol_table.symbols)
+		# return RuntimeResult().success(new_map)
 	execute_import.arg_names = ["filename"]
 
 	def execute_clear(self, context):
@@ -328,6 +334,25 @@ class BuiltinFunction(BaseFunction):
 			os.system("cls")
 		return RuntimeResult().success(Number.null)
 	execute_clear.arg_names = []
+
+	def execute_keys(self, context):
+		"""
+			return an array of keys in a map
+			example: arr = keys(map)
+		"""
+		map = context.symbol_table.get("map")
+		if not isinstance(map, Map):
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, "Argument should be a map", context
+			))
+		lst = []
+		for i in list(map.map.keys()):
+			if isinstance(i, int) or isinstance(i, float):
+				lst.append(Number(i))
+			else:
+				lst.append(String(i))
+		return RuntimeResult().success(Array(lst))
+	execute_keys.arg_names = ["map"]
 
 
 BuiltinFunction.println 			= BuiltinFunction("println")
@@ -350,3 +375,4 @@ BuiltinFunction.chars				= BuiltinFunction("chars")
 BuiltinFunction.split				= BuiltinFunction("split")
 BuiltinFunction.import_				= BuiltinFunction("import")
 BuiltinFunction.clear				= BuiltinFunction("clear")
+BuiltinFunction.keys				= BuiltinFunction("keys")
