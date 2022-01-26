@@ -1,5 +1,6 @@
 import src.gen_token as tk
 import src.value as value
+import src.node as nd
 from src.error import RuntimeError
 
 class RuntimeResult:
@@ -221,6 +222,10 @@ class Evaluator:
 		res = RuntimeResult()
 		map = {}
 		for key, v in node.map.items():
+			if isinstance(key, nd.ArrayNode) or isinstance(key, nd.MapNode):
+				return res.failure(RuntimeError(
+					node.pos_start, node.pos_end, f"Array or map cannot be a key", context
+				))
 			map[key.token.value] = res.register(self.visit(v, context))
 			if res.should_return(): return res
 		return res.success(value.Map(map).set_context(context).set_position(node.pos_start, node.pos_end))
