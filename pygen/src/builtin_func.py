@@ -354,6 +354,25 @@ class BuiltinFunction(BaseFunction):
 		return RuntimeResult().success(Array(lst))
 	execute_keys.arg_names = ["map"]
 
+	def execute_values(self, context):
+		"""
+			return an array of values in a map
+			example: arr = values(map)
+		"""
+		map = context.symbol_table.get("map")
+		if not isinstance(map, Map):
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, "Argument should be a map", context
+			))
+		lst = []
+		for i in list(map.map.values()):
+			if isinstance(i, int) or isinstance(i, float):
+				lst.append(Number(i))
+			else:
+				lst.append(String(i))
+		return RuntimeResult().success(Array(lst))
+	execute_values.arg_names = ["map"]
+
 
 BuiltinFunction.println 			= BuiltinFunction("println")
 BuiltinFunction.print	 			= BuiltinFunction("print")
@@ -376,3 +395,4 @@ BuiltinFunction.split				= BuiltinFunction("split")
 BuiltinFunction.import_				= BuiltinFunction("import")
 BuiltinFunction.clear				= BuiltinFunction("clear")
 BuiltinFunction.keys				= BuiltinFunction("keys")
+BuiltinFunction.values				= BuiltinFunction("values")
