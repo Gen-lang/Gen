@@ -303,51 +303,55 @@ class Parser:
 		var_name = self.current_token
 		res.register_advance()
 		self.advance()
-		if self.current_token.type != tk.TT_EQUALS:
-			return res.failure(InvalidSyntaxError(
-				self.current_token.pos_start, self.current_token.pos_end, "Expected '='"
-			))
-		res.register_advance()
-		self.advance()
-		start_value = res.register(self.expr())
-		if res.error: return res
-		if self.current_token.matches(tk.TT_KEYWORD, "through") is False:
-			return res.failure(InvalidSyntaxError(
-				self.current_token.pos_start, self.current_token.pos_end, "Expected 'through'"
-			))
-		res.register_advance()
-		self.advance()
-		end_value = res.register(self.expr())
-		if res.error: return res
-		if self.current_token.matches(tk.TT_KEYWORD, "step"):
+		if self.current_token.type == tk.TT_EQUALS:
 			res.register_advance()
 			self.advance()
-			step_value = res.register(self.expr())
+			start_value = res.register(self.expr())
 			if res.error: return res
-		else:
-			step_value = None
-		if self.current_token.matches(tk.TT_KEYWORD, "then") is False:
-			return res.failure(InvalidSyntaxError(
-				self.current_token.pos_start, self.current_token.pos_end, "Expected 'then'"
-			))
-		res.register_advance()
-		self.advance()
-		if self.current_token.type == tk.TT_NL:
-			res.register_advance()
-			self.advance()
-			body = res.register(self.statements())
-			if res.error: return res
-			if self.current_token.matches(tk.TT_KEYWORD, "end") is False:
+			if self.current_token.matches(tk.TT_KEYWORD, "through") is False:
 				return res.failure(InvalidSyntaxError(
-					self.current_token.pos_start, self.current_token.pos_end, "Expected 'end'"
+					self.current_token.pos_start, self.current_token.pos_end, "Expected 'through'"
 				))
 			res.register_advance()
 			self.advance()
-			return res.success(ForNode(var_name, start_value, end_value, step_value, body, True))
-		body = res.register(self.statement())
-		if res.error: return res
-		return res.success(ForNode(var_name, start_value, end_value, step_value, body, False))
-	
+			end_value = res.register(self.expr())
+			if res.error: return res
+			if self.current_token.matches(tk.TT_KEYWORD, "step"):
+				res.register_advance()
+				self.advance()
+				step_value = res.register(self.expr())
+				if res.error: return res
+			else:
+				step_value = None
+			if self.current_token.matches(tk.TT_KEYWORD, "then") is False:
+				return res.failure(InvalidSyntaxError(
+					self.current_token.pos_start, self.current_token.pos_end, "Expected 'then'"
+				))
+			res.register_advance()
+			self.advance()
+			if self.current_token.type == tk.TT_NL:
+				res.register_advance()
+				self.advance()
+				body = res.register(self.statements())
+				if res.error: return res
+				if self.current_token.matches(tk.TT_KEYWORD, "end") is False:
+					return res.failure(InvalidSyntaxError(
+						self.current_token.pos_start, self.current_token.pos_end, "Expected 'end'"
+					))
+				res.register_advance()
+				self.advance()
+				return res.success(ForNode(var_name, start_value, end_value, step_value, body, True))
+			body = res.register(self.statement())
+			if res.error: return res
+			return res.success(ForNode(var_name, start_value, end_value, step_value, body, False))
+		elif self.current_token.matches(tk.TT_KEYWORD, "in"):
+			# for now, let's just pass
+			pass
+		else:
+			return res.failure(InvalidSyntaxError(
+				self.current_token.pos_start, self.current_token.pos_end, "Expected '=' or 'in'"
+			))
+
 	def while_expr(self):
 		res = ParseResult()
 		if self.current_token.matches(tk.TT_KEYWORD, "while") is False:
