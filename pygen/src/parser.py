@@ -370,7 +370,7 @@ class Parser:
 			res.register_advance()
 			self.advance()
 			print(var_name)
-			return res.success(ForInNode(var_name, array, body, True))
+			return res.success(ForInNode(var_name, array, body))
 		else:
 			return res.failure(InvalidSyntaxError(
 				self.current_token.pos_start, self.current_token.pos_end, "Expected '=' or 'in'"
