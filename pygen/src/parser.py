@@ -345,8 +345,32 @@ class Parser:
 			if res.error: return res
 			return res.success(ForNode(var_name, start_value, end_value, step_value, body, False))
 		elif self.current_token.matches(tk.TT_KEYWORD, "in"):
-			# for now, let's just pass
-			pass
+			res.register_advance()
+			self.advance()
+			array = res.register(self.expr())
+			if res.error: return res
+			if self.current_token.matches(tk.TT_KEYWORD, "then") is False:
+				return res.failure(InvalidSyntaxError(
+					self.current_token.pos_start, self.current_token.pos_end, "Expected 'then'"
+				))
+			res.register_advance()
+			self.advance()
+			if self.current_token.type != tk.TT_NL:
+				return res.failure(InvalidSyntaxError(
+					self.current_token.pos_start, self.current_token.pos_end, "Expected a new line or ';'"
+				))
+			res.register_advance()
+			self.advance()
+			body = res.register(self.statements())
+			if res.error: return res
+			if self.current_token.matches(tk.TT_KEYWORD, "end") is False:
+				return res.failure(InvalidSyntaxError(
+					self.current_token.pos_start, self.current_token.pos_end, "Expected 'end'"
+				))
+			res.register_advance()
+			self.advance()
+			print(var_name)
+			return res.success(ForInNode(var_name, array, body, True))
 		else:
 			return res.failure(InvalidSyntaxError(
 				self.current_token.pos_start, self.current_token.pos_end, "Expected '=' or 'in'"
