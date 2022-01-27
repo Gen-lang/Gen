@@ -210,6 +210,22 @@ class Evaluator:
 				elements.append(val)
 		return res.success(value.Number.null if node.should_return_null else value.Array(elements).set_context(context).set_position(node.pos_start, node.pos_end))
 	
+	def visit_ForInNode(self, node, context):
+		res = RuntimeResult()
+		array = res.register(self.visit(node.array_elements, context))
+		if res.should_return(): return res
+		if not isinstance(array, value.Array):
+			return res.failure(RuntimeError(
+				node.pos_start, node.pos_end, "Expected an array", context
+			))
+		for item in array.elements:
+			context.symbol_table.set(node.var_name_token.value, item)
+			val = res.register(self.visit(node.body_node, context))
+			if res.should_return() and res.loop_continue is False and res.loop_break is False: return res
+			if res.loop_continue is True: continue
+			elif res.loop_break is True: break
+		return res.success(value.Number.null)
+	
 	def visit_ArrayNode(self, node, context):
 		res = RuntimeResult()
 		elements = []
