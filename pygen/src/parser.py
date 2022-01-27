@@ -369,7 +369,6 @@ class Parser:
 				))
 			res.register_advance()
 			self.advance()
-			print(var_name)
 			return res.success(ForInNode(var_name, array, body))
 		else:
 			return res.failure(InvalidSyntaxError(
