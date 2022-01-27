@@ -373,6 +373,27 @@ class BuiltinFunction(BaseFunction):
 		return RuntimeResult().success(Array(lst))
 	execute_values.arg_names = ["map"]
 
+	def execute_read(self, context):
+		"""
+			return the specified file content in string
+			example: content = read("file.txt")
+		"""
+		filename = context.symbol_table.get("filename")
+		if not isinstance(filename, String):
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, "Argument should be the type of string", context
+			))
+		filename = filename.value
+		try:
+			fobj = open(filename, "r+")
+			text = fobj.read()
+			fobj.close()
+		except Exception:
+			return RuntimeResult().failure(RuntimeError(
+				self.pos_start, self.pos_end, f"Could not open file'{filename}'", context
+			))
+		return RuntimeResult().success(String(text))
+	execute_read.arg_names = ["filename"]		
 
 BuiltinFunction.println 			= BuiltinFunction("println")
 BuiltinFunction.print	 			= BuiltinFunction("print")
@@ -396,3 +417,4 @@ BuiltinFunction.import_				= BuiltinFunction("import")
 BuiltinFunction.clear				= BuiltinFunction("clear")
 BuiltinFunction.keys				= BuiltinFunction("keys")
 BuiltinFunction.values				= BuiltinFunction("values")
+BuiltinFunction.read				= BuiltinFunction("read")	
