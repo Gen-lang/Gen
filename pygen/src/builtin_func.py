@@ -31,6 +31,9 @@ class BuiltinFunction(BaseFunction):
 	def __repr__(self):
 		return f"<built-in func {self.name}>"
 	
+	def typeof(self):
+		return String("built-in function")
+	
 	######################################
 	######### BUILT-IN FUNCTIONS #########
 	######################################
@@ -176,23 +179,7 @@ class BuiltinFunction(BaseFunction):
 			example: typeof("string")
 		"""
 		value = context.symbol_table.get("value")
-		if isinstance(value, Number):
-			if isinstance(value.value, int):
-				return RuntimeResult().success(String("integer"))
-			elif isinstance(value.value, float):
-				return RuntimeResult().success(String("float"))
-		elif isinstance(value, String):
-			return RuntimeResult().success(String("string"))
-		elif isinstance(value, Array):
-			return RuntimeResult().success(String("array"))
-		elif isinstance(value, Map):
-			return RuntimeResult().success(String("map"))
-		elif isinstance(value, Function):
-			return RuntimeResult().success(String("function"))
-		else:
-			return RuntimeResult().failure(RuntimeError(
-				self.pos_start, self.pos_end, f"{value} has no type", context
-			))
+		return RuntimeResult().success(value.typeof())
 	execute_typeof.arg_names = ["value"]
 	
 	def execute_int(self, context):
