@@ -64,7 +64,7 @@ end
 ```
 
 ### Forループ
-Maybe a bit wordy.
+文法が少し口説いかもしれないけど。
 ```
 arr = []
 for i = 1 through 12 step 2 then
