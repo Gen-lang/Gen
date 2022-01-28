@@ -105,8 +105,12 @@ class Evaluator:
 					return res.failure(RuntimeError(
 						node.pos_start, node.pos_end, f"Element at index {index_or_key.value} does not exist", context
 					))
-			else:
+			elif isinstance(context.symbol_table.symbols[var_name], value.Map):
 				context.symbol_table.set_map(var_name, index_or_key, new_value)
+			else:
+				return res.failure(RuntimeError(
+					node.pos_start, node.pos_end, "Hmm, that does not work.", context
+				))
 		return res.success(new_value)
 	
 	def visit_IfNode(self, node, context):
