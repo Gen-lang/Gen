@@ -66,7 +66,10 @@ def run(filename, text, show_tokens=False):
 
 def shell():
 	while True:
-		t = input("gen>> ")
+		try:
+			t = input("gen>> ")
+		except EOFError:
+			ctrl_c_handler(None)
 		if t.strip() == "": continue
 		result, err = run("<stdin>", t)
 		if err is not None:
