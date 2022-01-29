@@ -179,6 +179,8 @@ class BuiltinFunction(BaseFunction):
 			example: typeof("string")
 		"""
 		value = context.symbol_table.get("value")
+		if isinstance(value, BuiltinFunction):
+			return RuntimeResult().success(String("built-in function"))
 		return RuntimeResult().success(value.typeof())
 	execute_typeof.arg_names = ["value"]
 	
