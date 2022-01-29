@@ -1,4 +1,5 @@
 import os
+import sys
 import platform
 from src.lexer import Lexer
 from src.parser import Parser
@@ -155,8 +156,7 @@ class BuiltinFunction(BaseFunction):
 			exit the program
 			example: exit_program()
 		"""
-		print("Bye bye!")
-		exit()
+		sys.exit()
 	execute_exit_program.arg_names = []
 
 	def execute_size(self, context):
