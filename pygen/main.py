@@ -67,7 +67,7 @@ def run(filename, text, show_tokens=False):
 def shell():
 	while True:
 		try:
-			t = input("gen>> ")
+			t = input(">> ")
 		except EOFError:
 			ctrl_c_handler(None)
 		if t.strip() == "": continue
