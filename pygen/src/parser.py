@@ -347,7 +347,7 @@ class Parser:
 		elif self.current_token.matches(tk.TT_KEYWORD, "in"):
 			res.register_advance()
 			self.advance()
-			array = res.register(self.expr())
+			to_be_iterated = res.register(self.expr())
 			if res.error: return res
 			if self.current_token.matches(tk.TT_KEYWORD, "then") is False:
 				return res.failure(InvalidSyntaxError(
@@ -369,7 +369,7 @@ class Parser:
 				))
 			res.register_advance()
 			self.advance()
-			return res.success(ForInNode(var_name, array, body))
+			return res.success(ForInNode(var_name, to_be_iterated, body))
 		else:
 			return res.failure(InvalidSyntaxError(
 				self.current_token.pos_start, self.current_token.pos_end, "Expected '=' or 'in'"

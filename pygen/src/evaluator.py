@@ -216,18 +216,26 @@ class Evaluator:
 	
 	def visit_ForInNode(self, node, context):
 		res = RuntimeResult()
-		array = res.register(self.visit(node.array_elements, context))
+		to_be_iterated = res.register(self.visit(node.array_elements, context))
 		if res.should_return(): return res
-		if not isinstance(array, value.Array):
+		if isinstance(to_be_iterated, value.Array):
+			for item in to_be_iterated.elements:
+				context.symbol_table.set(node.var_name_token.value, item)
+				val = res.register(self.visit(node.body_node, context))
+				if res.should_return() and res.loop_continue is False and res.loop_break is False: return res
+				if res.loop_continue is True: continue
+				elif res.loop_break is True: break
+		elif isinstance(to_be_iterated, value.String):
+			for item in to_be_iterated.value:
+				context.symbol_table.set(node.var_name_token.value, value.String(item))
+				val = res.register(self.visit(node.body_node, context))
+				if res.should_return() and res.loop_continue is False and res.loop_break is False: return res
+				if res.loop_continue is True: continue
+				elif res.loop_break is True: break
+		else:
 			return res.failure(RuntimeError(
-				node.pos_start, node.pos_end, "Expected an array", context
+				node.pos_start, node.pos_end, f"Cannot iterate type {res}", context
 			))
-		for item in array.elements:
-			context.symbol_table.set(node.var_name_token.value, item)
-			val = res.register(self.visit(node.body_node, context))
-			if res.should_return() and res.loop_continue is False and res.loop_break is False: return res
-			if res.loop_continue is True: continue
-			elif res.loop_break is True: break
 		return res.success(value.Number.null)
 	
 	def visit_ArrayNode(self, node, context):
