@@ -83,7 +83,7 @@ class Value:
 	def __repr__(self):
 		return f"{self.value}"
 	
-	def typeof(self):
+	def return_type(self):
 		return String("value")
 
 
@@ -186,7 +186,7 @@ class Number(Value):
 	def is_true(self):
 		return self.value != 0
 	
-	def typeof(self):
+	def return_type(self):
 		if isinstance(self.value, int):
 			return String("integer")
 		else:
@@ -277,7 +277,7 @@ class String(Value):
 	def __str__(self):
 		return str(self.value)
 	
-	def typeof(self):
+	def return_type(self):
 		return String("string")
 
 
@@ -328,7 +328,7 @@ class Array(Value):
 		string = "[" + ', '.join([str(i) for i in self.elements]) + "]"
 		return string
 	
-	def typeof(self):
+	def return_type(self):
 		return String("array")
 
 
@@ -364,7 +364,7 @@ class Map(Value):
 			string += "}"
 		return string
 	
-	def typeof(self):
+	def return_type(self):
 		return String("map")
 
 
@@ -434,6 +434,6 @@ class Function(BaseFunction):
 	def __repr__(self):
 		return f"<func {self.name}>"
 	
-	def typeof(self):
+	def return_type(self):
 		return String("function")
 	

@@ -31,7 +31,7 @@ class BuiltinFunction(BaseFunction):
 	def __repr__(self):
 		return f"<built-in func {self.name}>"
 	
-	def typeof(self):
+	def return_type(self):
 		return String("built-in function")
 	
 	######################################
@@ -176,12 +176,10 @@ class BuiltinFunction(BaseFunction):
 	def execute_typeof(self, context):
 		"""
 			return the type of the given value
-			example: typeof("string")
+			example: def return_type("string")
 		"""
 		value = context.symbol_table.get("value")
-		if isinstance(value, BuiltinFunction):
-			return RuntimeResult().success(String("built-in function"))
-		return RuntimeResult().success(value.typeof())
+		return RuntimeResult().success(value.return_type())
 	execute_typeof.arg_names = ["value"]
 	
 	def execute_int(self, context):
