@@ -8,7 +8,7 @@
 	|
 </div>
 
-**WARNING!! THIS LANGUAGE IS IN DEVELOPMENT. ANYTHING CAN CHANGE AT ANY MOMENT.**
+**WARNING!! THIS LANGUAGE IS NO LONGER IN DEVELOPMENT.**
 
 Gen is an easy-to-learn, dynamic, interpreted, procedural programming language. Gen's syntax is inspired by Ruby and Python. <br>
 Gen also has a simple REPL (but you need to write for loops, if statements, and functions in one line, which is possible but hard to write).<br>
